@@ -1,7 +1,0 @@
-<h1>Login</h1>
-
-username: <input type="text" name="username" value="" size="50">
-<br/>
-password: <input type="password" name="password" value="" size="50">
-<br/>
-<button ng-click="btn_login()">okay</button>
