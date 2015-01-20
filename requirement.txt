@@ -1,4 +1,4 @@
-https://github.com/django-nonrel/django/zipball/master
+https://github.com/django-nonrel/django/archive/1.5.5.zip
 https://github.com/django-nonrel/djangotoolbox/zipball/master
 https://github.com/django-nonrel/mongodb-engine/zipball/master
 djangorestframework
