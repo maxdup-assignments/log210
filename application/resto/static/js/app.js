@@ -6,22 +6,22 @@ app.config(function ($routeProvider) {
   $routeProvider
     .when('/home',
       {
-        templateUrl: 'static/resto/app/partials/home.html'
+        templateUrl: 'static/partials/home.html'
       })
     .when('/register',
       {
         controller: 'RegisterController',
-        templateUrl: 'static/resto/app/partials/register.html'
+        templateUrl: 'static/partials/register.html'
       })
     .when('/login',
       {
         controller: 'LoginController',
-        templateUrl: 'static/resto/app/partials/login.html'
+        templateUrl: 'static/partials/login.html'
       })
     .when('/manage/users',
           {
             controller: 'UserController',
-            templateUrl: 'static/resto/app/partials/manage_users.html'
+            templateUrl: 'static/partials/manage_users.html'
           })
     .otherwise({ redirectTo: '/home' });
 });
