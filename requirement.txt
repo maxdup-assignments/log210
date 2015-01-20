@@ -1,0 +1,6 @@
+git+https://github.com/django-nonrel/django
+git+https://github.com/django-nonrel/djangotoolbox
+git+https://github.com/django-nonrel/mongodb-engine
+djangorestframework
+django-bootstrap3
+django-angular
