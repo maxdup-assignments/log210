@@ -1,14 +1,46 @@
 <h1>Register</h1>
 
-<ul>
- <li>email: <input type="text" ng-model="userform.email"></li>
- <li>firstname: <input type="text" ng-model="userform.firstname"></li>
- <li>lastname: <input type="text" ng-model="userform.lastname"></li>
- <li>address: <input type="text" ng-model="userform.adress"></li>
- <li>birthday: <input type="text" ng-model="userform.birthday"></li>
- <li>telephone number: <input type="text" ng-model="userform.tel"></li>
- <li>password: <input type="password" ng-model="userform.password"></li>
- <li><button class="btn btn-success" ng-click="submit()">Submit</button></li>
-<ul>
+<div class="form-group">
+  <label class="col-sm-2 control-label">Email:</label>
+  <div class="col-sm-10">
+    <input type="email" class="form-control" ng-model="userform.email">
+  </div>
+</div>
+<div class="form-group">
+  <label class="col-sm-2 control-label">First name:</label>
+  <div class="col-sm-10">
+    <input class="form-control" type="text" ng-model="userform.firstname">
+  </div>
+</div>
+<div class="form-group">
+  <label class="col-sm-2 control-label">Last name:</label>
+  <div class="col-sm-10">
+    <input class="form-control" type="text" ng-model="userform.lastname">
+  </div>
+</div>
+<div class="form-group">
+  <label class="col-sm-2 control-label">Adresse:</label>
+  <div class="col-sm-10">
+    <input class="form-control" type="text" ng-model="userform.adress">
+  </div>
+</div>
+<div class="form-group">
+  <label class="col-sm-2 control-label">Birthday:</label>
+  <div class="col-sm-10">
+    <input class="form-control" type="text" ng-model="userform.birthday">
+  </div>
+</div>
+<div class="form-group">
+  <label class="col-sm-2 control-label">Telephone Number:</label>
+  <div class="col-sm-10">
+    <input class="form-control" type="text" ng-model="userform.tel">
+  </div>
+</div>
+<div class="form-group">
+  <label class="col-sm-2 control-label">Password:</label>
+  <div class="col-sm-10">
+    <input class="form-control" type="text" ng-model="userform.password">
+  </div>
+</div>
 
-
+<button class="btn btn-success" ng-click="submit()">Submit</button>

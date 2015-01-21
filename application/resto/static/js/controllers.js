@@ -2,10 +2,31 @@
 
 app.controller('RootController', function($scope, $location, $http) {
 
+  $scope.auth = auth;
+  console.log($scope.auth)
+  $scope.loginform = {
+    'username':'',
+    'password':''
+  };
+
+  $scope.login = function(){
+    console.log('login');
+    $http.post('/api/login', $scope.loginform)
+      .success(function(data){
+        if (data.success){
+          $scope.auth = true;
+          $scope.loggingin = false;
+        }
+      })
+      .error(function(data){
+        console.log(data);
+      });
+  };
+
   $scope.logout = function(){
     $http.get('/api/logout')
       .success(function(data){
-        console.log('loged out')
+        $scope.auth = false;
       })
   }
 });

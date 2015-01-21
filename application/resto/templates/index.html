@@ -12,20 +12,19 @@
   <script src="{% static "js/lib/bootstrap.min.js"%}"></script>
   <script src="{% static "js/lib/underscore-min.js" %}"></script>
   <script src="{% static "js/lib/angular.min.js"%}"></script>
+  <script src="{% static "js/lib/ui-bootstrap-0.12.0.min.js"%}"></script>
 
   <script src="{% static "js/app.js" %}"></script>
   <script src="{% static "js/controllers.js" %}"></script>
   <script src="{% static "js/services.js" %}"></script>
 
-
-
-  <script>CSRF_TOKEN = '{{ csrf_token }}';</script>
-
+  <script>CSRF_TOKEN = '{{ csrf_token }}';
+    auth = '{{user.is_authenticated}}';
+  </script>
 </head>
 
 <body ng-controller="RootController">
   <div class="container">
-
     <div class="header">
       <nav class="navbar navbar-inverse">
         <div class="container-fluid">
@@ -34,14 +33,19 @@
           </div>
           <div class="collapse navbar-collapse">
             <p class="navbar-text navbar-right">
-              {% if user.is_authenticated %}
-              <a href="" ng-click="logout()" class="navbar-link">logout</a>
-              {% else %}
-              <a href="#/login" class="navbar-link">login</a>
-              {% endif %}
+              <a ng-show="auth" ng-click="logout()" class="navbar-link">logout</a>
+              <a ng-hide="loggingin || auth" ng-click="loggingin = !loggingin" class="navbar-link">login</a>
+              <div ng-show="loggingin" class="form-inline">
+                <input type="text" class="form-control"
+                       ng-model="loginform.username" placeholder="email">
+                <input type="password" class="form-control"
+                       ng-model="loginform.password" placeholder="password">
+                <button class="btn btn-success" ng-click="login()">login</button>
+                <a href="#/register"class="btn btn-default" >register</a>
+              </div>
             </p>
           </div>
-       </div>
+        </div>
       </nav>
     </div>
 

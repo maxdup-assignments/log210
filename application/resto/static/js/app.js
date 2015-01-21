@@ -29,3 +29,5 @@ app.config(function ($routeProvider) {
 app.config(function($httpProvider){
     $httpProvider.defaults.headers.common['X-CSRFToken'] = CSRF_TOKEN;
 });
+
+
