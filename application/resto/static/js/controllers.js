@@ -1,104 +1,68 @@
-'use strict';
-
-app.controller('RootController', function($scope, $location, $http) {
-
-  $scope.auth = auth;
-  console.log($scope.auth)
-  $scope.loginform = {
-    'username':'',
-    'password':''
-  };
-
-  $scope.login = function(){
-    console.log('login');
-    $http.post('/api/login', $scope.loginform)
-      .success(function(data){
-        if (data.success){
+(function() {
+  app.controller('RootController', function($scope, $location, $http) {
+    $scope.auth = auth;
+    $scope.loginform = {
+      'username': '',
+      'password': ''
+    };
+    $scope.login = function() {
+      return $http.post('api/login', $scope.loginform).success(function(data) {
+        if (data.success) {
           $scope.auth = true;
-          $scope.loggingin = false;
+          return $scope.loggingin = false;
         }
-      })
-      .error(function(data){
-        console.log(data);
+      }).error(function(data) {
+        return console.log(data);
       });
-  };
-
-  $scope.logout = function(){
-    $http.get('/api/logout')
-      .success(function(data){
+    };
+    return $scope.logout = function() {
+      return $http.get('/api/logout').success(function(data) {
         $scope.auth = false;
-      })
-  }
-});
-
-app.controller('LoginController', function($scope, $location, $http){
-  $scope.loginform = {
-    'username':'',
-    'password':''
-  };
-  
-  $scope.btn_login = function(){
-    $http.post('/api/login', $scope.loginform)
-      .success(function(data){
-        console.log(data);
-      })
-      .error(function(data){
-        console.log(data);
+        $scope.loginform['username'] = '';
+        $scope.loginform['password'] = '';
+        return $location.url('/#/home');
       });
-  };
-});
+    };
+  });
 
-app.controller('RegisterController', function($scope, $location, $http){
-
-  $scope.userform = {
-    'email':'',
-    'firstname': '',
-    'lastname': '',
-    'birthday': '',
-    'adress': '',
-    'tel': '',
-    'password': ''
-  };
-
-  $scope.submit = function(){
-    $http.post('/api/register', $scope.userform)
-      .success(function(data){
-        console.log(data);
-      })
-      .error(function(data){
-        console.log(data)
+  app.controller('RegisterController', function($scope, $location, $http) {
+    $scope.userform = {
+      'email': 'asd',
+      'firstname': 'asd',
+      'lastname': 'asd',
+      'birthday': '',
+      'adress': '',
+      'tel': '',
+      'password': ''
+    };
+    return $scope.submit = function() {
+      return $http.post('/api/register', $scope.userform).success(function(data) {
+        return console.log(data);
+      }).error(function(data) {
+        return console.log(data);
       });
-  };
-});
+    };
+  });
 
-app.controller('UserController', function($scope, $location, $http){
-  //the backup doesn't actually work right
-  $scope.backup = {};
-
-  $scope.edit = function(profile){
-    $scope.backup = _.clone(profile);
-    $scope.backup.user = _.clone(profile.user);
-    profile.editing = true;
-  };
-  $scope.cancel = function(profile){
-    _.extend(profile, $scope.backup);
-    profile.editing = false;
-  };
-  $scope.save = function(profile){
-    $http.post('/api/edit_profile', profile)
-      .success(function(data){
-        console.log(data);
-        profile.editing = false;
-      });
-  };
-
-
-  $http.get('/api/profile')
-    .success(function(data){
-      console.log(data);
-      $scope.profiles = data.users;
-
-    }).error(function(data){
-      console.log(data);
+  app.controller('UserController', function($scope, $location, $http) {
+    $http.get('/api/profile').success(function(data) {
+      return $scope.profiles = data.users;
+    }).error(function(data) {
+      return console.log(data);
     });
-});
+    $scope.edit = function(profile) {
+      profile.backup = _.clone(profile);
+      return profile.backup.user = _clone(profile.user);
+    };
+    $scope.cancel = function(profile) {
+      return profile = profile['backup'];
+    };
+    return $scope.save = function(profile) {
+      return $http.post('/api/edit_profile', profile).success(function(data) {
+        console.log(data);
+        return delete profile['backup'];
+      });
+    };
+  });
+
+}).call(this);
