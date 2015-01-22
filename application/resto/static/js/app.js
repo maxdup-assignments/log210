@@ -1,5 +1,5 @@
 (function() {
-  angular.module('restoApp', ['resto.controllers', 'resto.services']).config(function($routeProvider, $httpProvider) {
+  angular.module('restoApp', ['resto.userControllers', 'resto.restoControllers', 'resto.services']).config(function($routeProvider, $httpProvider) {
     $routeProvider.when('/home', {
       templateUrl: 'static/partials/home.html'
     }).when('/register', {
@@ -8,6 +8,9 @@
     }).when('/manage/users', {
       controller: 'UserController',
       templateUrl: 'static/partials/manage_users.html'
+    }).when('/manage/resto', {
+      controller: 'RestaurantController',
+      templateUrl: 'static/partials/manage_resto.html'
     }).when('/profile', {
       controller: 'UserController',
       templateUrl: 'static/partials/profile.html'

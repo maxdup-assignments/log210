@@ -1,4 +1,4 @@
-angular.module('restoApp', ['resto.controllers','resto.services'])
+angular.module('restoApp', ['resto.userControllers', 'resto.restoControllers', 'resto.services'])
 .config(($routeProvider, $httpProvider) ->
   $routeProvider
   .when '/home',
@@ -9,6 +9,9 @@ angular.module('restoApp', ['resto.controllers','resto.services'])
   .when '/manage/users',
     controller: 'UserController',
     templateUrl: 'static/partials/manage_users.html'
+  .when '/manage/resto',
+    controller: 'RestaurantController',
+    templateUrl: 'static/partials/manage_resto.html'
   .when '/profile',
     controller: 'UserController',
     templateUrl: 'static/partials/profile.html'

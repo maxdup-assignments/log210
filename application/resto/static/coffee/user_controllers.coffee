@@ -1,4 +1,4 @@
-angular.module('resto.controllers', [])
+angular.module('resto.userControllers', [])
 .controller('RootController', ($scope, $location, $http) ->
   $scope.auth = auth
   $scope.username = username

@@ -1,5 +1,5 @@
 (function() {
-  angular.module('resto.controllers', []).controller('RootController', function($scope, $location, $http) {
+  angular.module('resto.userControllers', []).controller('RootController', function($scope, $location, $http) {
     $scope.auth = auth;
     $scope.username = username;
     $scope.loginform = {
