@@ -55,10 +55,11 @@
     }
     $scope.edit = function(profile) {
       profile.backup = _.clone(profile);
-      return profile.backup.user = _clone(profile.user);
+      return profile.backup.user = _.clone(profile.user);
     };
     $scope.cancel = function(profile) {
-      return profile = profile['backup'];
+      _.extend(profile, profile.backup);
+      return delete profile['backup'];
     };
     return $scope.save = function(profile) {
       return $http.post('/api/edit_profile', profile).success(function(data) {

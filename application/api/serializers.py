@@ -7,7 +7,8 @@ class UserSerializer(serializers.ModelSerializer):
     pk = serializers.CharField(read_only=True)
     class Meta:
         model = User
-        fields = ('pk', 'username', 'email', 'first_name', 'last_name')
+        fields = ('pk', 'username', 'email', 'first_name',
+                  'last_name', 'is_superuser', 'is_staff')
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()

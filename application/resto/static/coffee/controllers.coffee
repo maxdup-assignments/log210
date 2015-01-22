@@ -67,10 +67,11 @@ angular.module('resto.controllers', [])
 
   $scope.edit = (profile) ->
     profile.backup = _.clone(profile)
-    profile.backup.user = _clone(profile.user)
+    profile.backup.user = _.clone(profile.user)
 
   $scope.cancel = (profile) ->
-    profile = profile['backup']
+    _.extend(profile, profile.backup);
+    delete profile['backup']
 
   $scope.save = (profile) ->
     $http.post('/api/edit_profile', profile)
