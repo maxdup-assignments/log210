@@ -9,7 +9,11 @@ angular.module('restoApp', ['resto.controllers','resto.services'])
   .when '/manage/users',
     controller: 'UserController',
     templateUrl: 'static/partials/manage_users.html'
+  .when '/profile',
+    controller: 'UserController',
+    templateUrl: 'static/partials/profile.html'
   .otherwise
     redirectTo: '/home'
+
   $httpProvider.defaults.headers.common['X-CSRFToken'] = CSRF_TOKEN
 )

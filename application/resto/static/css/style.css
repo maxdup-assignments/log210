@@ -26,3 +26,9 @@ body {
   margin-top: 8px;
   float: right;
 }
+.navbar-inverse .navbar-link {
+  color: #CCC;
+}
+.login {
+  padding-top: 5px;
+}

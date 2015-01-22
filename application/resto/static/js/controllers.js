@@ -1,6 +1,7 @@
 (function() {
   angular.module('resto.controllers', []).controller('RootController', function($scope, $location, $http) {
     $scope.auth = auth;
+    $scope.username = username;
     $scope.loginform = {
       'username': '',
       'password': ''
@@ -9,7 +10,8 @@
       return $http.post('api/login', $scope.loginform).success(function(data) {
         if (data.success) {
           $scope.auth = true;
-          return $scope.loggingin = false;
+          $scope.loggingin = false;
+          return $scope.username = data.username;
         }
       }).error(function(data) {
         return console.log(data);
@@ -19,18 +21,17 @@
       return $http.get('/api/logout').success(function(data) {
         $scope.auth = false;
         $scope.loginform['username'] = '';
-        $scope.loginform['password'] = '';
-        return $location.url('/#/home');
+        return $scope.loginform['password'] = '';
       });
     };
   }).controller('RegisterController', function($scope, $location, $http) {
     $scope.userform = {
       'email': '',
-      'firstname': '',
-      'lastname': '',
-      'birthday': '',
-      'adress': '',
-      'tel': '',
+      'first_name': '',
+      'last_name': '',
+      'date_naissance': '',
+      'adresse': '',
+      'telephone': '',
       'password': ''
     };
     return $scope.submit = function() {
@@ -41,11 +42,17 @@
       });
     };
   }).controller('UserController', function($scope, $location, $http) {
-    $http.get('/api/profile').success(function(data) {
-      return $scope.profiles = data.users;
-    }).error(function(data) {
-      return console.log(data);
-    });
+    if ($location.path() === '/manage/users') {
+      $http.get('/api/all_profiles').success(function(data) {
+        return $scope.profiles = data.users;
+      }).error(function(data) {
+        return console.log(data);
+      });
+    } else {
+      $http.get('/api/profile').success(function(data) {
+        return $scope.profile = data;
+      });
+    }
     $scope.edit = function(profile) {
       profile.backup = _.clone(profile);
       return profile.backup.user = _clone(profile.user);

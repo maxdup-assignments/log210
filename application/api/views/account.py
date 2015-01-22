@@ -10,8 +10,17 @@ from api.serializers import ProfileSerializer, UserSerializer
 from rest_framework.renderers import JSONRenderer
 import json
 
-def get_profile(request):
+def get_current_profile(request):
+    if not request.user:
+        return HttpResponse({})
 
+    user = User.objects.get(pk=request.user.pk)
+    profile = UserProfile.objects.get(user=user.pk)
+    profile = ProfileSerializer(profile)
+    return HttpResponse(JSONRenderer().render(profile.data))
+
+def get_profiles(request):
+    #todo check auth
     users = UserProfile.objects.all()
     profiles = {'users':[]}
     for user in users:
@@ -20,13 +29,15 @@ def get_profile(request):
     return HttpResponse(JSONRenderer().render(profiles))
 
 def edit_profile(request):
+    #todo check auth
     if request.method == 'POST':
         userinfo = json.loads(request.body)
 
         user = User.objects.get(pk=userinfo['user']['pk'])
         user.first_name = userinfo['user']['first_name']
         user.last_name = userinfo['user']['last_name']
-        user.username = userinfo['user']['username']
+        user.username = userinfo['user']['email']
+        user.email = userinfo['user']['email']
         user.save()
 
         profile = UserProfile.objects.get(pk=userinfo['pk'])
@@ -43,18 +54,18 @@ def register(request):
 
     if request.method == 'POST':
         userinfo = json.loads(request.body)
-        print type(userinfo['email'])
+        print userinfo
         user = User.objects.create_user(username=userinfo['email'],
-                                        first_name=userinfo['firstname'],
-                                        last_name=userinfo['lastname'],
+                                        first_name=userinfo['first_name'],
+                                        last_name=userinfo['last_name'],
                                         email=userinfo['email'])
         user.set_password(userinfo['password'])
         user.save()
         profile = UserProfile.objects.create(
             user=user,
-            date_naissance=userinfo['birthday'],
-            adresse=userinfo['adress'],
-            telephone=userinfo['tel'])
+            date_naissance=userinfo['date_naissance'],
+            adresse=userinfo['adresse'],
+            telephone=userinfo['telephone'])
         profile.save()
 
         return HttpResponse(json.dumps({'success':True}))
@@ -67,7 +78,8 @@ def user_login(request):
                             password=info['password'])
         if user:
             login(request, user)
-            return HttpResponse(json.dumps({'success':True}))
+            return HttpResponse(json.dumps({'success':True,
+                                            'username':user.email}))
 
         else:
             return HttpResponse(json.dumps({'success':False,

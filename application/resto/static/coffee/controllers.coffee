@@ -1,7 +1,8 @@
 angular.module('resto.controllers', [])
-.controller('RootController', ($scope,$location, $http)->
+.controller('RootController', ($scope, $location, $http) ->
+  $scope.auth = auth
+  $scope.username = username
   
-  $scope.auth = auth;
   $scope.loginform = {
     'username':''
     'password':''
@@ -12,6 +13,7 @@ angular.module('resto.controllers', [])
         if data.success
           $scope.auth = true
           $scope.loggingin = false
+          $scope.username = data.username
       )
       .error((data) ->
         console.log(data)
@@ -23,7 +25,6 @@ angular.module('resto.controllers', [])
         $scope.auth = false
         $scope.loginform['username'] = ''
         $scope.loginform['password'] = ''
-        $location.url('/#/home')
      )
 )
 
@@ -31,11 +32,11 @@ angular.module('resto.controllers', [])
 
   $scope.userform = {
     'email':'',
-    'firstname': '',
-    'lastname': '',
-    'birthday': '',
-    'adress': '',
-    'tel': '',
+    'first_name': '',
+    'last_name': '',
+    'date_naissance': '',
+    'adresse': '',
+    'telephone': '',
     'password': ''
   }
 
@@ -50,13 +51,19 @@ angular.module('resto.controllers', [])
 )
 
 .controller('UserController', ($scope, $location, $http) ->
-  
-  $http.get('/api/profile')
-    .success((data) ->
-      $scope.profiles = data.users
-    ).error((data) ->
-      console.log(data)
-    )
+
+  if $location.path() == '/manage/users'
+    $http.get('/api/all_profiles')
+      .success((data) ->
+        $scope.profiles = data.users
+      ).error((data) ->
+        console.log(data)
+      )
+  else
+    $http.get('/api/profile')
+      .success((data) ->
+        $scope.profile = data
+      )
 
   $scope.edit = (profile) ->
     profile.backup = _.clone(profile)
