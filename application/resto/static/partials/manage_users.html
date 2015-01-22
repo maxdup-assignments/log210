@@ -10,22 +10,22 @@
     <th>date de naissance</th>
   </tr>
   <tr ng-repeat="profile in profiles">
-    <td ng-hide="profile.editing">{{ profile.user.username }}</td>
-    <td ng-show="profile.editing"><input ng-model="profile.user.username"></td>
-    <td ng-hide="profile.editing">{{ profile.user.first_name }}</td>
-    <td ng-show="profile.editing"><input ng-model="profile.user.first_name"></td>
-    <td ng-hide="profile.editing">{{ profile.user.last_name }}</td>
-    <td ng-show="profile.editing"><input ng-model="profile.user.last_name"></td>
-    <td ng-hide="profile.editing">{{ profile.adresse }}</td>
-    <td ng-show="profile.editing"><input ng-model="profile.adresse"></td>
-    <td ng-hide="profile.editing">{{ profile.telephone }}</td>
-    <td ng-show="profile.editing"><input ng-model="profile.telephone"></td>
-    <td ng-hide="profile.editing">{{ profile.date_naissance }}</td>
-    <td ng-show="profile.editing"><input ng-model="profile.date_naissance"></td>
-    <td ng-hide="profile.editing">
+    <td ng-hide="profile.backup">{{ profile.user.username }}</td>
+    <td ng-show="profile.backup"><input ng-model="profile.user.username"></td>
+    <td ng-hide="profile.backup">{{ profile.user.first_name }}</td>
+    <td ng-show="profile.backup"><input ng-model="profile.user.first_name"></td>
+    <td ng-hide="profile.backup">{{ profile.user.last_name }}</td>
+    <td ng-show="profile.backup"><input ng-model="profile.user.last_name"></td>
+    <td ng-hide="profile.backup">{{ profile.adresse }}</td>
+    <td ng-show="profile.backup"><input ng-model="profile.adresse"></td>
+    <td ng-hide="profile.backup">{{ profile.telephone }}</td>
+    <td ng-show="profile.backup"><input ng-model="profile.telephone"></td>
+    <td ng-hide="profile.backup">{{ profile.date_naissance }}</td>
+    <td ng-show="profile.backup"><input ng-model="profile.date_naissance"></td>
+    <td ng-hide="profile.backup">
       <button class="btn btn-xs" ng-click="edit(profile)">Edit</button>
     </td>
-    <td ng-show="profile.editing">
+    <td ng-show="profile.backup">
       <button class="btn btn-xs btn-success" ng-click="save(profile)">Save</button>
       <button class="btn btn-xs btn-danger" ng-click="cancel(profile)">Cancel</button>
     </td>
