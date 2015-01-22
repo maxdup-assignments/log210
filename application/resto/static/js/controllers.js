@@ -1,5 +1,5 @@
 (function() {
-  app.controller('RootController', function($scope, $location, $http) {
+  angular.module('resto.controllers', []).controller('RootController', function($scope, $location, $http) {
     $scope.auth = auth;
     $scope.loginform = {
       'username': '',
@@ -23,13 +23,11 @@
         return $location.url('/#/home');
       });
     };
-  });
-
-  app.controller('RegisterController', function($scope, $location, $http) {
+  }).controller('RegisterController', function($scope, $location, $http) {
     $scope.userform = {
-      'email': 'asd',
-      'firstname': 'asd',
-      'lastname': 'asd',
+      'email': '',
+      'firstname': '',
+      'lastname': '',
       'birthday': '',
       'adress': '',
       'tel': '',
@@ -42,9 +40,7 @@
         return console.log(data);
       });
     };
-  });
-
-  app.controller('UserController', function($scope, $location, $http) {
+  }).controller('UserController', function($scope, $location, $http) {
     $http.get('/api/profile').success(function(data) {
       return $scope.profiles = data.users;
     }).error(function(data) {

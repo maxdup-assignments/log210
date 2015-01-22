@@ -1,4 +1,5 @@
-app.controller('RootController', ($scope,$location, $http)->
+angular.module('resto.controllers', [])
+.controller('RootController', ($scope,$location, $http)->
   
   $scope.auth = auth;
   $scope.loginform = {
@@ -26,12 +27,12 @@ app.controller('RootController', ($scope,$location, $http)->
      )
 )
 
-app.controller('RegisterController', ($scope, $location, $http) ->
+.controller('RegisterController', ($scope, $location, $http) ->
 
   $scope.userform = {
-    'email':'asd',
-    'firstname': 'asd',
-    'lastname': 'asd',
+    'email':'',
+    'firstname': '',
+    'lastname': '',
     'birthday': '',
     'adress': '',
     'tel': '',
@@ -48,7 +49,7 @@ app.controller('RegisterController', ($scope, $location, $http) ->
       )
 )
 
-app.controller('UserController', ($scope, $location, $http) ->
+.controller('UserController', ($scope, $location, $http) ->
   
   $http.get('/api/profile')
     .success((data) ->

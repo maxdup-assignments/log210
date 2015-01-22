@@ -7,7 +7,7 @@ module.exports = function(grunt){
         files: [{
           expand: true,
           cwd: 'application/resto/static/coffee/',
-          src: ['*.coffee','!.#*'],
+          src: ['*.coffee','!.*.coffee'],
           dest: 'application/resto/static/js/',
           ext: '.js'
         }]
