@@ -10,6 +10,7 @@ from rest_framework.renderers import JSONRenderer
 import json
 
 def get_current_profile(request):
+    # returns the current profile
     if not request.user:
         return HttpResponse({})
 
@@ -19,6 +20,7 @@ def get_current_profile(request):
     return HttpResponse(JSONRenderer().render(profile.data))
 
 def get_profiles(request):
+    # returns all profiles
     if not request.user.is_superuser:
         return HttpResponseForbidden()
 
@@ -30,6 +32,7 @@ def get_profiles(request):
     return HttpResponse(JSONRenderer().render(profiles))
 
 def get_staff(request):
+    # returns all staff users
     if not request.user.is_superuser:
         return HttpResponseForbidden()
 
@@ -41,7 +44,7 @@ def get_staff(request):
     return HttpResponse(JSONRenderer().render(profiles))
 
 def edit_profile(request):
-
+    # updates profile informations
     if request.method == 'POST':
         userinfo = json.loads(request.body)
         if request.user.pk != userinfo['user']['pk']:
@@ -64,6 +67,7 @@ def edit_profile(request):
 
 
 def register(request):
+    # creates a new Profile
     registered = False
 
     if request.method == 'POST':
@@ -85,6 +89,7 @@ def register(request):
     return HttpResponse(json.dumps({'success':False}))
 
 def user_login(request):
+    # this is the login request
     if request.method == 'POST':
         info = json.loads(request.body)
         user = authenticate(username=info['username'],
@@ -102,5 +107,6 @@ def user_login(request):
         return HttpResponse(json.dumps({'success':False}))
 
 def user_logout(request):
+    # this is the logout request
     logout(request)
     return HttpResponse(json.dumps({'success':True}))
