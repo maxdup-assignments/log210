@@ -29,6 +29,17 @@ def get_profiles(request):
         profiles['users'].append(profile.data)
     return HttpResponse(JSONRenderer().render(profiles))
 
+def get_staff(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden()
+
+    staff = User.objects.filter(is_staff=True)
+    profiles = {'staff':[]}
+    for user in staff:
+        profile = UserSerializer(user)
+        profiles['staff'].append(profile.data)
+    return HttpResponse(JSONRenderer().render(profiles))
+
 def edit_profile(request):
 
     if request.method == 'POST':
