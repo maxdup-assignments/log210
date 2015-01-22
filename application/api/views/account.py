@@ -38,6 +38,8 @@ def edit_profile(request):
         user.last_name = userinfo['user']['last_name']
         user.username = userinfo['user']['email']
         user.email = userinfo['user']['email']
+        user.is_superuser = userinfo['user']['is_superuser']
+        user.is_staff = userinfo['user']['is_staff']
         user.save()
 
         profile = UserProfile.objects.get(pk=userinfo['pk'])

@@ -8,26 +8,41 @@
     <th>adresse</th>
     <th>telephone</th>
     <th>date de naissance</th>
+    <th>restaurateur</th>
+    <th>admin</th>
   </tr>
+
   <tr ng-repeat="profile in profiles">
     <td ng-hide="profile.backup">{{ profile.user.username }}</td>
-    <td ng-show="profile.backup"><input ng-model="profile.user.username"></td>
     <td ng-hide="profile.backup">{{ profile.user.first_name }}</td>
-    <td ng-show="profile.backup"><input ng-model="profile.user.first_name"></td>
     <td ng-hide="profile.backup">{{ profile.user.last_name }}</td>
-    <td ng-show="profile.backup"><input ng-model="profile.user.last_name"></td>
     <td ng-hide="profile.backup">{{ profile.adresse }}</td>
-    <td ng-show="profile.backup"><input ng-model="profile.adresse"></td>
     <td ng-hide="profile.backup">{{ profile.telephone }}</td>
-    <td ng-show="profile.backup"><input ng-model="profile.telephone"></td>
     <td ng-hide="profile.backup">{{ profile.date_naissance }}</td>
-    <td ng-show="profile.backup"><input ng-model="profile.date_naissance"></td>
+    <td ng-hide="profile.backup">{{ profile.user.is_staff }}</td>
+    <td ng-hide="profile.backup">{{ profile.user.is_superuser }}</td>
     <td ng-hide="profile.backup">
       <button class="btn btn-xs" ng-click="edit(profile)">Edit</button>
     </td>
+
+    <td ng-show="profile.backup"><input ng-model="profile.user.username"/></td>
+    <td ng-show="profile.backup"><input ng-model="profile.user.first_name"/></td>
+    <td ng-show="profile.backup"><input ng-model="profile.user.last_name"/></td>
+    <td ng-show="profile.backup"><input ng-model="profile.adresse"/></td>
+    <td ng-show="profile.backup"><input ng-model="profile.telephone"/></td>
+    <td ng-show="profile.backup"><input ng-model="profile.date_naissance"/></td>
     <td ng-show="profile.backup">
-      <button class="btn btn-xs btn-success" ng-click="save(profile)">Save</button>
-      <button class="btn btn-xs btn-danger" ng-click="cancel(profile)">Cancel</button>
+      <input type="checkbox" ng-model="profile.user.is_staff"/>
+    </td>
+    <td ng-show="profile.backup">
+      <input type="checkbox" ng-model="profile.user.is_superuser"/>
+    </td>
+
+    <td ng-show="profile.backup">
+      <button class="btn btn-xs btn-success"
+              ng-click="save(profile)">Save</button>
+      <button class="btn btn-xs btn-danger"
+              ng-click="cancel(profile)">Cancel</button>
     </td>
   </tr>
 </table>
