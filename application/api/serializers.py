@@ -18,7 +18,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = ('pk', 'user', 'adresse', 'telephone', 'date_naissance')
         depth = 1
 
-class Restaurant(serializers.ModelSerializer):
+class RestaurantSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     pk = serializers.CharField(read_only=True)
     class Meta:
