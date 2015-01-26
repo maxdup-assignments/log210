@@ -10,26 +10,26 @@ angular.module('resto.restoControllers', [])
     .error (data) ->
       console.log(data)
 
+  $scope.new_resto = {
+    'name': '',
+    'menu': {},
+    'user': '',
+  }
+
   $scope.options = []
   $scope.selected_staff = ''
   $http.get('/api/all_staff')
     .success (data) ->
       for user in data
         $scope.options.push({'label': user.email, 'value':user.pk})
-    
-  $scope.new_resto = {
-    'name': '',
-    'menu': {},
-    'user': $scope.selected_staff,
-  }
+      $scope.selected_staff = $scope.options[0]
+      $scope.new_resto.user = $scope.selected_staff.value
 
   $scope.create_resto = ->
-    console.log($scope.new_resto)
     $http.post('/api/create_resto', $scope.new_resto)
       .success (data) ->
         $scope.restos.push(data)
         $scope.new_resto = {'name':'', 'menu':{}, 'user':$scope.selected_staff.value}
-        console.log($scope.restos)
       .error (data) ->
         console.log(data)
 
