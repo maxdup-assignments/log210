@@ -20,7 +20,7 @@
     <tr>
       <td><input type="text" ng-model="new_resto.name"></td>
       <td><select ng-model="selected_staff"
-                  ng-change="new_resto.restaurateur = selected_staff.value"
+                  ng-change="new_resto.user = selected_staff.value"
                   ng-options="staff as staff.label for staff in options"/></td>
       <td>menu...</td>
       <td>

@@ -21,21 +21,21 @@
       }
       return _results;
     });
-    $http.get('/api/all_resto').succes;
     $scope.new_resto = {
       'name': '',
       'menu': {},
-      'restaurateur': $scope.selected_staff
+      'user': $scope.selected_staff
     };
     $scope.create_resto = function() {
       console.log($scope.new_resto);
       return $http.post('/api/create_resto', $scope.new_resto).success(function(data) {
-        $scope.restos.push($scope.new_resto);
-        return $scope.new_resto = {
+        $scope.restos.push(data);
+        $scope.new_resto = {
           'name': '',
           'menu': {},
-          'restaurateur': $scope.selected_staff
+          'user': $scope.selected_staff.value
         };
+        return console.log($scope.restos);
       }).error(function(data) {
         return console.log(data);
       });

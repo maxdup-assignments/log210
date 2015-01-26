@@ -7,18 +7,22 @@ from rest_framework.renderers import JSONRenderer
 import json
 
 def create_resto(request):
+    # creates a restorant in database.
+    # returns the created restaurant.
     if not request.user.is_superuser:
         return HttpResponseForbidden()
     
     restoinfo = json.loads(request.body)
-    restaurateur = User.objects.get(pk=restoinfo['restaurateur'])
+    restaurateur = User.objects.get(pk=restoinfo['user'])
     resto = Restaurant.objects.create(user=restaurateur,
                                       name=restoinfo['name'],
                                       menu=restoinfo['menu'])
     resto.save()
-    return HttpResponse(json.loads(request.body))
+    resto = RestaurantSerializer(resto)
+    return HttpResponse(JSONRenderer().render(resto.data))
 
 def delete_resto(request):
+    #deletes a restaurant in database
     if not request.user.is_superuser:
         return HttpResponseForbidden()
         
@@ -29,6 +33,7 @@ def delete_resto(request):
 
 
 def all_resto(request):
+    # returns all restaurants in an array
     if not request.user.is_superuser:
         return HttpResponseForbidden()
     restos = Restaurant.objects.all()
