@@ -38,6 +38,26 @@
         return console.log(data);
       });
     };
+    $scope.edit_resto = function(resto) {
+      resto.backup = _.clone(resto);
+      resto.backup.user = _.clone(resto.user);
+      return resto.new_user = $scope.options[0];
+    };
+    $scope.save_resto = function(resto) {
+      console.log(resto.new_user.value, resto.user.pk);
+      if (resto.new_user.value === resto.user.pk) {
+        delete resto['new_user'];
+      }
+      delete resto['backup'];
+      return $http.post('/api/edit_resto', resto).success(function(data) {
+        return console.log(data);
+      });
+    };
+    $scope.cancel_resto = function(resto) {
+      _.extend(resto, resto.backup);
+      delete resto['backup'];
+      return delete resto['new_user'];
+    };
     return $scope.delete_resto = function(resto) {
       return $http.post('/api/delete_resto', resto).success(function(data) {
         $scope.restos = _.without($scope.restos, resto);

@@ -33,6 +33,26 @@ angular.module('resto.restoControllers', [])
       .error (data) ->
         console.log(data)
 
+  $scope.edit_resto = (resto) ->
+    resto.backup = _.clone(resto)
+    resto.backup.user = _.clone(resto.user)
+    # todo select correct user
+    resto.new_user = $scope.options[0]
+
+  $scope.save_resto = (resto) ->
+    console.log(resto.new_user.value, resto.user.pk)
+    if (resto.new_user.value == resto.user.pk)
+      delete resto['new_user']
+    delete resto['backup']
+    $http.post('/api/edit_resto', resto)
+      .success (data) ->
+        console.log(data)
+
+  $scope.cancel_resto = (resto) ->
+    _.extend(resto, resto.backup)
+    delete resto['backup']
+    delete resto['new_user']
+
   $scope.delete_resto = (resto) ->
     $http.post('/api/delete_resto', resto)
       .success (data) ->

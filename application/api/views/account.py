@@ -35,12 +35,12 @@ def get_staff(request):
     if not request.user.is_superuser:
         return HttpResponseForbidden()
 
-    staff = User.objects.filter(is_staff=True)
-    profiles = []
-    for user in staff:
-        profile = UserSerializer(user)
-        profiles.append(profile.data)
-    return HttpResponse(JSONRenderer().render(profiles))
+    staff_request = User.objects.filter(is_staff=True)
+    staffs = []
+    for user in staff_request:
+        staff = UserSerializer(user)
+        staffs.append(staff.data)
+    return HttpResponse(JSONRenderer().render(staffs))
 
 def edit_profile(request):
     # updates profile informations

@@ -31,6 +31,19 @@ def delete_resto(request):
     resto.delete()
     return HttpResponse({'success': True})
 
+def edit_resto(request):
+    if request.method == 'POST':
+        restoinfo = json.loads(request.body)
+        del restoinfo['user']
+
+        resto = Restaurant.objects.get(pk=restoinfo['pk'])
+        resto.__dict__.update(**restoinfo)
+
+        if 'new_user' in restoinfo:
+            new_user = User.objects.get(pk=restoinfo.new_user.value)
+            resto.user = new_user
+        resto.save()
+    return HttpResponse({'success':True})
 
 def all_resto(request):
     # returns all restaurants in an array

@@ -7,12 +7,27 @@
     </tr>
     <!--<button class="btn btn-danger btn-xs" ng-click="del_resto">remove</button>-->
     <tr ng-repeat="resto in restos">
-      <td>{{ resto.name }}</td>
-      <td>{{ resto.user.username }}</td>
-      <td>{{ resto.menu }}</td>
-      <td>
-        <button class="btn btn-success btn-xs">Edit</button>
-        <button class="btn btn-danger btn-xs" ng-click="delete_resto(resto)">Remove</button>
+      <td ng-hide="resto.backup">{{ resto.name }}</td>
+      <td ng-hide="resto.backup">{{ resto.user.username }}</td>
+      <td ng-hide="resto.backup">{{ resto.menu }}</td>
+      <td ng-hide="resto.backup">
+        <button class="btn btn-success btn-xs" ng-click="edit_resto(resto)">
+          Edit</button>
+        <button class="btn btn-danger btn-xs" ng-click="delete_resto(resto)">
+          Remove</button>
+      </td>
+
+      <td ng-show="resto.backup"><input ng-model="resto.name"></td>
+      <td ng-show="resto.backup">
+        <select ng-model="resto.new_user"
+                ng-options="staff as staff.label for staff in options"/>
+      </td>
+      <td ng-show="resto.backup"><input ng-model="resto.menu"></td>
+      <td ng-show="resto.backup">
+        <button class="btn btn-success btn-xs" ng-click="save_resto(resto)">
+          Save</button>
+        <button class="btn btn-danger btn-xs" ng-click="cancel_resto(resto)">
+          Cancel</button>
       </td>
     </tr>
 
