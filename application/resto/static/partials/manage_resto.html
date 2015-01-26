@@ -5,10 +5,27 @@
       <th>restaurateur</th>
       <th>Menu</th>
     </tr>
+    <!--<button class="btn btn-danger btn-xs" ng-click="del_resto">remove</button>-->
+    <tr ng-repeat="resto in restos">
+      <td>{{ resto.name }}</td>
+      <td>{{ resto.user.username }}</td>
+      <td>{{ resto.menu }}</td>
+      <td>
+        <button class="btn btn-success btn-xs">Edit</button>
+        <button class="btn btn-danger btn-xs" ng-click="delete_resto(resto)">Remove</button>
+      </td>
+    </tr>
+
+
     <tr>
       <td><input type="text" ng-model="new_resto.name"></td>
-      <td><select ng-model="selected_staff" ng-options="staff as staff.label for staff in staff_available"/></td>
+      <td><select ng-model="selected_staff"
+                  ng-change="new_resto.restaurateur = selected_staff.value"
+                  ng-options="staff as staff.label for staff in options"/></td>
       <td>menu...</td>
+      <td>
+        <button class="btn btn-success btn-xs" ng-click="create_resto()">add</button>
+      </td>
     </tr>
   </table>
 </div>

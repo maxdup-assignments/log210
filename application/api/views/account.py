@@ -1,6 +1,5 @@
-from django.shortcuts import render, render_to_response
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse,  HttpResponseForbidden
+from django.http import HttpResponse,  HttpResponseForbidden
 
 from django.contrib.auth.models import User
 from api.models import UserProfile
@@ -12,7 +11,7 @@ import json
 def get_current_profile(request):
     # returns the current profile
     if not request.user:
-        return HttpResponse({})
+        return HttpResponseForbidden()
 
     user = User.objects.get(pk=request.user.pk)
     profile = UserProfile.objects.get(user=user.pk)
@@ -25,10 +24,10 @@ def get_profiles(request):
         return HttpResponseForbidden()
 
     users = UserProfile.objects.all()
-    profiles = {'users':[]}
+    profiles = []
     for user in users:
         profile = ProfileSerializer(user)
-        profiles['users'].append(profile.data)
+        profiles.append(profile.data)
     return HttpResponse(JSONRenderer().render(profiles))
 
 def get_staff(request):
@@ -37,10 +36,10 @@ def get_staff(request):
         return HttpResponseForbidden()
 
     staff = User.objects.filter(is_staff=True)
-    profiles = {'staff':[]}
+    profiles = []
     for user in staff:
         profile = UserSerializer(user)
-        profiles['staff'].append(profile.data)
+        profiles.append(profile.data)
     return HttpResponse(JSONRenderer().render(profiles))
 
 def edit_profile(request):

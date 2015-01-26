@@ -44,7 +44,7 @@
   }).controller('UserController', function($scope, $location, $http) {
     if ($location.path() === '/manage/users') {
       $http.get('/api/all_profiles').success(function(data) {
-        return $scope.profiles = data.users;
+        return $scope.profiles = data;
       }).error(function(data) {
         return console.log(data);
       });
