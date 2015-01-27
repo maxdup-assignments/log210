@@ -73,6 +73,21 @@ def register(request):
         return HttpResponse(json.dumps({'success':True}))
     return HttpResponse(json.dumps({'success':False}))
 
+def populateUser(request):
+	user = User.objects.create_user(username= 'SU.ANDY@hotmail.com',
+                                        first_name='Andy',
+                                        last_name='Su',
+                                        email='SU.ANDY@hotmail.com')
+	user.save()
+
+	profile = UserProfile.objects.create(
+            user=user,
+            date_naissance='26 mars 2010',
+            adresse='8907 14e avecu',
+            telephone='5148800928')
+        profile.save()
+	return HttpResponse(json.dumps({'success':True}))
+
 def user_login(request):
     if request.method == 'POST':
         info = json.loads(request.body)
