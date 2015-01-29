@@ -9,6 +9,6 @@ class UserProfile(models.Model):
     telephone = models.CharField(max_length=15)
 
 class Restaurant(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, null=True)
     name = models.CharField(max_length=80)
     menu = DictField()

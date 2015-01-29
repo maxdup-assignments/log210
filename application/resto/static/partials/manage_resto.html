@@ -5,10 +5,10 @@
       <th>restaurateur</th>
       <th>Menu</th>
     </tr>
-    <!--<button class="btn btn-danger btn-xs" ng-click="del_resto">remove</button>-->
+
     <tr ng-repeat="resto in restos">
       <td ng-hide="resto.backup">{{ resto.name }}</td>
-      <td ng-hide="resto.backup">{{ resto.user.username }}</td>
+      <td ng-hide="resto.backup">{{ resto.user.username || 'None'}}</td>
       <td ng-hide="resto.backup">{{ resto.menu }}</td>
       <td ng-hide="resto.backup">
         <button class="btn btn-success btn-xs" ng-click="edit_resto(resto)">
@@ -30,7 +30,6 @@
           Cancel</button>
       </td>
     </tr>
-
 
     <tr>
       <td><input type="text" ng-model="new_resto.name"></td>

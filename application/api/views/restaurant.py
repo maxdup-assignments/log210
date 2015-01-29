@@ -13,10 +13,14 @@ def create_resto(request):
         return HttpResponseForbidden()
     
     restoinfo = json.loads(request.body)
-    restaurateur = User.objects.get(pk=restoinfo['user'])
-    resto = Restaurant.objects.create(user=restaurateur,
-                                      name=restoinfo['name'],
-                                      menu=restoinfo['menu'])
+    if (restoinfo['user']):
+        restaurateur = User.objects.get(pk=restoinfo['user'])
+        resto = Restaurant.objects.create(user=restaurateur,
+                                          name=restoinfo['name'],
+                                          menu=restoinfo['menu'])
+    else:
+        resto = Restaurant.objects.create(name=restoinfo['name'],
+        menu=restoinfo['menu'])
     resto.save()
     resto = RestaurantSerializer(resto)
     return HttpResponse(JSONRenderer().render(resto.data))
@@ -32,18 +36,23 @@ def delete_resto(request):
     return HttpResponse({'success': True})
 
 def edit_resto(request):
-    if request.method == 'POST':
-        restoinfo = json.loads(request.body)
-        del restoinfo['user']
+    if request.method != 'POST' or not request.user.is_staff:
+        return HttpResponseForbidden()
 
-        resto = Restaurant.objects.get(pk=restoinfo['pk'])
-        resto.__dict__.update(**restoinfo)
+    restoinfo = json.loads(request.body)
+    resto = Restaurant.objects.get(pk=restoinfo['pk'])
 
-        if 'new_user' in restoinfo:
-            new_user = User.objects.get(pk=restoinfo.new_user.value)
+    del restoinfo['user']
+    resto.__dict__.update(**restoinfo)
+    if 'new_user' in restoinfo:
+        if restoinfo['new_user']['value']:
+            new_user = User.objects.get(pk=restoinfo['new_user']['value'])
             resto.user = new_user
-        resto.save()
-    return HttpResponse({'success':True})
+        else:
+            resto.user = None
+    resto.save()
+    resto = RestaurantSerializer(resto)
+    return HttpResponse(JSONRenderer().render(resto.data))
 
 def all_resto(request):
     # returns all restaurants in an array

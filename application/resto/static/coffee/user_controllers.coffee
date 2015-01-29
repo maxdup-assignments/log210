@@ -67,8 +67,9 @@ angular.module('resto.userControllers', [])
     delete profile['backup']
 
   $scope.save = (profile) ->
-    $http.post('/api/edit_profile', profile)
-      .success (data) ->
-        console.log(data)
-        delete profile['backup']
+    if confirm("patate")
+      $http.post('/api/edit_profile', profile)
+        .success (data) ->
+          console.log(data)
+          delete profile['backup']
 )
