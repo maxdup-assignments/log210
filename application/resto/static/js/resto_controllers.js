@@ -1,7 +1,6 @@
 (function() {
   angular.module('resto.restoControllers', []).controller('RestaurantController', function($scope, $location, $http) {
     var assign_selection;
-    $("[data-toggle=popover]").popover();
     $scope.restos = [];
     $scope.new_resto = {
       'name': '',
@@ -44,22 +43,21 @@
       }
     };
     $http.get('/api/all_resto').success(function(data) {
-      var resto, _i, _len, _ref;
+      var resto, _i, _len, _ref, _results;
       $scope.restos = data;
-      console.log(data);
       _ref = $scope.restos;
+      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         resto = _ref[_i];
-        assign_selection(resto);
+        _results.push(assign_selection(resto));
       }
-      return console.log($scope.restos);
+      return _results;
     }).error(function(data) {
       return console.log(data);
     });
     $scope.create_resto = function() {
       return $http.post('/api/create_resto', $scope.new_resto).success(function(data) {
         assign_selection(data);
-        console.log($scope.restos);
         $scope.restos.push(data);
         return $scope.new_resto = {
           'name': '',
@@ -72,21 +70,19 @@
     };
     $scope.edit_resto = function(resto) {
       resto.backup = _.clone(resto);
-      return resto.backup.user = _.clone(resto.user);
+      resto.backup.user = _.clone(resto.user);
+      return assign_selection(resto);
     };
     $scope.save_resto = function(resto) {
-      console.log('sent', resto);
       if (resto.user && resto.new_user.value === resto.user.pk) {
         delete resto['new_user'];
       }
       delete resto['backup'];
       return $http.post('/api/edit_resto', resto).success(function(data) {
         _.extend(resto, data);
-        assign_selection(resto);
         if (!data.user) {
-          alert("il est préferable d'assigner un restaurateur");
+          return alert("il est préferable d'assigner un restaurateur");
         }
-        return console.log(resto);
       }).error(function(data) {
         return console.log(data);
       });
@@ -98,8 +94,7 @@
     };
     return $scope.delete_resto = function(resto) {
       return $http.post('/api/delete_resto', resto).success(function(data) {
-        $scope.restos = _.without($scope.restos, resto);
-        return console.log(data);
+        return $scope.restos = _.without($scope.restos, resto);
       }).error(function(data) {
         return console.log(data);
       });

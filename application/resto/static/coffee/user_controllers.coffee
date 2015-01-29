@@ -1,5 +1,5 @@
 angular.module('resto.userControllers', [])
-.controller('RootController', ($scope, $location, $http) ->
+.controller 'RootController', ($scope, $location, $http) ->
   $scope.auth = auth
   $scope.username = username
   
@@ -23,9 +23,9 @@ angular.module('resto.userControllers', [])
         $scope.auth = false
         $scope.loginform['username'] = ''
         $scope.loginform['password'] = ''
-)
 
-.controller('RegisterController', ($scope, $location, $http) ->
+
+.controller 'RegisterController', ($scope, $location, $http) ->
 
   $scope.userform = {
     'email':'',
@@ -43,9 +43,8 @@ angular.module('resto.userControllers', [])
         console.log(data)
       .error (data) ->
         console.log(data)
-)
 
-.controller('UserController', ($scope, $location, $http) ->
+.controller 'UserController', ($scope, $location, $http) ->
 
   if $location.path() == '/manage/users'
     $http.get('/api/all_profiles')
@@ -67,9 +66,7 @@ angular.module('resto.userControllers', [])
     delete profile['backup']
 
   $scope.save = (profile) ->
-    if confirm("patate")
-      $http.post('/api/edit_profile', profile)
-        .success (data) ->
-          console.log(data)
-          delete profile['backup']
-)
+    $http.post('/api/edit_profile', profile)
+      .success (data) ->
+        console.log(data)
+        delete profile['backup']
