@@ -43,6 +43,7 @@ angular.module('resto.controllers', [])
   $scope.submit = ->
     $http.post('/api/register', $scope.userform)
       .success((data) ->
+        alert('registration successful')
         console.log(data)
       )
       .error((data) ->

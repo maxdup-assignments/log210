@@ -10,7 +10,10 @@ module.exports = function(grunt){
           src: ['*.coffee','!.*.coffee'],
           dest: 'application/resto/static/js/',
           ext: '.js'
-        }]
+        }],
+        options:{
+          header:true
+        }
       }
     },
     less: {
