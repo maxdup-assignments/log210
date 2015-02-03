@@ -30,7 +30,6 @@ def get_profiles(request):
     return HttpResponse(JSONRenderer().render(profiles))
 
 def edit_profile(request):
-
     if request.method == 'POST':
         userinfo = json.loads(request.body)
         if request.user.pk != userinfo['user']['pk']:
@@ -51,7 +50,6 @@ def edit_profile(request):
         profile.save()
 
     return HttpResponse(json.dumps({'success': True}))
-
 
 def register(request):
     registered = False
@@ -75,74 +73,109 @@ def register(request):
     return HttpResponse(json.dumps({'success':False}))
 
 def populateUser(request):
-	user = User.objects.create_superuser(
-		username='andy@hotmail.com',
-		first_name='Andy',
-		last_name='Su',
-		email='andy@hotmail.com',
-		password='patate')
-	user.is_staff = True
-	user.save()
-	
 
-	profile = UserProfile.objects.create(
-			user=user,
-       			date_naissance='26 mars 2010',
-		        adresse='8907 14e avecu',
-            		telephone='5148800928')
-	profile.save()	
-	
-	#if not User.objects.get(username='jacques@hotmail.com'):
-	user = User.objects.create_superuser(
-				username= 'jacques@hotmail.com',
-	                        first_name='jacques',
-	                        last_name='gabriel',            					email='jacques@hotmail.com',
-				password='potato')		
-	user.is_staff = True
-	user.save()
+    if not User.objects.filter(username='asd@asd.com').exists():
+        user = User.objects.create_superuser(
+            username='asd@asd.com',
+            first_name='Asd',
+            last_name='f',
+            email='asd@asd.com',
+            password='asd')
+        user.is_staff = True
+        user.save()
 
-	profile = UserProfile.objects.create(
-	    user=user,
-	    date_naissance='28 mars 2000',
-	    adresse='8888 lacordaire',
-	    telephone='1234567514')
-	profile.save()
+        profile = UserProfile.objects.create(
+            user=user,
+            date_naissance='24 mars 2010',
+            adresse='8907 14e avecu',
+            telephone='5148800928')
+        profile.save()
 
-	#if not User.objects.get(username='maxime@hotmail.com'):
-	user = User.objects.create_superuser(
-				username= 'maxime@hotmail.com',
-	                        first_name='maxime',
-	                        last_name='dupuis',
-	                        email='maxime@hotmail.com',
-				password='patato')		
-	user.is_staff = True
-	user.save()
+    if not User.objects.filter(username='asdf@asdf.com').exists():
+        user = User.objects.create_user(
+            username='asdf@asdf.com',
+            first_name='Asdf',
+            last_name='g',
+            email='asdf@asdf.com',
+            password='asd')
+        user.save()
 
-	profile = UserProfile.objects.create(
-	    user=user,
-	    date_naissance='27 mars 1990',
-	    adresse='8212 dumoulin',
-	    telephone='1234561234')
-	profile.save()
+        profile = UserProfile.objects.create(
+            user=user,
+            date_naissance='25 mars 2010',
+            adresse='8907 14e avecu',
+            telephone='5148800928')
+        profile.save()
 
-	#if not User.objects.get(username='philippe@hotmail.com'):
-	user = User.objects.create_superuser(
-				username= 'philippe@hotmail.com',
-	                        first_name='philippe',
-	                        last_name='murray',
-	                        email='philippe@hotmail.com',
-				password='potate')		
-	user.is_staff = True	
-	user.save()
+    if not User.objects.filter(username='andy@hotmail.com').exists():
+        user = User.objects.create_user(
+            username='andy@hotmail.com',
+            first_name='Andy',
+            last_name='Su',
+            email='andy@hotmail.com',
+            password='patate')
+        user.is_staff = True
+        user.save()
 
-	profile = UserProfile.objects.create(
+        profile = UserProfile.objects.create(
+            user=user,
+            date_naissance='26 mars 2010',
+            adresse='8907 14e avecu',
+            telephone='5148800928')
+        profile.save()
+
+    if not User.objects.filter(username='jacques@hotmail.com').exists():
+        user = User.objects.create_user(
+            username= 'jacques@hotmail.com',
+            first_name='jacques',
+            last_name='gabriel',
+            email='jacques@hotmail.com',
+            password='potato')
+        user.is_staff = True
+        user.save()
+
+        profile = UserProfile.objects.create(
+            user=user,
+            date_naissance='28 mars 2000',
+            adresse='8888 lacordaire',
+            telephone='1234567514')
+        profile.save()
+
+    if not User.objects.filter(username='maxime@hotmail.com').exists():
+        user = User.objects.create_user(
+            username= 'maxime@hotmail.com',
+            first_name='maxime',
+            last_name='dupuis',
+            email='maxime@hotmail.com',
+            password='patato')
+        user.is_staff = True
+        user.save()
+
+        profile = UserProfile.objects.create(
+            user=user,
+            date_naissance='27 mars 1990',
+            adresse='8212 dumoulin',
+            telephone='1234561234')
+        profile.save()
+
+    if not User.objects.filter(username='philippe@hotmail.com').exists():
+        user = User.objects.create_user(
+            username= 'philippe@hotmail.com',
+            first_name='philippe',
+            last_name='murray',
+            email='philippe@hotmail.com',
+            password='potate')
+        user.is_staff = True
+        user.save()
+
+        profile = UserProfile.objects.create(
             user=user,
             date_naissance='25 mars 1980',
             adresse='8210 dumouton',
             telephone='5432102020')
         profile.save()
-	
-	return HttpResponse(json.dumps({'success':True}))
+
+    return HttpResponse(json.dumps({'success':True}))
 
 def user_login(request):
     if request.method == 'POST':
