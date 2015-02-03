@@ -5,33 +5,44 @@
 <div class="form-group">
   <label class="col-sm-2 control-label">Email:</label> 
   <div ng-hide="profile.backup">  {{profile.user.username}} </div>
-  <div class="col-sm-10" ng-show="profile.backup"> <input class="form-control" ng-model="profile.user.username"/></div>
+  <div class="col-sm-10" ng-show="profile.backup">
+    <input class="form-control" ng-model="profile.user.username"/></div>
 </div>
 <div class="form-group">
   <label class="col-sm-2 control-label">first name:</label>
   <div ng-hide="profile.backup">  {{profile.user.first_name}} </div>
-  <div class="col-sm-10" ng-show="profile.backup"><input class="form-control" ng-model="profile.user.first_name"/></div>
+  <div class="col-sm-10" ng-show="profile.backup">
+    <input class="form-control" ng-model="profile.user.first_name"/></div>
 </div>
 <div class="form-group">
   <label class="col-sm-2 control-label">Last name:</label>
   <div ng-hide="profile.backup">  {{profile.user.last_name}} </div>
-  <div class="col-sm-10" ng-show="profile.backup"><input class="form-control" ng-model="profile.user.last_name"/></div>
+  <div class="col-sm-10" ng-show="profile.backup">
+    <input class="form-control" ng-model="profile.user.last_name"/></div>
 </div>
 <div class="form-group">
   <label class="col-sm-2 control-label">Adresse:</label>
   <div ng-hide="profile.backup">  {{profile.adresse}} </div>
-  <div class="col-sm-10" ng-show="profile.backup"><input class="form-control" ng-model="profile.adresse"/></div>
+  <div class="col-sm-10" ng-show="profile.backup">
+    <input class="form-control" ng-model="profile.adresse"/></div>
 </div>
 <div class="form-group">
   <label class="col-sm-2 control-label">Birthday:</label>
-  <div ng-hide="profile.backup">  {{profile.date_naissance}} </div>
-  <div class="col-sm-10" ng-show="profile.backup"><input class="form-control" ng-model="profile.date_naissance"/></div>
+  <div ng-hide="profile.backup"> {{profile.date_naissance}} </div>
+  <div class="col-sm-10" ng-show="profile.backup">
+    <input class="form-control" ng-model="profile.date_naissance"/></div>
 </div>
 <div class="form-group">
   <label class="col-sm-2 control-label">Telephone:</label>
-  <div ng-hide="profile.backup">  {{profile.telephone}} </div>
-  <div class="col-sm-10" ng-show="profile.backup"><input class="form-control" ng-model="profile.telephone"/></div>
-</div
+  <div ng-hide="profile.backup"> {{profile.telephone}} </div>
+  <div class="col-sm-10" ng-show="profile.backup">
+    <input class="form-control" ng-model="profile.telephone"/></div>
+</div>
+<div class="form-group" ng-show="profile.backup">
+  <label class="col-sm-2 control-label">Password:</label>
+  <div class="col-sm-10">
+    <input class="form-control" ng-model="profile.password"/></div>
+</div>
 
 <div>
   <button class="btn btn-xs" ng-hide="profile.backup" ng-click="edit(profile)">Edit</button>

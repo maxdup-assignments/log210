@@ -55,6 +55,8 @@ def edit_profile(request):
         user = User.objects.get(pk=userinfo['user']['pk'])
         #magic that updates user fields from json dict
         user.__dict__.update(**userinfo['user'])
+        if userinfo['password']:
+            user.set_password(userinfo['password'])
         user.email = user.username
         user.save()
         del userinfo['user']
