@@ -56,8 +56,6 @@ def edit_resto(request):
 
 def all_resto(request):
     # returns all restaurants in an array
-    if not request.user.is_superuser:
-        return HttpResponseForbidden()
     restos = Restaurant.objects.all()
     response = []
     for resto in restos:
