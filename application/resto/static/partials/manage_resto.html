@@ -22,7 +22,7 @@
         <select ng-model="resto.new_user"
                 ng-options="staff as staff.label for staff in options"/>
       </td>
-      <td ng-show="resto.backup"><input ng-model="resto.menu"></td>
+      <td ng-show="resto.backup"><ng-menueditor></ng-menueditor></td>
       <td ng-show="resto.backup">
         <button class="btn btn-success btn-xs" ng-click="save_resto(resto)">
           Save</button>
