@@ -1,0 +1,45 @@
+<div>
+  <table class="table">
+    <tr>
+      <th>Name</th>
+      <th>restaurateur</th>
+      <th>Menu</th>
+    </tr>
+
+    <tr ng-repeat="resto in restos">
+      <td ng-hide="resto.backup">{{ resto.name }}</td>
+      <td ng-hide="resto.backup">{{ resto.user.username || 'None'}}</td>
+      <td ng-hide="resto.backup">{{ resto.menu }}</td>
+      <td ng-hide="resto.backup">
+        <button class="btn btn-success btn-xs" ng-click="edit_resto(resto)">
+          Edit</button>
+        <button class="btn btn-danger btn-xs" ng-click="delete_resto(resto)">
+          Remove</button>
+      </td>
+
+      <td ng-show="resto.backup"><input ng-model="resto.name"></td>
+      <td ng-show="resto.backup">
+        <select ng-model="resto.new_user"
+                ng-options="staff as staff.label for staff in options"/>
+      </td>
+      <td ng-show="resto.backup"><ng-menueditor></ng-menueditor></td>
+      <td ng-show="resto.backup">
+        <button class="btn btn-success btn-xs" ng-click="save_resto(resto)">
+          Save</button>
+        <button class="btn btn-danger btn-xs" ng-click="cancel_resto(resto)">
+          Cancel</button>
+      </td>
+    </tr>
+
+    <tr>
+      <td><input type="text" ng-model="new_resto.name"></td>
+      <td><select ng-model="selected_staff"
+                  ng-change="new_resto.user = selected_staff.value"
+                  ng-options="staff as staff.label for staff in options"/></td>
+      <td>menu...</td>
+      <td>
+        <button class="btn btn-success btn-xs" ng-click="create_resto()">add</button>
+      </td>
+    </tr>
+  </table>
+</div>

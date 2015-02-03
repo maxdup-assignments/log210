@@ -1,5 +1,5 @@
-angular.module('resto.controllers', [])
-.controller('RootController', ($scope, $location, $http) ->
+angular.module('resto.userControllers', [])
+.controller 'RootController', ($scope, $location, $http) ->
   $scope.auth = auth
   $scope.username = username
   
@@ -9,26 +9,23 @@ angular.module('resto.controllers', [])
   }
   $scope.login = ->
     $http.post('api/login', $scope.loginform)
-      .success((data) ->
+      .success (data) ->
         if data.success
           $scope.auth = true
           $scope.loggingin = false
           $scope.username = data.username
-      )
-      .error((data) ->
+      .error (data) ->
         console.log(data)
-      )
 
   $scope.logout = ->
     $http.get('/api/logout')
-      .success((data) ->
+      .success (data) ->
         $scope.auth = false
         $scope.loginform['username'] = ''
         $scope.loginform['password'] = ''
-     )
-)
 
-.controller('RegisterController', ($scope, $location, $http) ->
+
+.controller 'RegisterController', ($scope, $location, $http) ->
 
   $scope.userform = {
     'email':'',
@@ -45,27 +42,22 @@ angular.module('resto.controllers', [])
       .success((data) ->
         alert('registration successful')
         console.log(data)
-      )
-      .error((data) ->
+      .error (data) ->
         console.log(data)
-      )
-)
 
-.controller('UserController', ($scope, $location, $http) ->
+.controller 'UserController', ($scope, $location, $http) ->
 
   if $location.path() == '/manage/users'
     $http.get('/api/all_profiles')
-      .success((data) ->
-        $scope.profiles = data.users
-      ).error((data) ->
+      .success (data) ->
+        $scope.profiles = data
+      .error (data) ->
         console.log(data)
-      )
   else
     $http.get('/api/profile')
-      .success((data) ->
+      .success (data) ->
         $scope.profile = data
-      )
-
+ 
   $scope.edit = (profile) ->
     profile.backup = _.clone(profile)
     profile.backup.user = _.clone(profile.user)
@@ -76,8 +68,6 @@ angular.module('resto.controllers', [])
 
   $scope.save = (profile) ->
     $http.post('/api/edit_profile', profile)
-      .success((data) ->
+      .success (data) ->
         console.log(data)
         delete profile['backup']
-      )      
-)

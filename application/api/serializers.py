@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from api.models import UserProfile
+from api.models import *
 from django.contrib.auth.models import User
 
 
@@ -17,3 +17,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = UserProfile
         fields = ('pk', 'user', 'adresse', 'telephone', 'date_naissance')
         depth = 1
+
+class RestaurantSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    pk = serializers.CharField(read_only=True)
+    class Meta:
+        model = Restaurant
+        fields = ('pk', 'user', 'name', 'menu')
