@@ -1,5 +1,7 @@
 angular.module('resto.restoControllers', [])
-.controller 'RestaurantController', ($scope, $location, $http) ->
+.controller 'RestaurantController', ($scope, $location, $http, $routeParams) ->
+
+  param = $routeParams.param
 
   $scope.restos = []
   $scope.new_resto = {
@@ -30,6 +32,10 @@ angular.module('resto.restoControllers', [])
       $scope.restos = data
       for resto in $scope.restos
           assign_selection(resto)
+      if param
+        $scope.current_resto =
+          (resto for resto, resto in $scope.restos when resto.pk == param)[0]
+        console.log($scope.current_resto)
     .error (data) ->
       console.log(data)
 
