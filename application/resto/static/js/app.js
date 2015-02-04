@@ -15,6 +15,9 @@
     }).when('/manage/resto', {
       controller: 'RestaurantController',
       templateUrl: 'static/partials/manage_resto.html'
+    }).when('/manage_menu/:param', {
+      controller: 'RestaurantController',
+      templateUrl: 'static/partials/manage_menu.html'
     }).otherwise({
       redirectTo: '/home'
     });

@@ -5,32 +5,42 @@
       <th>restaurateur</th>
       <th>Menu</th>
     </tr>
-
     <tr ng-repeat="resto in restos">
-      <td ng-hide="resto.backup">{{ resto.name }}</td>
-      <td ng-hide="resto.backup">{{ resto.user.username || 'None'}}</td>
-      <td ng-hide="resto.backup">{{ resto.menu }}</td>
-      <td ng-hide="resto.backup">
-        <button class="btn btn-success btn-xs" ng-click="edit_resto(resto)">
-          Edit</button>
-        <button class="btn btn-danger btn-xs" ng-click="delete_resto(resto)">
-          Remove</button>
+      <!-- restaurant display -->
+      <td>
+        <span ng-hide="resto.backup">{{ resto.name }}</span>
+        <input ng-show="resto.backup" ng-model="resto.name"/>
       </td>
 
-      <td ng-show="resto.backup"><input ng-model="resto.name"></td>
-      <td ng-show="resto.backup">
-        <select ng-model="resto.new_user"
+      <td>
+        <span ng-hide="resto.backup">{{ resto.user.username || 'None'}}</span>
+        <select ng-show="resto.backup" ng-model="resto.new_user"
                 ng-options="staff as staff.label for staff in options"/>
       </td>
-      <td ng-show="resto.backup"><ng-menueditor></ng-menueditor></td>
-      <td ng-show="resto.backup">
-        <button class="btn btn-success btn-xs" ng-click="save_resto(resto)">
-          Save</button>
-        <button class="btn btn-danger btn-xs" ng-click="cancel_resto(resto)">
-          Cancel</button>
+
+      <td>
+        {{ resto.menu }}
+        <a ng-show="resto.backup" class="btn btn-xs btn-success" ng-href="#/manage_menu/{{resto.pk}}">change menu</a>
+      </td>
+
+      <td>
+        <span ng-hide="resto.backup">
+          <button class="btn btn-success btn-xs" ng-click="edit_resto(resto)">
+            Edit</button>
+          <button class="btn btn-danger btn-xs" ng-click="delete_resto(resto)">
+            Remove</button>
+        </span ng-show="resto.backup">
+
+        <span ng-show="resto.backup">
+          <button class="btn btn-success btn-xs" ng-click="save_resto(resto)">
+            Save</button>
+          <button class="btn btn-danger btn-xs" ng-click="cancel_resto(resto)">
+            Cancel</button>
+        </span>
       </td>
     </tr>
 
+    <!--restaurant addition-->
     <tr>
       <td><input type="text" ng-model="new_resto.name"></td>
       <td><select ng-model="selected_staff"
@@ -38,7 +48,7 @@
                   ng-options="staff as staff.label for staff in options"/></td>
       <td>menu...</td>
       <td>
-        <button class="btn btn-success btn-xs" ng-click="create_resto()">add</button>
+        <button class="btn btn-success btn-xs" ng-click="create_resto()">add</buton>
       </td>
     </tr>
   </table>
