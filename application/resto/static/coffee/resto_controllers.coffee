@@ -39,6 +39,7 @@ angular.module('resto.restoControllers', [])
         assign_selection(data)
         $scope.restos.push(data)
         $scope.new_resto = {'name':'', 'menu':{}, 'user':''}
+        alert("il est préferable d'assigner un restaurateur")
       .error (data) ->
         console.log(data)
 
