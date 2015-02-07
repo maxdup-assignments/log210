@@ -30,6 +30,18 @@ def get_profiles(request):
         profiles.append(profile.data)
     return HttpResponse(JSONRenderer().render(profiles))
 
+def delete_profile(request):
+    # deletes a profile in database
+    if not request.user.is_superuser:
+        return HttpResponseForbidden()
+    userinfo = json.loads(request.body)
+
+    profile = UserProfile.objects.get(pk=userinfo['pk'])
+    profile.delete()
+    user = User.objects.get(pk=userinfo['user']['pk'])
+    user.delete()
+    return HttpResponse({'success': True})
+
 def get_staff(request):
     # returns all staff users
     if not request.user.is_superuser:
@@ -76,7 +88,8 @@ def register(request):
         user = User.objects.create_user(username=userinfo['email'],
                                         first_name=userinfo['first_name'],
                                         last_name=userinfo['last_name'],
-                                        email=userinfo['email'])
+                                        email=userinfo['email'],)
+        user.is_staff = userinfo['is_staff']
         user.set_password(userinfo['password'])
         user.save()
         profile = UserProfile.objects.create(
@@ -85,9 +98,9 @@ def register(request):
             adresse=userinfo['adresse'],
             telephone=userinfo['telephone'])
         profile.save()
-
-        return HttpResponse(json.dumps({'success':True}))
-    return HttpResponse(json.dumps({'success':False}))
+        profile = ProfileSerializer(profile)
+        return HttpResponse(JSONRenderer().render(profile.data))
+    return HttpResponse(json.dumps({}))
 
 def user_login(request):
     # this is the login request

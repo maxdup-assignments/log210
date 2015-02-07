@@ -25,9 +25,8 @@ angular.module('resto.userControllers', [])
         $scope.loginform['password'] = ''
 
 
-.controller 'RegisterController', ($scope, $location, $http) ->
-
-  $scope.userform = {
+.controller 'UserController', ($scope, $location, $http) ->
+  userform = {
     'email':'',
     'first_name': '',
     'last_name': '',
@@ -37,15 +36,21 @@ angular.module('resto.userControllers', [])
     'password': ''
   }
 
-  $scope.submit = ()->
+  $scope.userform = {}
+  _.extend($scope.userform, userform)
+
+  $scope.submit = (restaurateur=false) ->
+    $scope.userform.is_staff = restaurateur
     $http.post('/api/register', $scope.userform)
-      .success(data) ->
-        alert('registration successful')
+      .success (data) ->
+        if $location.path() == '/manage/users'
+          $scope.profiles.push(data)
+          _.extend($scope.userform, userform)
+        else
+          alert('registration successful')
         console.log(data)
       .error (data) ->
         console.log(data)
-
-.controller 'UserController', ($scope, $location, $http) ->
 
   if $location.path() == '/manage/users'
     $http.get('/api/all_profiles')
@@ -71,3 +76,10 @@ angular.module('resto.userControllers', [])
       .success (data) ->
         console.log(data)
         delete profile['backup']
+
+  $scope.delete = (profile) ->
+    $http.post('/api/delete_profile', profile)
+      .success (data) ->
+        $scope.profiles = _.without($scope.profiles, profile)
+      .error (data) ->
+        console.log(data)

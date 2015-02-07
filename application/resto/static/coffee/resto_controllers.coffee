@@ -81,10 +81,13 @@ angular.module('resto.restoControllers', [])
   $scope.add_menu = () ->
     if not($scope.current_resto.menu.hasOwnProperty('sous_menus'))
       $scope.current_resto.menu.sous_menus = []
-    $scope.current_resto.menu.sous_menus.push({
-      'name': $scope.new_menu_name,
-      'items':[]
-    })
+    if $scope.new_menu_name
+      $scope.current_resto.menu.sous_menus.push({
+        'name': $scope.new_menu_name,
+        'items':[]
+      })
+    else
+      alert('Le menu doit avoir un nom')
     $scope.new_menu_name = ''
 
   $scope.add_menuitem = (menu) ->

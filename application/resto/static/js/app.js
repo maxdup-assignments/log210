@@ -4,7 +4,7 @@
     $routeProvider.when('/home', {
       templateUrl: 'static/partials/home.html'
     }).when('/register', {
-      controller: 'RegisterController',
+      controller: 'UserController',
       templateUrl: 'static/partials/register.html'
     }).when('/manage/users', {
       controller: 'UserController',

@@ -25,8 +25,9 @@
         return $scope.loginform['password'] = '';
       });
     };
-  }).controller('RegisterController', function($scope, $location, $http) {
-    $scope.userform = {
+  }).controller('UserController', function($scope, $location, $http) {
+    var userform;
+    userform = {
       'email': '',
       'first_name': '',
       'last_name': '',
@@ -35,15 +36,25 @@
       'telephone': '',
       'password': ''
     };
-    return $scope.submit = function() {
-      return $http.post('/api/register', $scope.userform).success(data)(function() {
-        alert('registration successful');
+    $scope.userform = {};
+    _.extend($scope.userform, userform);
+    $scope.submit = function(restaurateur) {
+      if (restaurateur == null) {
+        restaurateur = false;
+      }
+      $scope.userform.is_staff = restaurateur;
+      return $http.post('/api/register', $scope.userform).success(function(data) {
+        if ($location.path() === '/manage/users') {
+          $scope.profiles.push(data);
+          _.extend($scope.userform, userform);
+        } else {
+          alert('registration successful');
+        }
         return console.log(data);
       }).error(function(data) {
         return console.log(data);
       });
     };
-  }).controller('UserController', function($scope, $location, $http) {
     if ($location.path() === '/manage/users') {
       $http.get('/api/all_profiles').success(function(data) {
         return $scope.profiles = data;
@@ -63,10 +74,17 @@
       _.extend(profile, profile.backup);
       return delete profile['backup'];
     };
-    return $scope.save = function(profile) {
+    $scope.save = function(profile) {
       return $http.post('/api/edit_profile', profile).success(function(data) {
         console.log(data);
         return delete profile['backup'];
+      });
+    };
+    return $scope["delete"] = function(profile) {
+      return $http.post('/api/delete_profile', profile).success(function(data) {
+        return $scope.profiles = _.without($scope.profiles, profile);
+      }).error(function(data) {
+        return console.log(data);
       });
     };
   });
