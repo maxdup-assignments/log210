@@ -19,7 +19,7 @@
       </td>
 
       <td>
-        {{ resto.menu }}
+        {{ resto.menu.sous_menus.length || 0 }} menus
         <a ng-show="resto.backup" class="btn btn-xs btn-success" ng-href="#/manage_menu/{{resto.pk}}">change menu</a>
       </td>
 

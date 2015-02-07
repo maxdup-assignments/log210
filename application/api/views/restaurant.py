@@ -62,4 +62,91 @@ def all_resto(request):
         resto = RestaurantSerializer(resto)
         response.append(resto.data)
     return HttpResponse(JSONRenderer().render(response))
+
+def edit_menu(request):
+    restoinfo = json.loads(request.body)
+    resto = Restaurant.objects.get(pk=restoinfo['pk'])
+
+    for menu in restoinfo['menu']['sous_menus']:
+        if 'newitem' in menu:
+            del menu['newitem']
+    resto.menu = restoinfo['menu']
+    resto.save()
+    response = RestaurantSerializer(resto)
+    return HttpResponse(JSONRenderer().render(response.data))
+
     
+def populate_resto(request):
+
+    restaurateurs = User.objects.filter(is_staff=True)
+    len(restaurateurs)
+
+    if not Restaurant.objects.filter(name='Pataterie').exists():
+        resto = Restaurant.objects.create(
+            name='Pataterie',
+            user=restaurateurs[1],
+            menu={
+                'sous_menus': [
+                    {'name': 'menu matin',
+                     'items': [
+                        {'name': 'patate',
+                         'desc': 'des patates',
+                         'price': '3'},
+                        {'name': 'patate small',
+                         'desc': 'des petites patates',
+                         'price': '5'}
+                    ]},
+                    {'name': 'menu soir',
+                     'items': [{
+                         'name': 'poutine',
+                         'desc': 'de la poutine',
+                         'price': '7'},
+                        {'name': 'hotdog',
+                         'desc': 'des hotdogs',
+                         'price': '6'},
+                    ]}
+                ]
+            })
+        resto.save()
+
+    if not Restaurant.objects.filter(name='Subway').exists():
+        resto = Restaurant.objects.create(
+            name='Subway',
+            user=restaurateurs[2],
+            menu={
+                'sous_menus': [
+                    {'name': 'menu matin',
+                     'items': [
+                        {'name': 'sous-marin',
+                         'desc': '12 pouces',
+                         'price': '5'}
+                    ]}
+                ]
+            })
+        resto.save()
+
+    if not Restaurant.objects.filter(name='McDonalds').exists():
+        resto = Restaurant.objects.create(
+            name='McDonalds',
+            user=restaurateurs[3],
+            menu={
+                'sous_menus': [
+                    {'name': 'eat fat',
+                     'items': [
+                        {'name': 'BigMac',
+                         'desc': '100% boeuf',
+                         'price': '7'}
+                    ]}
+                ]
+            })
+        resto.save()
+
+    if not Restaurant.objects.filter(name='Buffet').exists():
+        resto = Restaurant.objects.create(
+            name='Buffet',
+            user=None,
+            menu={})
+        resto.save()
+
+    return HttpResponse({'success': True})
+

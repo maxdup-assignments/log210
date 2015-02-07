@@ -36,7 +36,7 @@
       'password': ''
     };
     return $scope.submit = function() {
-      return $http.post('/api/register', $scope.userform).success(function(data) {
+      return $http.post('/api/register', $scope.userform).success(data)(function() {
         alert('registration successful');
         return console.log(data);
       }).error(function(data) {

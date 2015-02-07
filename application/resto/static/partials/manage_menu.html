@@ -2,5 +2,31 @@
 <h3 ng-if="current_resto.user">
   managed by {{ current_resto.user.first_name}}
 </h3>
+<div style="height:30px;"/>
+<div ng-repeat="menu in current_resto.menu.sous_menus">
 
-<div>{{ current_resto.menu }}</div>
+  <h4>{{ menu.name }}</h4>
+  <table class="table">
+    <tr>
+      <th>nom</th>
+      <th>description</th>
+      <th>prix</th>
+    </tr>
+    <tr ng-repeat="item in menu.items">
+      <td>{{ item.name }}</td>
+      <td>{{ item.desc }}</td>
+      <td>{{ item.price }}$</td>
+    </tr>
+    <tr>
+      <td><input type="text" ng-model="menu.newitem.name"/></td>
+      <td><input type="text" ng-model="menu.newitem.desc"/></td>
+      <td><input type="text" ng-model="menu.newitem.price"/></td>
+      <td><button class="btn btn-xs" ng-click="add_menuitem(menu)">Add</button></td>
+    </tr>
+  </table>
+</div>
+<div style="height:20px"/>
+<input type="text" ng-model="new_menu_name"/>
+<button class="btn" ng-click="add_menu()">Ajouter menu</button>
+<div style="height:20px"/>
+<button class="btn btn-success" style="float:right" ng-click="save_menu()">Save</button>

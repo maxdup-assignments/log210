@@ -108,10 +108,40 @@
       delete resto['backup'];
       return delete resto['new_user'];
     };
-    return $scope.delete_resto = function(resto) {
+    $scope.delete_resto = function(resto) {
       return $http.post('/api/delete_resto', resto).success(function(data) {
         return $scope.restos = _.without($scope.restos, resto);
       }).error(function(data) {
+        return console.log(data);
+      });
+    };
+    $scope.add_menu = function() {
+      if (!($scope.current_resto.menu.hasOwnProperty('sous_menus'))) {
+        $scope.current_resto.menu.sous_menus = [];
+      }
+      $scope.current_resto.menu.sous_menus.push({
+        'name': $scope.new_menu_name,
+        'items': []
+      });
+      return $scope.new_menu_name = '';
+    };
+    $scope.add_menuitem = function(menu) {
+      if (menu.hasOwnProperty('newitem') && menu.newitem.name && menu.newitem.price) {
+        menu.items.push(menu.newitem);
+        if (!menu.newitem.desc) {
+          alert("il est préférable d'avoir une description");
+        }
+        return menu.newitem = {
+          'name': '',
+          'desc': '',
+          'price': ''
+        };
+      } else {
+        return alert('il faut spécifier un nom et un prix');
+      }
+    };
+    return $scope.save_menu = function() {
+      return $http.post('/api/edit_menu', $scope.current_resto).success(function(data) {
         return console.log(data);
       });
     };

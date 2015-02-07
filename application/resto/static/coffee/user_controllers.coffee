@@ -37,9 +37,9 @@ angular.module('resto.userControllers', [])
     'password': ''
   }
 
-  $scope.submit = ->
+  $scope.submit = ()->
     $http.post('/api/register', $scope.userform)
-      .success((data) ->
+      .success(data) ->
         alert('registration successful')
         console.log(data)
       .error (data) ->
