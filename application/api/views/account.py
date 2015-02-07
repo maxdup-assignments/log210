@@ -89,8 +89,31 @@ def register(request):
         return HttpResponse(json.dumps({'success':True}))
     return HttpResponse(json.dumps({'success':False}))
 
-def populateUser(request):
+def user_login(request):
+    # this is the login request
+    if request.method == 'POST':
+        info = json.loads(request.body)
+        user = authenticate(username=info['username'],
+                            password=info['password'])
+        if user:
+            login(request, user)
+            return HttpResponse(json.dumps({'success':True,
+                                            'username':user.email}))
 
+        else:
+            return HttpResponse(json.dumps({'success':False,
+                                            'reason': 'fail'}))
+
+    else:
+        return HttpResponse(json.dumps({'success':False}))
+
+def user_logout(request):
+    # this is the logout request
+    logout(request)
+    return HttpResponse(json.dumps({'success':True}))
+
+def populateUser(request):
+    # script that will populate the database with users
     if not User.objects.filter(username='asd@asd.com').exists():
         user = User.objects.create_superuser(
             username='asd@asd.com',
@@ -192,27 +215,4 @@ def populateUser(request):
             telephone='5432102020')
         profile.save()
 
-    return HttpResponse(json.dumps({'success':True}))
-
-def user_login(request):
-    # this is the login request
-    if request.method == 'POST':
-        info = json.loads(request.body)
-        user = authenticate(username=info['username'],
-                            password=info['password'])
-        if user:
-            login(request, user)
-            return HttpResponse(json.dumps({'success':True,
-                                            'username':user.email}))
-
-        else:
-            return HttpResponse(json.dumps({'success':False,
-                                            'reason': 'fail'}))
-
-    else:
-        return HttpResponse(json.dumps({'success':False}))
-
-def user_logout(request):
-    # this is the logout request
-    logout(request)
     return HttpResponse(json.dumps({'success':True}))

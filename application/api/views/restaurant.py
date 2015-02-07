@@ -26,7 +26,7 @@ def create_resto(request):
     return HttpResponse(JSONRenderer().render(resto.data))
 
 def delete_resto(request):
-    #deletes a restaurant in database
+    # deletes a restaurant in database
     if not request.user.is_superuser:
         return HttpResponseForbidden()
         
@@ -36,6 +36,10 @@ def delete_resto(request):
     return HttpResponse({'success': True})
 
 def edit_resto(request):
+    # updates a restaurant
+    # -receives a json formated restaurant 
+    # -returns the updated restaurant
+
     if request.method != 'POST' or not request.user.is_staff:
         return HttpResponseForbidden()
 
@@ -56,6 +60,7 @@ def edit_resto(request):
 
 def all_resto(request):
     # returns all restaurants in an array
+
     restos = Restaurant.objects.all()
     response = []
     for resto in restos:
@@ -64,6 +69,10 @@ def all_resto(request):
     return HttpResponse(JSONRenderer().render(response))
 
 def edit_menu(request):
+    # updates the menu of a restaurant
+    # -receives a json formated restaurant 
+    # -returns the updated restaurant
+
     restoinfo = json.loads(request.body)
     resto = Restaurant.objects.get(pk=restoinfo['pk'])
 
@@ -77,6 +86,7 @@ def edit_menu(request):
 
     
 def populate_resto(request):
+    # a script that populates the database with restaurants
 
     restaurateurs = User.objects.filter(is_staff=True)
     len(restaurateurs)
