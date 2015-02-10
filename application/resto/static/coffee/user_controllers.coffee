@@ -58,6 +58,18 @@ angular.module('resto.userControllers', [])
         $scope.profiles = data
       .error (data) ->
         console.log(data)
+
+    $scope.options = [{'label':'None', 'value':''}]
+    $scope.selected_resto = $scope.options[0]
+    $http.get('/api/all_resto')
+      .success (data) ->
+        $scope.restos = data
+        $scope.available_resto =
+        (resto for resto, resto in $scope.restos when resto.user == null)
+        for resto in $scope.available_resto
+          $scope.options.push({'label':resto.name, 'value':resto.pk})
+      .error (data) ->
+        console.log(data)
   else
     $http.get('/api/profile')
       .success (data) ->

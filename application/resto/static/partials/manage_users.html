@@ -93,6 +93,16 @@
       <input class="form-control" type="password" ng-model="userform.password">
     </div>
   </div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Restaurant:</label>
+    <div class="col-sm-2">
+      <select class="form-control"
+              ng-model="selected_resto"
+              ng-change="userform.resto = selected_resto.value"
+              ng-options="resto as resto.label for resto in options"/>
+    </div>
+  </div>
 </form>
 <button class="btn btn-success" ng-click="submit(true)" style="float:right">Submit</button>
 </div>

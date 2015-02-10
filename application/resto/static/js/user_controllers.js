@@ -61,6 +61,41 @@
       }).error(function(data) {
         return console.log(data);
       });
+      $scope.options = [
+        {
+          'label': 'None',
+          'value': ''
+        }
+      ];
+      $scope.selected_resto = $scope.options[0];
+      $http.get('/api/all_resto').success(function(data) {
+        var resto, _i, _len, _ref, _results;
+        $scope.restos = data;
+        $scope.available_resto = (function() {
+          var _i, _len, _ref, _results;
+          _ref = $scope.restos;
+          _results = [];
+          for (resto = _i = 0, _len = _ref.length; _i < _len; resto = ++_i) {
+            resto = _ref[resto];
+            if (resto.user === null) {
+              _results.push(resto);
+            }
+          }
+          return _results;
+        })();
+        _ref = $scope.available_resto;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          resto = _ref[_i];
+          _results.push($scope.options.push({
+            'label': resto.name,
+            'value': resto.pk
+          }));
+        }
+        return _results;
+      }).error(function(data) {
+        return console.log(data);
+      });
     } else {
       $http.get('/api/profile').success(function(data) {
         return $scope.profile = data;

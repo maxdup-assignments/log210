@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse,  HttpResponseForbidden
 
 from django.contrib.auth.models import User
-from api.models import UserProfile
+from api.models import UserProfile, Restaurant
 
 from api.serializers import ProfileSerializer, UserSerializer
 from rest_framework.renderers import JSONRenderer
@@ -39,7 +39,14 @@ def delete_profile(request):
     profile = UserProfile.objects.get(pk=userinfo['pk'])
     profile.delete()
     user = User.objects.get(pk=userinfo['user']['pk'])
+
+    resto = Restaurant.objects.filter(user=userinfo['pk'])
+    if resto.exists:
+        resto[0].user = None
+        resto[0].save()
+
     user.delete()
+
     return HttpResponse({'success': True})
 
 def get_staff(request):
@@ -52,6 +59,7 @@ def get_staff(request):
     for user in staff_request:
         staff = UserSerializer(user)
         staffs.append(staff.data)
+
     return HttpResponse(JSONRenderer().render(staffs))
 
 def edit_profile(request):
@@ -81,7 +89,6 @@ def edit_profile(request):
 
 def register(request):
     # creates a new Profile
-    registered = False
 
     if request.method == 'POST':
         userinfo = json.loads(request.body)
@@ -99,6 +106,13 @@ def register(request):
             telephone=userinfo['telephone'])
         profile.save()
         profile = ProfileSerializer(profile)
+
+        if 'resto' in userinfo:
+            if userinfo['resto']:
+                resto = Restaurant.objects.filter(pk=userinfo['resto'])[0]
+                resto.user = user
+                resto.save()
+
         return HttpResponse(JSONRenderer().render(profile.data))
     return HttpResponse(json.dumps({}))
 
