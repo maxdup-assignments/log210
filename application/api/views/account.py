@@ -39,12 +39,7 @@ def delete_profile(request):
     profile = UserProfile.objects.get(pk=userinfo['pk'])
     profile.delete()
     user = User.objects.get(pk=userinfo['user']['pk'])
-
-    resto = Restaurant.objects.filter(user=userinfo['pk'])
-    if resto.exists:
-        resto[0].user = None
-        resto[0].save()
-
+    resto = Restaurant.objects.filter(user=user).update(user=None)
     user.delete()
 
     return HttpResponse({'success': True})

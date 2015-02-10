@@ -45,6 +45,10 @@ angular.module('resto.userControllers', [])
       .success (data) ->
         if $location.path() == '/manage/users'
           $scope.profiles.push(data)
+          if $scope.userform.resto
+            $scope.options =
+              (opt for opt, opt in $scope.options when opt.value != $scope.userform.resto)
+            $scope.selected_resto = $scope.options[0]
           _.extend($scope.userform, userform)
         else
           alert('registration successful')

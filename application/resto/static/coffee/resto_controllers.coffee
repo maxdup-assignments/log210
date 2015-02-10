@@ -35,7 +35,6 @@ angular.module('resto.restoControllers', [])
       if param
         $scope.current_resto =
           (resto for resto, resto in $scope.restos when resto.pk == param)[0]
-        console.log($scope.current_resto)
     .error (data) ->
       console.log(data)
 
