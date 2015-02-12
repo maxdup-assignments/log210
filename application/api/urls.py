@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     url(r'^delete_resto', views.delete_resto, name='delete_resto'),
     url(r'^edit_resto', views.edit_resto, name='edit_resto'),
     url(r'^all_resto', views.all_resto, name='all_resto'),
+    url(r'^assigned_resto', views.assigned_resto, name='assigned_resto'),
     url(r'^edit_menu', views.edit_menu, name='edit_menu'),
     url(r'^populateresto', views.populate_resto, name='populateresto'),
 )

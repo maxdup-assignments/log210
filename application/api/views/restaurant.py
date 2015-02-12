@@ -68,6 +68,20 @@ def all_resto(request):
         response.append(resto.data)
     return HttpResponse(JSONRenderer().render(response))
 
+def assigned_resto(request):
+    # returns all restaurants assigned to the current user in an array
+
+    print request.user.pk
+    user = User.objects.get(pk=request.user.pk)
+    restos = Restaurant.objects.filter(user=user)
+
+    response = []
+    for resto in restos:
+        resto = RestaurantSerializer(resto)
+        response.append(resto.data)
+    return HttpResponse(JSONRenderer().render(response))
+
+
 def edit_menu(request):
     # updates the menu of a restaurant
     # -receives a json formated restaurant 
