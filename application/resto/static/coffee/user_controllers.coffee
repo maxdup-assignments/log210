@@ -2,11 +2,14 @@ angular.module('resto.userControllers', [])
 .controller 'RootController', ($scope, $location, $http) ->
   $scope.auth = auth
   $scope.username = username
+  $scope.is_staff = staff == 'True'
+  $scope.is_superuser = superuser == 'True'
   
   $scope.loginform = {
     'username':''
     'password':''
   }
+
   $scope.login = ->
     $http.post('api/login', $scope.loginform)
       .success (data) ->
@@ -43,7 +46,7 @@ angular.module('resto.userControllers', [])
     $scope.userform.is_staff = restaurateur
     $http.post('/api/register', $scope.userform)
       .success (data) ->
-        if $location.path() == '/manage/users'
+        if $location.path() == '/admin/users'
           $scope.profiles.push(data)
           if $scope.userform.resto
             $scope.options =
@@ -56,7 +59,7 @@ angular.module('resto.userControllers', [])
       .error (data) ->
         console.log(data)
 
-  if $location.path() == '/manage/users'
+  if $location.path() == '/admin/users'
     $http.get('/api/all_profiles')
       .success (data) ->
         $scope.profiles = data

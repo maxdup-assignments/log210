@@ -6,15 +6,15 @@
     }).when('/register', {
       controller: 'UserController',
       templateUrl: 'static/partials/register.html'
-    }).when('/manage/users', {
-      controller: 'UserController',
-      templateUrl: 'static/partials/manage_users.html'
     }).when('/profile', {
       controller: 'UserController',
       templateUrl: 'static/partials/profile.html'
-    }).when('/manage/resto', {
+    }).when('/admin/users', {
+      controller: 'UserController',
+      templateUrl: 'static/partials/admin_users.html'
+    }).when('/admin/resto', {
       controller: 'RestaurantController',
-      templateUrl: 'static/partials/manage_resto.html'
+      templateUrl: 'static/partials/admin_resto.html'
     }).when('/manage_menu/:param', {
       controller: 'RestaurantController',
       templateUrl: 'static/partials/manage_menu.html'

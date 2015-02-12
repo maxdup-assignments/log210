@@ -21,7 +21,9 @@
 
   <script>CSRF_TOKEN = '{{ csrf_token }}';
     auth = '{{user.is_authenticated}}';
-    username = '{{user.username}}';
+    username = '{{user.first_name}}';
+    staff = '{{user.is_staff}}';
+    superuser = '{{user.is_superuser}}';
   </script>
 </head>
 
@@ -34,7 +36,23 @@
             <a class="navbar-brand" href="/">Restaurant</a>
           </div>
           <div class="collapse navbar-collapse">
-            <p class="navbar-text navbar-right">
+            <!--admin navbar-->
+            <ul class="nav navbar-nav" ng-if="is_superuser">
+              <li>
+                <a href="#/admin/resto">restaurants</a>
+              </li>
+              <li>
+                <a href="#/admin/users">restaurateurs</a>
+              </li>
+            </ul>
+            <!--restaurateur navbar-->
+            <ul class="nav navbar-nav" ng-if="is_staff && !is_superuser">
+              <li>
+                <a href="#/manage/resto">restaurants</a>
+              </li>
+            </ul>
+
+            <p class="navbar-text">
               <div ng-show="auth" class="login">
                 hello,
                 <a href="#/profile" class="navbar-link">

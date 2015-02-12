@@ -53,7 +53,7 @@
         assign_selection(resto);
       }
       if (param) {
-        $scope.current_resto = ((function() {
+        return $scope.current_resto = ((function() {
           var _j, _len1, _ref1, _results;
           _ref1 = $scope.restos;
           _results = [];
@@ -65,7 +65,6 @@
           }
           return _results;
         })())[0];
-        return console.log($scope.current_resto);
       }
     }).error(function(data) {
       return console.log(data);

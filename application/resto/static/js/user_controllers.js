@@ -3,6 +3,8 @@
   angular.module('resto.userControllers', []).controller('RootController', function($scope, $location, $http) {
     $scope.auth = auth;
     $scope.username = username;
+    $scope.is_staff = staff === 'True';
+    $scope.is_superuser = superuser === 'True';
     $scope.loginform = {
       'username': '',
       'password': ''
@@ -44,8 +46,24 @@
       }
       $scope.userform.is_staff = restaurateur;
       return $http.post('/api/register', $scope.userform).success(function(data) {
-        if ($location.path() === '/manage/users') {
+        var opt;
+        if ($location.path() === '/admin/users') {
           $scope.profiles.push(data);
+          if ($scope.userform.resto) {
+            $scope.options = (function() {
+              var _i, _len, _ref, _results;
+              _ref = $scope.options;
+              _results = [];
+              for (opt = _i = 0, _len = _ref.length; _i < _len; opt = ++_i) {
+                opt = _ref[opt];
+                if (opt.value !== $scope.userform.resto) {
+                  _results.push(opt);
+                }
+              }
+              return _results;
+            })();
+            $scope.selected_resto = $scope.options[0];
+          }
           _.extend($scope.userform, userform);
         } else {
           alert('registration successful');
@@ -55,7 +73,7 @@
         return console.log(data);
       });
     };
-    if ($location.path() === '/manage/users') {
+    if ($location.path() === '/admin/users') {
       $http.get('/api/all_profiles').success(function(data) {
         return $scope.profiles = data;
       }).error(function(data) {
