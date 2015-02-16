@@ -71,15 +71,17 @@
         return console.log(data);
       });
       $scope.create_resto = function() {
+        if (!$scope.new_resto.user) {
+          alert("il est préferable d'assigner un restaurateur");
+        }
         return $http.post('/api/create_resto', $scope.new_resto).success(function(data) {
           assign_selection(data);
           $scope.restos.push(data);
-          $scope.new_resto = {
+          return $scope.new_resto = {
             'name': '',
             'menu': {},
             'user': ''
           };
-          return alert("il est préferable d'assigner un restaurateur");
         }).error(function(data) {
           return console.log(data);
         });

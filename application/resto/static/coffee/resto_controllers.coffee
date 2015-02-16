@@ -41,12 +41,14 @@ angular.module('resto.restoControllers', [])
         console.log(data)
 
     $scope.create_resto = ->
+      if not $scope.new_resto.user
+        alert("il est préferable d'assigner un restaurateur")
+
       $http.post('/api/create_resto', $scope.new_resto)
         .success (data) ->
           assign_selection(data)
           $scope.restos.push(data)
           $scope.new_resto = {'name':'', 'menu':{}, 'user':''}
-          alert("il est préferable d'assigner un restaurateur")
         .error (data) ->
           console.log(data)
 
