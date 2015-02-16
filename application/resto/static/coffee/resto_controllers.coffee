@@ -1,7 +1,5 @@
 angular.module('resto.restoControllers', [])
-.controller 'RestaurantController', ($scope, $location, $http, $routeParams) ->
-
-  param = $routeParams.param
+.controller 'RestaurantController', ($scope, $location, $http) ->
 
   $scope.restos = []
 
@@ -34,9 +32,6 @@ angular.module('resto.restoControllers', [])
         $scope.restos = data
         for resto in $scope.restos
           assign_selection(resto)
-        if param
-          $scope.current_resto =
-            (resto for resto, resto in $scope.restos when resto.pk == param)[0]
       .error (data) ->
         console.log(data)
 
@@ -56,7 +51,6 @@ angular.module('resto.restoControllers', [])
     $http.get('/api/assigned_resto')
       .success (data) ->
         $scope.restos = data
-        console.log(data)
       .error (data) ->
         console.log(data)
 

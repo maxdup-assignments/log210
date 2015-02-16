@@ -17,6 +17,7 @@ angular.module('resto.userControllers', [])
           $scope.auth = true
           $scope.loggingin = false
           $scope.username = data.username
+          $location.path( "#/home" );
       .error (data) ->
         console.log(data)
 
@@ -26,6 +27,7 @@ angular.module('resto.userControllers', [])
         $scope.auth = false
         $scope.loginform['username'] = ''
         $scope.loginform['password'] = ''
+        $location.path( "#/home" );
 
 
 .controller 'UserController', ($scope, $location, $http) ->
@@ -55,6 +57,7 @@ angular.module('resto.userControllers', [])
           _.extend($scope.userform, userform)
         else
           alert('registration successful')
+          $location.path( "#/home" );
         console.log(data)
       .error (data) ->
         console.log(data)

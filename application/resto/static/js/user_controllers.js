@@ -14,7 +14,8 @@
         if (data.success) {
           $scope.auth = true;
           $scope.loggingin = false;
-          return $scope.username = data.username;
+          $scope.username = data.username;
+          return $location.path("#/home");
         }
       }).error(function(data) {
         return console.log(data);
@@ -24,7 +25,8 @@
       return $http.get('/api/logout').success(function(data) {
         $scope.auth = false;
         $scope.loginform['username'] = '';
-        return $scope.loginform['password'] = '';
+        $scope.loginform['password'] = '';
+        return $location.path("#/home");
       });
     };
   }).controller('UserController', function($scope, $location, $http) {
@@ -67,6 +69,7 @@
           _.extend($scope.userform, userform);
         } else {
           alert('registration successful');
+          $location.path("#/home");
         }
         return console.log(data);
       }).error(function(data) {

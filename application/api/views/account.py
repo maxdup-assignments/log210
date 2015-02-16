@@ -10,7 +10,7 @@ import json
 
 def get_current_profile(request):
     # returns the current profile
-    if not request.user:
+    if not request.user.pk:
         return HttpResponseForbidden()
 
     user = User.objects.get(pk=request.user.pk)
