@@ -1,10 +1,13 @@
 angular.module('resto.userControllers', [])
 .controller 'RootController', ($scope, $location, $http) ->
-  $scope.auth = auth
-  $scope.username = username
-  $scope.is_staff = staff == 'True'
-  $scope.is_superuser = superuser == 'True'
+  console.log(auth)
+  $scope.auth = auth == 'True'
   
+  if $scope.auth
+    $http.get('/api/profile')
+      .success (data) ->
+        $scope.profile = data
+
   $scope.loginform = {
     'username':''
     'password':''
@@ -80,10 +83,6 @@ angular.module('resto.userControllers', [])
           $scope.options.push({'label':resto.name, 'value':resto.pk})
       .error (data) ->
         console.log(data)
-  else
-    $http.get('/api/profile')
-      .success (data) ->
-        $scope.profile = data
  
   $scope.edit = (profile) ->
     profile.backup = _.clone(profile)

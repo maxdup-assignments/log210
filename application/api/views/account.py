@@ -1,7 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse,  HttpResponseForbidden
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group, Permission
+from django.contrib.contenttypes.models import ContentType
+from permission_backend_nonrel import utils
+
 from api.models import UserProfile, Restaurant
 
 from api.serializers import ProfileSerializer, UserSerializer
@@ -135,6 +138,33 @@ def user_logout(request):
     return HttpResponse(json.dumps({'success':True}))
 
 def populateUser(request):
+
+    if not Permission.objects.filter(name='restaurateurs').exists():
+        content_type = ContentType.objects.get_for_model(UserProfile)
+        restaurateur = Permission.objects.create(codename='restaurateur',
+                                                 name='restaurateurs',
+                                                 content_type=content_type)
+        entrepreneurs = Group.objects.create(name='entrepreneurs')
+        utils.add_permission_to_group(restaurateur, entrepreneurs)
+
+    if not Permission.objects.filter(name='restaurant').exists():
+        content_type = ContentType.objects.get_for_model(Restaurant)
+        restaurant = Permission.objects.create(codename='restaurant',
+                                               name='restaurants',
+                                               content_type=content_type)
+        restaurateurs = Group.objects.create(name='restaurateurs')
+        utils.add_permission_to_group(restaurant, restaurateurs)
+
+
+    if not Permission.objects.filter(name='commandes').exists():
+        content_type = ContentType.objects.get_for_model(UserProfile)
+        commande = Permission.objects.create(codename='commande',
+                                             name='commandes',
+                                             content_type=content_type)
+        livreurs = Group.objects.create(name='livreurs')
+        utils.add_permission_to_group(commande, livreurs)
+
+
     # script that will populate the database with users
     if not User.objects.filter(username='asd@asd.com').exists():
         user = User.objects.create_superuser(
@@ -145,6 +175,8 @@ def populateUser(request):
             password='asd')
         user.is_staff = True
         user.save()
+
+        utils.add_user_to_group(user, restaurateurs)
 
         profile = UserProfile.objects.create(
             user=user,

@@ -40,9 +40,13 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bootstrap3',
+    'permission_backend_nonrel',
     'resto',
     'api',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'permission_backend_nonrel.backends.NonrelPermissionBackend',
 )
 
 MIDDLEWARE_CLASSES = (
