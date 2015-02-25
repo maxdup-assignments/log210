@@ -22,7 +22,7 @@
 </div>
 
 
-<div class="row" ng-hide="commande.length == 0">
+<div class="row" ng-hide="order.details.commande.length == 0">
   <h2>votre commande</h2>
   <div class="col-md-6">
     <div>
@@ -32,7 +32,7 @@
           <th style="width:250px">Quantité</th>
           <th style="width:50px">Prix</th>
         </tr>
-        <tr ng-repeat="item in commande">
+        <tr ng-repeat="item in order.details.commande">
           <td>{{ item.name }}</td>
           <td>
             <div class="input-group spinner">
@@ -67,7 +67,7 @@
     <div class="col-md-6" style="padding-top: 34px;">
       <p class="input-group">
         <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy"
-               ng-model="$parent.delivery_date" is-open="opened"
+               ng-model="$parent.order.details.time" is-open="opened"
                min-date="minDate" max-date="'2015-06-22'" close-text="Close" />
         <span class="input-group-btn">
           <button type="button" class="btn btn-default" ng-click="open($event)">
@@ -75,14 +75,33 @@
         </span>
       </p>
     </div>
-    <timepicker ng-model="$parent.delivery_date"
+    <timepicker ng-model="$parent.order.details.time"
                 hour-step="hstep" minute-step="mstep"
                 show-meridian="true"></timepicker>
 
     <h3>Adresse de livraison</h3>
-
+    <div class="form-group">
+      <div class="radio" ng-repeat="ad in profile.adresse">
+        <label>
+          <input type="radio" name="address" ng-model="order.details.adresse" value="{{ad}}"/>
+          {{ad}}
+          <br/>
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="address"
+                 ng-model="order.details.adresse" value="##new"/>
+          <span ng-hide="order.details.adresse == '##new'">
+            Nouvelle adresse</span>
+          <input ng-show="order.details.adresse == '##new'"
+                 ng-model="new_address"/>
+          <br/>
+        </label>
+      </div>
+    </div>
     <button class="btn btn-lg btn-success"
-            style="float:right" ng-click="order()">
+            style="float:right" ng-click="place_order()">
       Envoyer Commande
     </button>
   </div>

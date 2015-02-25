@@ -1,7 +1,20 @@
 angular.module('resto.commandeControllers', ['ui.bootstrap'])
 .controller 'CommandeController', ($scope, $http, $routeParams) ->
   param = $routeParams.param
-  $scope.commande = []
+
+  $scope.order = {
+    'details': {
+      'commande': [],
+      'adresse': '',
+      'time': new Date(),
+    },
+  'restaurant': param
+  }
+
+  $http.get('api/profile')
+    .success (data) ->
+      $scope.profile = data
+      $scope.order.details.adresse = $scope.profile.adresse[0]
 
   $http.get('api/all_resto')
     .success (data) ->
@@ -10,50 +23,47 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
           (resto for resto, resto in data when resto.pk == param)[0]
 
   $scope.add_item = (item) ->
-    if item in $scope.commande
+    if item in $scope.order.details.commande
       item.qty += 1
     else
       item.qty = 1
-      $scope.commande.push(item)
-    console.log($scope.commande)
+      $scope.order.details.commande.push(item)
 
   $scope.remove_item = (item) ->
-    $scope.commande = _.without($scope.commande, item)
+    $scope.order.details.commande =
+      _.without($scope.order.details.commande, item)
   $scope.qty_adjust = (item, adjustment) ->
     item.qty = Math.max(0, item.qty + adjustment)
 
   $scope.total = ->
     total = 0
-    for item in $scope.commande
+    for item in $scope.order.details.commande
       total += item.price * item.qty
     return total
 
-  $scope.order = ->
-    order = {
-      'details': {
-        'commande': $scope.commande,
-        'addresse': "",
-        'time': $scope.delivery_date,
-      },
-      'restaurant': param}
-
-    $http.post('api/create_commande', order)
+  $scope.place_order = ->
+    if $scope.order.details.adresse == '##new'
+      $scope.profile.adresse.push($scope.new_address)
+      $scope.order.details.adresse = $scope.new_address
+      console.log('new profile', $scope.profile)
+      $http.post('api/edit_profile', $scope.profile)
+        .error (data) ->
+          console.log(data)
+    $http.post('api/create_commande', $scope.order)
       .success (data) ->
         alert('commande envoyé')
         console.log(data)
       .error (data) ->
         console.log(data)
-
   $scope.minDate = new Date()
-  $scope.delivery_date = new Date()
+  $scope.hstep = 1
+  $scope.mstep = 15
 
   $scope.open = ($event) ->
     $event.preventDefault()
     $event.stopPropagation()
     $scope.opened = true
 
-  $scope.hstep = 1
-  $scope.mstep = 15
 
 .controller 'CommandeManageController', ($scope, $http, $routeParams) ->
   param = $routeParams.param

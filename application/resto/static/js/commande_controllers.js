@@ -5,7 +5,18 @@
   angular.module('resto.commandeControllers', ['ui.bootstrap']).controller('CommandeController', function($scope, $http, $routeParams) {
     var param;
     param = $routeParams.param;
-    $scope.commande = [];
+    $scope.order = {
+      'details': {
+        'commande': [],
+        'adresse': '',
+        'time': new Date()
+      },
+      'restaurant': param
+    };
+    $http.get('api/profile').success(function(data) {
+      $scope.profile = data;
+      return $scope.order.details.adresse = $scope.profile.adresse[0];
+    });
     $http.get('api/all_resto').success(function(data) {
       var resto;
       if (param) {
@@ -23,16 +34,15 @@
       }
     });
     $scope.add_item = function(item) {
-      if (__indexOf.call($scope.commande, item) >= 0) {
-        item.qty += 1;
+      if (__indexOf.call($scope.order.details.commande, item) >= 0) {
+        return item.qty += 1;
       } else {
         item.qty = 1;
-        $scope.commande.push(item);
+        return $scope.order.details.commande.push(item);
       }
-      return console.log($scope.commande);
     };
     $scope.remove_item = function(item) {
-      return $scope.commande = _.without($scope.commande, item);
+      return $scope.order.details.commande = _.without($scope.order.details.commande, item);
     };
     $scope.qty_adjust = function(item, adjustment) {
       return item.qty = Math.max(0, item.qty + adjustment);
@@ -40,24 +50,23 @@
     $scope.total = function() {
       var item, total, _i, _len, _ref;
       total = 0;
-      _ref = $scope.commande;
+      _ref = $scope.order.details.commande;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         item = _ref[_i];
         total += item.price * item.qty;
       }
       return total;
     };
-    $scope.order = function() {
-      var order;
-      order = {
-        'details': {
-          'commande': $scope.commande,
-          'addresse': "",
-          'time': $scope.delivery_date
-        },
-        'restaurant': param
-      };
-      return $http.post('api/create_commande', order).success(function(data) {
+    $scope.place_order = function() {
+      if ($scope.order.details.adresse === '##new') {
+        $scope.profile.adresse.push($scope.new_address);
+        $scope.order.details.adresse = $scope.new_address;
+        console.log('new profile', $scope.profile);
+        $http.post('api/edit_profile', $scope.profile).error(function(data) {
+          return console.log(data);
+        });
+      }
+      return $http.post('api/create_commande', $scope.order).success(function(data) {
         alert('commande envoyé');
         return console.log(data);
       }).error(function(data) {
@@ -65,14 +74,13 @@
       });
     };
     $scope.minDate = new Date();
-    $scope.delivery_date = new Date();
-    $scope.open = function($event) {
+    $scope.hstep = 1;
+    $scope.mstep = 15;
+    return $scope.open = function($event) {
       $event.preventDefault();
       $event.stopPropagation();
       return $scope.opened = true;
     };
-    $scope.hstep = 1;
-    return $scope.mstep = 15;
   }).controller('CommandeManageController', function($scope, $http, $routeParams) {
     var param;
     param = $routeParams.param;

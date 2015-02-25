@@ -68,7 +68,8 @@ def edit_profile(request):
             if not request.user.is_superuser:
                 return HttpResponseForbidden()
 
-        del userinfo['backup']
+        if 'backup' in userinfo:
+            del userinfo['backup']
 
         user = User.objects.get(pk=userinfo['user']['pk'])
         #magic that updates user fields from json dict
@@ -100,7 +101,7 @@ def register(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance=userinfo['date_naissance'],
-            adresse=userinfo['adresse'],
+            adresse=[userinfo['adresse']],
             telephone=userinfo['telephone'])
         profile.save()
         profile = ProfileSerializer(profile)
@@ -181,7 +182,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='24 mars 2010',
-            adresse='8907 14e avecu',
+            adresse=['8907 14e avecu'],
             telephone='5148800928')
         profile.save()
 
@@ -197,7 +198,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='25 mars 2010',
-            adresse='8907 14e avecu',
+            adresse=['8907 14e avecu'],
             telephone='5148800928')
         profile.save()
 
@@ -214,7 +215,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='26 mars 2010',
-            adresse='8907 14e avecu',
+            adresse=['8907 14e avecu'],
             telephone='5148800928')
         profile.save()
 
@@ -231,16 +232,16 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='28 mars 2000',
-            adresse='8888 lacordaire',
+            adresse=['8888 lacordaire'],
             telephone='1234567514')
         profile.save()
 
-    if not User.objects.filter(username='maxime@hotmail.com').exists():
+    if not User.objects.filter(username='mdupuis@hotmail.ca').exists():
         user = User.objects.create_user(
-            username= 'maxime@hotmail.com',
+            username= 'mdupuis@hotmail.ca',
             first_name='maxime',
             last_name='dupuis',
-            email='maxime@hotmail.com',
+            email='mdupui@hotmail.ca',
             password='patato')
         user.is_staff = True
         user.save()
@@ -248,7 +249,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='27 mars 1990',
-            adresse='8212 dumoulin',
+            adresse=['8212 dumoulin'],
             telephone='1234561234')
         profile.save()
 
@@ -265,7 +266,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='25 mars 1980',
-            adresse='8210 dumouton',
+            adresse=['8210 dumouton'],
             telephone='5432102020')
         profile.save()
 

@@ -29,6 +29,12 @@ body {
 .login {
   padding-top: 5px;
 }
+.form-group {
+  height: 32px;
+}
+.form-group > span{
+  padding-top: 7px;
+}
 
 
 
