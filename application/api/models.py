@@ -12,3 +12,9 @@ class Restaurant(models.Model):
     user = models.OneToOneField(User, null=True)
     name = models.CharField(max_length=80)
     menu = DictField()
+
+class Commande(models.Model):
+    user = models.OneToOneField(User)
+    restaurant = models.OneToOneField(Restaurant)
+    details = DictField()
+    status = models.CharField(max_length=10)

@@ -19,4 +19,7 @@ urlpatterns = patterns('',
     url(r'^assigned_resto', views.assigned_resto, name='assigned_resto'),
     url(r'^edit_menu', views.edit_menu, name='edit_menu'),
     url(r'^populateresto', views.populate_resto, name='populateresto'),
+    url(r'^create_commande', views.create_commande, name='create_commande'),
+    url(r'^resto_commande', views.resto_commande, name='resto_commande'),
+    url(r'^update_commande', views.update_commande_status, name='update_commande_status')
 )

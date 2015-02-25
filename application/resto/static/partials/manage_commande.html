@@ -1,0 +1,34 @@
+<h1>Gestion des commandes</h1>
+
+<table class="table">
+  <tr>
+    <th>commande</th>
+    <th>date</th>
+    <th style="width:250px">status</th>
+    <th></th>
+  </tr>
+  <tr ng-repeat="commande in commandes">
+    <td>
+      <div ng-repeat="item in commande.details.commande">
+        {{item.qty}}
+        {{item.name}}
+      </div>
+    </td>
+    <td>{{commande.details.date}}</td>
+    <td>
+      {{commande.status}}
+      <button class="btn btn-sm" style="float:right"
+              ng-click="update_status(commande, 'preparing')"
+              ng-show="commande.status == 'pending'">
+        commencer préparation</button>
+      <button class="btn btn-sm" style="float:right"
+              ng-click="update_status(commande, 'ready')"
+              ng-show="commande.status == 'preparing'">
+        terminer préparation
+      </button>
+
+    </td>
+    <td>
+    </td>
+  <tr>
+</div>

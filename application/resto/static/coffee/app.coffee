@@ -25,6 +25,9 @@ angular.module('restoApp', ['resto.userControllers', 'resto.restoControllers', '
   .when '/resto/:param',
     controller: 'CommandeController',
     templateUrl: 'static/partials/commande.html'
+  .when '/manage_commande/:param',
+    controller: 'CommandeManageController',
+    templateUrl: 'static/partials/manage_commande.html'
 
   .otherwise
     redirectTo: '/home'

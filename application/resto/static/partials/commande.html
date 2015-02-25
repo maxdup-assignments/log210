@@ -1,1 +1,59 @@
 <h1>Menu</h1>
+<div ng-repeat="menu in current_resto.menu.sous_menus">
+
+  <h4>{{ menu.name }}</h4>
+  <table class="table">
+    <tr>
+      <th style="width:250px">Nom</th>
+      <th>Description</th>
+      <th style="width:50px">Prix</th>
+      <th style="width:150px"></th>
+    </tr>
+    <tr ng-repeat="item in menu.items">
+      <td>{{ item.name }}</td>
+      <td>{{ item.desc }}</td>
+      <td>{{ item.price }}$</td>
+      <td><button class="btn btn-primary"
+                  style="float:right"
+                  ng-click="add_item(item)">
+          ajouter</button></td>
+    </tr>
+  </table>
+</div>
+
+<div ng-hide="commande.length == 0">
+  <h2>votre commande</h2>
+  <table class="table">
+    <tr>
+      <th style="width:250px">Nom</th>
+      <th style="width:250px">Quantité</th>
+      <th style="width:50px">Prix</th>
+    </tr>
+    <tr ng-repeat="item in commande">
+      <td>{{ item.name }}</td>
+      <td>
+        <div class="input-group spinner">
+          <input type="text" class="form-control" ng-model="item.qty">
+          <div class="input-group-btn-vertical">
+            <button class="btn btn-default dropup" ng-click="qty_adjust(item, 1)"><span class="caret"/></button>
+            <button class="btn btn-default" ng-click="qty_adjust(item, -1)"><span class="caret"/></button>
+          </div>
+        </div>
+      </td>
+      <td>{{ item.price * item.qty}}$
+        <button class="btn btn-danger"
+                style="float:right"
+                ng-click="remove_item(item)">
+          enlever</button>
+      </td>
+    </tr>
+    <tr>
+      <th style="width:250px">Total</th>
+      <th style="width:50px"></th>
+      <th style="width:250px">{{ total() }}$
+        <button class="btn btn-lg btn-success" style="float:right" ng-click="order()">Envoyer Commande</button>
+      </th>
+   </tr>
+  </table>
+</div>
+

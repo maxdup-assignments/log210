@@ -3,6 +3,7 @@ from django.template import RequestContext
 
 from api.views.account import *
 from api.views.restaurant import *
+from api.views.commande import *
 
 def index(request):
     context = RequestContext(request)

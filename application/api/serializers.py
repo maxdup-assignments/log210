@@ -24,3 +24,11 @@ class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Restaurant
         fields = ('pk', 'user', 'name', 'menu')
+
+class CommandeSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    restaurant = RestaurantSerializer()
+    pk = serializers.CharField(read_only=True)
+    class Meta:
+        model = Commande
+        fields = ('pk', 'user', 'restaurant', 'details', 'status')
