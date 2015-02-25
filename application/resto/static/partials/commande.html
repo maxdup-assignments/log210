@@ -21,39 +21,69 @@
   </table>
 </div>
 
-<div ng-hide="commande.length == 0">
-  <h2>votre commande</h2>
-  <table class="table">
-    <tr>
-      <th style="width:250px">Nom</th>
-      <th style="width:250px">Quantité</th>
-      <th style="width:50px">Prix</th>
-    </tr>
-    <tr ng-repeat="item in commande">
-      <td>{{ item.name }}</td>
-      <td>
-        <div class="input-group spinner">
-          <input type="text" class="form-control" ng-model="item.qty">
-          <div class="input-group-btn-vertical">
-            <button class="btn btn-default dropup" ng-click="qty_adjust(item, 1)"><span class="caret"/></button>
-            <button class="btn btn-default" ng-click="qty_adjust(item, -1)"><span class="caret"/></button>
-          </div>
-        </div>
-      </td>
-      <td>{{ item.price * item.qty}}$
-        <button class="btn btn-danger"
-                style="float:right"
-                ng-click="remove_item(item)">
-          enlever</button>
-      </td>
-    </tr>
-    <tr>
-      <th style="width:250px">Total</th>
-      <th style="width:50px"></th>
-      <th style="width:250px">{{ total() }}$
-        <button class="btn btn-lg btn-success" style="float:right" ng-click="order()">Envoyer Commande</button>
-      </th>
-   </tr>
-  </table>
-</div>
 
+<div class="row" ng-hide="commande.length == 0">
+  <h2>votre commande</h2>
+  <div class="col-md-6">
+    <div>
+      <table class="table">
+        <tr>
+          <th style="width:250px">Nom</th>
+          <th style="width:250px">Quantité</th>
+          <th style="width:50px">Prix</th>
+        </tr>
+        <tr ng-repeat="item in commande">
+          <td>{{ item.name }}</td>
+          <td>
+            <div class="input-group spinner">
+              <input type="text" class="form-control" ng-model="item.qty">
+              <div class="input-group-btn-vertical">
+                <button class="btn btn-default dropup"
+                        ng-click="qty_adjust(item, 1)">
+                  <span class="caret"/></button>
+                <button class="btn btn-default"
+                        ng-click="qty_adjust(item, -1)">
+                  <span class="caret"/></button>
+              </div>
+            </div>
+          </td>
+          <td>{{ item.price * item.qty}}$
+            <button class="btn btn-danger"
+                    style="float:right"
+                    ng-click="remove_item(item)">
+              enlever</button>
+          </td>
+        </tr>
+        <tr>
+          <th style="width:250px">Total</th>
+          <th style="width:50px"></th>
+          <th style="width:250px">{{ total() }}$</th>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-6 jumbotron" style="padding:15px">
+    <h3>Moment de la livraison</h3>
+    <div class="col-md-6" style="padding-top: 34px;">
+      <p class="input-group">
+        <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy"
+               ng-model="$parent.delivery_date" is-open="opened"
+               min-date="minDate" max-date="'2015-06-22'" close-text="Close" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open($event)">
+            <i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
+    </div>
+    <timepicker ng-model="$parent.delivery_date"
+                hour-step="hstep" minute-step="mstep"
+                show-meridian="true"></timepicker>
+
+    <h3>Adresse de livraison</h3>
+
+    <button class="btn btn-lg btn-success"
+            style="float:right" ng-click="order()">
+      Envoyer Commande
+    </button>
+  </div>
+</div>

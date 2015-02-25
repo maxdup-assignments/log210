@@ -1,4 +1,4 @@
-angular.module('resto.commandeControllers', [])
+angular.module('resto.commandeControllers', ['ui.bootstrap'])
 .controller 'CommandeController', ($scope, $http, $routeParams) ->
   param = $routeParams.param
   $scope.commande = []
@@ -33,6 +33,7 @@ angular.module('resto.commandeControllers', [])
       'details': {
         'commande': $scope.commande,
         'addresse': "",
+        'time': $scope.delivery_date,
       },
       'restaurant': param}
 
@@ -42,6 +43,17 @@ angular.module('resto.commandeControllers', [])
         console.log(data)
       .error (data) ->
         console.log(data)
+
+  $scope.minDate = new Date()
+  $scope.delivery_date = new Date()
+
+  $scope.open = ($event) ->
+    $event.preventDefault()
+    $event.stopPropagation()
+    $scope.opened = true
+
+  $scope.hstep = 1
+  $scope.mstep = 15
 
 .controller 'CommandeManageController', ($scope, $http, $routeParams) ->
   param = $routeParams.param

@@ -2,7 +2,7 @@
 (function() {
   var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  angular.module('resto.commandeControllers', []).controller('CommandeController', function($scope, $http, $routeParams) {
+  angular.module('resto.commandeControllers', ['ui.bootstrap']).controller('CommandeController', function($scope, $http, $routeParams) {
     var param;
     param = $routeParams.param;
     $scope.commande = [];
@@ -47,12 +47,13 @@
       }
       return total;
     };
-    return $scope.order = function() {
+    $scope.order = function() {
       var order;
       order = {
         'details': {
           'commande': $scope.commande,
-          'addresse': ""
+          'addresse': "",
+          'time': $scope.delivery_date
         },
         'restaurant': param
       };
@@ -63,6 +64,15 @@
         return console.log(data);
       });
     };
+    $scope.minDate = new Date();
+    $scope.delivery_date = new Date();
+    $scope.open = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      return $scope.opened = true;
+    };
+    $scope.hstep = 1;
+    return $scope.mstep = 15;
   }).controller('CommandeManageController', function($scope, $http, $routeParams) {
     var param;
     param = $routeParams.param;

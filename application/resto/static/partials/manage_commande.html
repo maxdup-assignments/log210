@@ -2,8 +2,8 @@
 
 <table class="table">
   <tr>
-    <th>commande</th>
-    <th>date</th>
+    <th>order</th>
+    <th>delivery time</th>
     <th style="width:250px">status</th>
     <th></th>
   </tr>
@@ -14,7 +14,7 @@
         {{item.name}}
       </div>
     </td>
-    <td>{{commande.details.date}}</td>
+    <td>{{commande.details.time | date:'MM/dd/yyyy - hh:mm'}}</td>
     <td>
       {{commande.status}}
       <button class="btn btn-sm" style="float:right"
