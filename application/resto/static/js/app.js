@@ -31,7 +31,8 @@
     }).otherwise({
       redirectTo: '/home'
     });
-    return $httpProvider.defaults.headers.common['X-CSRFToken'] = CSRF_TOKEN;
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    return $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
   });
 
 }).call(this);

@@ -32,5 +32,6 @@ angular.module('restoApp', ['resto.userControllers', 'resto.restoControllers', '
   .otherwise
     redirectTo: '/home'
 
-  $httpProvider.defaults.headers.common['X-CSRFToken'] = CSRF_TOKEN
+  $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+  $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 )

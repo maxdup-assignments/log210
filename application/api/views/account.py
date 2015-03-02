@@ -13,9 +13,6 @@ import json
 
 def get_current_profile(request):
     # returns the current profile
-    if not request.user.pk:
-        return HttpResponseForbidden()
-
     user = User.objects.get(pk=request.user.pk)
     profile = UserProfile.objects.get(user=user.pk)
     profile = ProfileSerializer(profile)
@@ -49,7 +46,6 @@ def get_staff(request):
     for profile in staff_request:
         staff = UserSerializer(profile.user)
         staffs.append(staff.data)
-    print staffs
     return HttpResponse(JSONRenderer().render(staffs))
 
 def edit_profile(request):
@@ -113,8 +109,10 @@ def user_login(request):
                             password=info['password'])
         if user:
             login(request, user)
+            profile = UserProfile.objects.get(user=user)
+            profile = ProfileSerializer(profile)
             return HttpResponse(json.dumps({'success':True,
-                                            'username':user.email}))
+                                            'profile': profile.data}))
 
         else:
             return HttpResponse(json.dumps({'success':False,

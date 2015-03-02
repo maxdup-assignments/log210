@@ -1,11 +1,11 @@
 angular.module('resto.userControllers', [])
-.controller 'RootController', ($scope, $location, $http) ->
+.controller 'RootController', ($scope, $location, $http, $route) ->
   $scope.auth = auth == 'True'
 
-  if $scope.auth
-    $http.get('/api/profile')
-      .success (data) ->
-        $scope.user = data
+  $http.get('/api/profile')
+    .success (data) ->
+      $scope.profile = data
+      console.log(data)
 
   $scope.loginform = {
     'username':''
@@ -13,13 +13,14 @@ angular.module('resto.userControllers', [])
   }
 
   $scope.login = ->
+    console.log($scope.loginform)
     $http.post('api/login', $scope.loginform)
       .success (data) ->
-        if data.success
-          $scope.auth = true
-          $scope.loggingin = false
-          $scope.username = data.username
-          $location.path( "#/home" );
+        $scope.auth = true
+        $scope.loggingin = false
+        $scope.profile = data.profile
+        $scope.username = data.username
+        $route.reload()
       .error (data) ->
         console.log(data)
 
@@ -27,9 +28,11 @@ angular.module('resto.userControllers', [])
     $http.get('/api/logout')
       .success (data) ->
         $scope.auth = false
+        $scope.profile = null
         $scope.loginform['username'] = ''
         $scope.loginform['password'] = ''
-        $location.path( "#/home" );
+        $location.path( "#/home" )
+        $route.reload()
 
 
 .controller 'UserController', ($scope, $location, $http) ->
