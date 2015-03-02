@@ -1,7 +1,11 @@
 <div>
-  <table class="table">
+  <h3>Vos Restaurants</h3>
+  <h4 ng-if="restos.length == 0">Vous n'avez aucun restaurant assigné</h4>
+
+  <table ng-hide="restos.length == 0" class="table">
     <tr>
-      <th>Name</th>
+      <th>Nom</th>
+      <th>adresse</th>
       <th>Menu</th>
     </tr>
     <tr ng-repeat="resto in restos">
@@ -9,6 +13,10 @@
       <td>
         <span ng-hide="resto.backup">{{ resto.name }}</span>
         <input ng-show="resto.backup" ng-model="resto.name"/>
+      </td>
+      <td>
+        <span ng-hide="resto.backup">{{ resto.address }}</span>
+        <input ng-show="resto.backup" ng-model="resto.address"/>
       </td>
 
       <td>

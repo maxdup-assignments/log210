@@ -5,7 +5,6 @@ angular.module('resto.userControllers', [])
   $http.get('/api/profile')
     .success (data) ->
       $scope.profile = data
-      console.log(data)
 
   $scope.loginform = {
     'username':''
@@ -13,7 +12,6 @@ angular.module('resto.userControllers', [])
   }
 
   $scope.login = ->
-    console.log($scope.loginform)
     $http.post('api/login', $scope.loginform)
       .success (data) ->
         $scope.auth = true
@@ -65,7 +63,6 @@ angular.module('resto.userControllers', [])
         else
           alert('registration successful')
           $location.path( "#/home" );
-        console.log(data)
       .error (data) ->
         console.log(data)
 
@@ -99,7 +96,6 @@ angular.module('resto.userControllers', [])
   $scope.save = (profile) ->
     $http.post('/api/edit_profile', profile)
       .success (data) ->
-        console.log(data)
         delete profile['backup']
 
   $scope.delete = (profile) ->

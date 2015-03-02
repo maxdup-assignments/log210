@@ -3,15 +3,13 @@
   angular.module('resto.userControllers', []).controller('RootController', function($scope, $location, $http, $route) {
     $scope.auth = auth === 'True';
     $http.get('/api/profile').success(function(data) {
-      $scope.profile = data;
-      return console.log(data);
+      return $scope.profile = data;
     });
     $scope.loginform = {
       'username': '',
       'password': ''
     };
     $scope.login = function() {
-      console.log($scope.loginform);
       return $http.post('api/login', $scope.loginform).success(function(data) {
         $scope.auth = true;
         $scope.loggingin = false;
@@ -71,12 +69,11 @@
           } else {
             alert("il est preferable d'assigner un restaurant");
           }
-          _.extend($scope.userform, userform);
+          return _.extend($scope.userform, userform);
         } else {
           alert('registration successful');
-          $location.path("#/home");
+          return $location.path("#/home");
         }
-        return console.log(data);
       }).error(function(data) {
         return console.log(data);
       });
@@ -133,7 +130,6 @@
     };
     $scope.save = function(profile) {
       return $http.post('/api/edit_profile', profile).success(function(data) {
-        console.log(data);
         return delete profile['backup'];
       });
     };

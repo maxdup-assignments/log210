@@ -2,6 +2,7 @@
   <table class="table">
     <tr>
       <th>Name</th>
+      <th>adresse</th>
       <th>restaurateur</th>
       <th>Menu</th>
     </tr>
@@ -10,6 +11,10 @@
       <td>
         <span ng-hide="resto.backup">{{ resto.name }}</span>
         <input ng-show="resto.backup" ng-model="resto.name"/>
+      </td>
+      <td>
+        <span ng-hide="resto.backup">{{ resto.address }}</span>
+        <input ng-show="resto.backup" ng-model="resto.address"/>
       </td>
 
       <td>
@@ -43,6 +48,8 @@
     <!--restaurant addition-->
     <tr>
       <td><input type="text" ng-model="new_resto.name"></td>
+      <td><input type="text" ng-model="new_resto.address"/></td>
+
       <td><select ng-model="selected_staff"
                   ng-change="new_resto.user = selected_staff.value"
                   ng-options="staff as staff.label for staff in options"/></td>

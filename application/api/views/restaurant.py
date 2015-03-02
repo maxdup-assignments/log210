@@ -15,7 +15,8 @@ def create_resto(request):
         restaurateur = User.objects.get(pk=restoinfo['user'])
         resto = Restaurant.objects.create(user=restaurateur,
                                           name=restoinfo['name'],
-                                          menu=restoinfo['menu'])
+                                          menu=restoinfo['menu'],
+                                          address=restoinfo['address'])
     else:
         resto = Restaurant.objects.create(name=restoinfo['name'],
         menu=restoinfo['menu'])
@@ -38,7 +39,7 @@ def edit_resto(request):
 
     restoinfo = json.loads(request.body)
     resto = Restaurant.objects.get(pk=restoinfo['pk'])
-
+    print(restoinfo)
     del restoinfo['user']
     resto.__dict__.update(**restoinfo)
     if 'new_user' in restoinfo:
@@ -101,6 +102,7 @@ def populate_resto(request):
     if not Restaurant.objects.filter(name='Pataterie').exists():
         resto = Restaurant.objects.create(
             name='Pataterie',
+            address='1877 Rue Amherst',
             user=restaurateurs[1].user,
             menu={
                 'sous_menus': [
@@ -129,6 +131,7 @@ def populate_resto(request):
     if not Restaurant.objects.filter(name='Subway').exists():
         resto = Restaurant.objects.create(
             name='Subway',
+            address='2020 Rue University',
             user=restaurateurs[2].user,
             menu={
                 'sous_menus': [
@@ -145,6 +148,7 @@ def populate_resto(request):
     if not Restaurant.objects.filter(name='McDonalds').exists():
         resto = Restaurant.objects.create(
             name='McDonalds',
+            address='895 Rue de la Gauchetiere',
             user=restaurateurs[3].user,
             menu={
                 'sous_menus': [
@@ -161,6 +165,7 @@ def populate_resto(request):
     if not Restaurant.objects.filter(name='Buffet').exists():
         resto = Restaurant.objects.create(
             name='Buffet',
+            address='67 Rue de la Gauchetiere',
             user=None,
             menu={})
         resto.save()
