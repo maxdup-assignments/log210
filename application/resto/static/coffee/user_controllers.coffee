@@ -47,7 +47,7 @@ angular.module('resto.userControllers', [])
   _.extend($scope.userform, userform)
 
   $scope.submit = (restaurateur=false) ->
-    $scope.userform.is_staff = restaurateur
+    $scope.userform.is_restaurateur = restaurateur
     $http.post('/api/register', $scope.userform)
       .success (data) ->
         if $location.path() == '/admin/users'
@@ -56,6 +56,8 @@ angular.module('resto.userControllers', [])
             $scope.options =
               (opt for opt, opt in $scope.options when opt.value != $scope.userform.resto)
             $scope.selected_resto = $scope.options[0]
+          else
+            alert("il est preferable d'assigner un restaurant")
           _.extend($scope.userform, userform)
         else
           alert('registration successful')

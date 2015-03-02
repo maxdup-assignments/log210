@@ -48,7 +48,7 @@
       if (restaurateur == null) {
         restaurateur = false;
       }
-      $scope.userform.is_staff = restaurateur;
+      $scope.userform.is_restaurateur = restaurateur;
       return $http.post('/api/register', $scope.userform).success(function(data) {
         var opt;
         if ($location.path() === '/admin/users') {
@@ -67,6 +67,8 @@
               return _results;
             })();
             $scope.selected_resto = $scope.options[0];
+          } else {
+            alert("il est preferable d'assigner un restaurant");
           }
           _.extend($scope.userform, userform);
         } else {

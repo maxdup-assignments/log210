@@ -84,14 +84,15 @@ def register(request):
                                         first_name=userinfo['first_name'],
                                         last_name=userinfo['last_name'],
                                         email=userinfo['email'],)
-        user.is_staff = userinfo['is_staff']
         user.set_password(userinfo['password'])
         user.save()
         profile = UserProfile.objects.create(
             user=user,
             date_naissance=userinfo['date_naissance'],
             adresse=[userinfo['adresse']],
-            telephone=userinfo['telephone'])
+            telephone=userinfo['telephone'],
+            is_restaurateur=userinfo['is_restaurateur']
+)
         profile.save()
         profile = ProfileSerializer(profile)
 
@@ -171,7 +172,6 @@ def populateUser(request):
             last_name='f',
             email='restaurateur@resto.com',
             password='asd')
-        user.is_staff = True
         user.save()
 
         profile = UserProfile.objects.create(
@@ -189,7 +189,6 @@ def populateUser(request):
             last_name='f',
             email='restaurateur@resto.com',
             password='asd')
-        user.is_staff = True
         user.save()
 
         profile = UserProfile.objects.create(
