@@ -1,6 +1,6 @@
 from django.http import HttpResponse,  HttpResponseForbidden
 
-from api.models import Restaurant, User
+from api.models import Restaurant, User, UserProfile
 
 from api.serializers import RestaurantSerializer
 from rest_framework.renderers import JSONRenderer
@@ -9,8 +9,6 @@ import json
 def create_resto(request):
     # creates a restorant in database.
     # returns the created restaurant.
-    if not request.user.is_superuser:
-        return HttpResponseForbidden()
     
     restoinfo = json.loads(request.body)
     if (restoinfo['user']):
@@ -27,8 +25,6 @@ def create_resto(request):
 
 def delete_resto(request):
     # deletes a restaurant in database
-    if not request.user.is_superuser:
-        return HttpResponseForbidden()
         
     restoinfo = json.loads(request.body)
     resto = Restaurant.objects.get(pk=restoinfo['pk'])
@@ -39,9 +35,6 @@ def edit_resto(request):
     # updates a restaurant
     # -receives a json formated restaurant 
     # -returns the updated restaurant
-
-    if request.method != 'POST' or not request.user.is_staff:
-        return HttpResponseForbidden()
 
     restoinfo = json.loads(request.body)
     resto = Restaurant.objects.get(pk=restoinfo['pk'])
@@ -102,13 +95,13 @@ def edit_menu(request):
 def populate_resto(request):
     # a script that populates the database with restaurants
 
-    restaurateurs = User.objects.filter(is_staff=True)
-    len(restaurateurs)
+    restaurateurs = UserProfile.objects.filter(is_restaurateur=True)
+    print restaurateurs
 
     if not Restaurant.objects.filter(name='Pataterie').exists():
         resto = Restaurant.objects.create(
             name='Pataterie',
-            user=restaurateurs[1],
+            user=restaurateurs[1].user,
             menu={
                 'sous_menus': [
                     {'name': 'menu matin',
@@ -136,7 +129,7 @@ def populate_resto(request):
     if not Restaurant.objects.filter(name='Subway').exists():
         resto = Restaurant.objects.create(
             name='Subway',
-            user=restaurateurs[2],
+            user=restaurateurs[2].user,
             menu={
                 'sous_menus': [
                     {'name': 'menu matin',
@@ -152,7 +145,7 @@ def populate_resto(request):
     if not Restaurant.objects.filter(name='McDonalds').exists():
         resto = Restaurant.objects.create(
             name='McDonalds',
-            user=restaurateurs[3],
+            user=restaurateurs[3].user,
             menu={
                 'sous_menus': [
                     {'name': 'eat fat',

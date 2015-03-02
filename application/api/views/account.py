@@ -44,12 +44,12 @@ def delete_profile(request):
 
 def get_staff(request):
     # returns all staff users
-    staff_request = User.objects.filter(is_staff=True)
+    staff_request = UserProfile.objects.filter(is_restaurateur=True)
     staffs = []
-    for user in staff_request:
-        staff = UserSerializer(user)
+    for profile in staff_request:
+        staff = UserSerializer(profile.user)
         staffs.append(staff.data)
-
+    print staffs
     return HttpResponse(JSONRenderer().render(staffs))
 
 def edit_profile(request):
@@ -138,7 +138,6 @@ def populateUser(request):
             last_name='f',
             email='admin@resto.com',
             password='asd')
-        user.save()
 
         profile = UserProfile.objects.create(
             user=user,
@@ -155,7 +154,6 @@ def populateUser(request):
             last_name='f',
             email='entrepreneur@resto.com',
             password='asd')
-        user.save()
 
         profile = UserProfile.objects.create(
             user=user,
@@ -172,7 +170,6 @@ def populateUser(request):
             last_name='f',
             email='restaurateur@resto.com',
             password='asd')
-        user.save()
 
         profile = UserProfile.objects.create(
             user=user,
@@ -189,7 +186,6 @@ def populateUser(request):
             last_name='f',
             email='restaurateur@resto.com',
             password='asd')
-        user.save()
 
         profile = UserProfile.objects.create(
             user=user,
@@ -199,6 +195,21 @@ def populateUser(request):
             is_livreur=True)
         profile.save()
 
+    if not User.objects.filter(username='client@resto.com').exists():
+        user = User.objects.create_user(
+            username='client@resto.com',
+            first_name='client',
+            last_name='f',
+            email='client@resto.com',
+            password='asd')
+
+        profile = UserProfile.objects.create(
+            user=user,
+            date_naissance='24 mars 2010',
+            adresse=['8907 14e avenue'],
+            telephone='5148800928')
+        profile.save()
+
     if not User.objects.filter(username='andy@hotmail.com').exists():
         user = User.objects.create_user(
             username='andy@hotmail.com',
@@ -206,13 +217,13 @@ def populateUser(request):
             last_name='Su',
             email='andy@hotmail.com',
             password='patate')
-        user.save()
 
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='26 mars 2010',
             adresse=['8907 14e avecu'],
-            telephone='5148800928')
+            telephone='5148800928',
+            is_restaurateur=True)
         profile.save()
 
     if not User.objects.filter(username='jacques@hotmail.com').exists():
@@ -222,13 +233,13 @@ def populateUser(request):
             last_name='gabriel',
             email='jacques@hotmail.com',
             password='potato')
-        user.save()
 
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='28 mars 2000',
             adresse=['8888 lacordaire'],
-            telephone='1234567514')
+            telephone='1234567514',
+            is_restaurateur=True)
         profile.save()
 
     if not User.objects.filter(username='mdupuis@hotmail.ca').exists():
@@ -238,7 +249,6 @@ def populateUser(request):
             last_name='dupuis',
             email='mdupui@hotmail.ca',
             password='asd')
-        user.save()
 
         profile = UserProfile.objects.create(
             user=user,
@@ -254,13 +264,13 @@ def populateUser(request):
             last_name='murray',
             email='philippe@hotmail.com',
             password='potate')
-        user.save()
 
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='25 mars 1980',
             adresse=['8210 dumouton'],
-            telephone='5432102020')
+            telephone='5432102020',
+            is_restaurateur=True)
         profile.save()
 
     return HttpResponse(json.dumps({'success':True}))
