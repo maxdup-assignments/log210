@@ -1,12 +1,11 @@
 angular.module('resto.userControllers', [])
 .controller 'RootController', ($scope, $location, $http) ->
-  console.log(auth)
   $scope.auth = auth == 'True'
-  
+
   if $scope.auth
     $http.get('/api/profile')
       .success (data) ->
-        $scope.profile = data
+        $scope.user = data
 
   $scope.loginform = {
     'username':''

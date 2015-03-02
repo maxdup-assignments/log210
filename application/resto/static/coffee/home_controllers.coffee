@@ -5,4 +5,3 @@ angular.module('resto.homeControllers', [])
   $http.get('api/all_resto')
     .success (data) ->
       $scope.restos = data
-      console.log($scope.restos)

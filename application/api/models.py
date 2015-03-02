@@ -7,6 +7,10 @@ class UserProfile(models.Model):
     date_naissance = models.CharField(max_length=128)
     adresse = ListField()
     telephone = models.CharField(max_length=15)
+    is_admin = models.BooleanField(default=False)
+    is_entrepreneur = models.BooleanField(default=False)
+    is_restaurateur = models.BooleanField(default=False)
+    is_livreur = models.BooleanField(default=False)
 
 class Restaurant(models.Model):
     user = models.OneToOneField(User, null=True)

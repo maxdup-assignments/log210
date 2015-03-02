@@ -37,6 +37,9 @@ body {
 }
 
 
+.profiles input{
+width:100px;
+}
 
 .spinner {
   width: 100px;

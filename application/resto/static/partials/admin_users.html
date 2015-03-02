@@ -1,6 +1,6 @@
 
 <div ng-hide="profiles">Loading...</div>
-<table ng-show="profiles" class="table">
+<table ng-show="profiles" class="table table-responsive profiles">
   <tr>
     <th>email</th>
     <th>first name</th>
@@ -8,8 +8,7 @@
     <th>adresse</th>
     <th>telephone</th>
     <th>date de naissance</th>
-    <th>restaurateur</th>
-    <th>admin</th>
+    <th>permissions</th>
   </tr>
 
   <tr ng-repeat="profile in profiles">
@@ -19,24 +18,28 @@
     <td ng-hide="profile.backup">{{ profile.adresse }}</td>
     <td ng-hide="profile.backup">{{ profile.telephone }}</td>
     <td ng-hide="profile.backup">{{ profile.date_naissance }}</td>
-    <td ng-hide="profile.backup">{{ profile.user.is_staff }}</td>
-    <td ng-hide="profile.backup">{{ profile.user.is_superuser }}</td>
+    <td ng-hide="profile.backup">
+      <span ng-if="profile.is_admin">admin</span>
+      <span ng-if="profile.is_entrepreneur">entrepreneur</span>
+      <span ng-if="profile.is_restaurateur">restaurateur</span>
+      <span ng-if="profile.is_livreur">livreur</span>
+    </td>
     <td ng-hide="profile.backup">
       <button class="btn btn-xs" ng-click="edit(profile)">Edit</button>
-      <button class="btn btn-xs btn-danger" ng-click="delete(profile)">Remove</button>
+      <button disabled="profile.is_admin || profile.is_entrepreneur" class="btn btn-xs btn-danger" ng-click="delete(profile)">Remove</button>
     </td>
 
-    <td ng-show="profile.backup"><input ng-model="profile.user.username"/></td>
+    <td ng-show="profile.backup">
+      <input style="width=20px;" ng-model="profile.user.username"/></td>
     <td ng-show="profile.backup"><input ng-model="profile.user.first_name"/></td>
     <td ng-show="profile.backup"><input ng-model="profile.user.last_name"/></td>
-    <td ng-show="profile.backup"><input ng-model="profile.adresse"/></td>
+    <td ng-show="profile.backup">{{profile.adresse}}</td>
     <td ng-show="profile.backup"><input ng-model="profile.telephone"/></td>
     <td ng-show="profile.backup"><input ng-model="profile.date_naissance"/></td>
     <td ng-show="profile.backup">
-      <input type="checkbox" ng-model="profile.user.is_staff"/>
-    </td>
-    <td ng-show="profile.backup">
-      <input type="checkbox" ng-model="profile.user.is_superuser"/>
+      <label><input type="checkbox" disabled="parent.profile.is_admin" ng-model="profile.is_entrepreneur"/>entrepreneur</label><br/>
+      <label><input type="checkbox" ng-model="profile.is_restaurateur"/>restaurateur</label><br/>
+      <label><input type="checkbox" ng-model="profile.is_livreur"/>livreur</label><br/>
     </td>
 
     <td ng-show="profile.backup">

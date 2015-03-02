@@ -3,8 +3,7 @@
   angular.module('resto.homeControllers', []).controller('HomeController', function($scope, $http) {
     $scope.restos = [];
     return $http.get('api/all_resto').success(function(data) {
-      $scope.restos = data;
-      return console.log($scope.restos);
+      return $scope.restos = data;
     });
   });
 

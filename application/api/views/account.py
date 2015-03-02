@@ -23,9 +23,6 @@ def get_current_profile(request):
 
 def get_profiles(request):
     # returns all profiles
-    if not request.user.is_superuser:
-        return HttpResponseForbidden()
-
     users = UserProfile.objects.all()
     profiles = []
     for user in users:
@@ -35,8 +32,6 @@ def get_profiles(request):
 
 def delete_profile(request):
     # deletes a profile in database
-    if not request.user.is_superuser:
-        return HttpResponseForbidden()
     userinfo = json.loads(request.body)
 
     profile = UserProfile.objects.get(pk=userinfo['pk'])
@@ -49,9 +44,6 @@ def delete_profile(request):
 
 def get_staff(request):
     # returns all staff users
-    if not request.user.is_superuser:
-        return HttpResponseForbidden()
-
     staff_request = User.objects.filter(is_staff=True)
     staffs = []
     for user in staff_request:
@@ -64,9 +56,6 @@ def edit_profile(request):
     # updates profile informations
     if request.method == 'POST':
         userinfo = json.loads(request.body)
-        if request.user.pk != userinfo['user']['pk']:
-            if not request.user.is_superuser:
-                return HttpResponseForbidden()
 
         if 'backup' in userinfo:
             del userinfo['backup']
@@ -139,67 +128,76 @@ def user_logout(request):
     return HttpResponse(json.dumps({'success':True}))
 
 def populateUser(request):
-
-    if not Permission.objects.filter(name='restaurateurs').exists():
-        content_type = ContentType.objects.get_for_model(UserProfile)
-        restaurateur = Permission.objects.create(codename='restaurateur',
-                                                 name='restaurateurs',
-                                                 content_type=content_type)
-        entrepreneurs = Group.objects.create(name='entrepreneurs')
-        utils.add_permission_to_group(restaurateur, entrepreneurs)
-
-    if not Permission.objects.filter(name='restaurant').exists():
-        content_type = ContentType.objects.get_for_model(Restaurant)
-        restaurant = Permission.objects.create(codename='restaurant',
-                                               name='restaurants',
-                                               content_type=content_type)
-        restaurateurs = Group.objects.create(name='restaurateurs')
-        utils.add_permission_to_group(restaurant, restaurateurs)
-
-
-    if not Permission.objects.filter(name='commandes').exists():
-        content_type = ContentType.objects.get_for_model(UserProfile)
-        commande = Permission.objects.create(codename='commande',
-                                             name='commandes',
-                                             content_type=content_type)
-        livreurs = Group.objects.create(name='livreurs')
-        utils.add_permission_to_group(commande, livreurs)
-
-
     # script that will populate the database with users
-    if not User.objects.filter(username='asd@asd.com').exists():
-        user = User.objects.create_superuser(
-            username='asd@asd.com',
-            first_name='Asd',
+    
+    if not User.objects.filter(username='admin@resto.com').exists():
+        user = User.objects.create_user(
+            username='admin@resto.com',
+            first_name='admin',
             last_name='f',
-            email='asd@asd.com',
+            email='admin@resto.com',
             password='asd')
-        user.is_staff = True
         user.save()
-
-        utils.add_user_to_group(user, restaurateurs)
 
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='24 mars 2010',
-            adresse=['8907 14e avecu'],
-            telephone='5148800928')
+            adresse=['8907 14e avenue'],
+            telephone='5148800928',
+            is_admin=True)
         profile.save()
 
-    if not User.objects.filter(username='asdf@asdf.com').exists():
+    if not User.objects.filter(username='entrepreneur@resto.com').exists():
         user = User.objects.create_user(
-            username='asdf@asdf.com',
-            first_name='Asdf',
-            last_name='g',
-            email='asdf@asdf.com',
+            username='entrepreneur@resto.com',
+            first_name='entrepreneur',
+            last_name='f',
+            email='entrepreneur@resto.com',
             password='asd')
         user.save()
 
         profile = UserProfile.objects.create(
             user=user,
-            date_naissance='25 mars 2010',
-            adresse=['8907 14e avecu'],
-            telephone='5148800928')
+            date_naissance='24 mars 2010',
+            adresse=['8907 14e avenue'],
+            telephone='5148800928',
+            is_entrepreneur=True)
+        profile.save()
+
+    if not User.objects.filter(username='restaurateur@resto.com').exists():
+        user = User.objects.create_user(
+            username='restaurateur@resto.com',
+            first_name='restaurateur',
+            last_name='f',
+            email='restaurateur@resto.com',
+            password='asd')
+        user.is_staff = True
+        user.save()
+
+        profile = UserProfile.objects.create(
+            user=user,
+            date_naissance='24 mars 2010',
+            adresse=['8907 14e avenue'],
+            telephone='5148800928',
+            is_restaurateur=True)
+        profile.save()
+
+    if not User.objects.filter(username='livreur@resto.com').exists():
+        user = User.objects.create_user(
+            username='livreur@resto.com',
+            first_name='livreur',
+            last_name='f',
+            email='restaurateur@resto.com',
+            password='asd')
+        user.is_staff = True
+        user.save()
+
+        profile = UserProfile.objects.create(
+            user=user,
+            date_naissance='24 mars 2010',
+            adresse=['8907 14e avenue'],
+            telephone='5148800928',
+            is_livreur=True)
         profile.save()
 
     if not User.objects.filter(username='andy@hotmail.com').exists():
@@ -209,7 +207,6 @@ def populateUser(request):
             last_name='Su',
             email='andy@hotmail.com',
             password='patate')
-        user.is_staff = True
         user.save()
 
         profile = UserProfile.objects.create(
@@ -226,7 +223,6 @@ def populateUser(request):
             last_name='gabriel',
             email='jacques@hotmail.com',
             password='potato')
-        user.is_staff = True
         user.save()
 
         profile = UserProfile.objects.create(
@@ -242,8 +238,7 @@ def populateUser(request):
             first_name='maxime',
             last_name='dupuis',
             email='mdupui@hotmail.ca',
-            password='patato')
-        user.is_staff = True
+            password='asd')
         user.save()
 
         profile = UserProfile.objects.create(
@@ -260,7 +255,6 @@ def populateUser(request):
             last_name='murray',
             email='philippe@hotmail.com',
             password='potate')
-        user.is_staff = True
         user.save()
 
         profile = UserProfile.objects.create(
