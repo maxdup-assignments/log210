@@ -77,7 +77,11 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
 
     get_route = ->
       request = {
-        origin: $scope.selected_commande.details.addressFrom,
+        origin: $scope.current_location or $scope.selected_commande.details.addressFrom,
+        waypoints: [
+          location:$scope.selected_commande.details.addressFrom,
+          stopover:true,
+        ],
         destination: $scope.selected_commande.details.addressTo,
         travelMode: google.maps.TravelMode.DRIVING
       }
@@ -89,9 +93,10 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
       map = new google.maps.Map(document.getElementById('map-canvas'))
       directionsDisplay.setMap(map)
 
-    $scope.setSelected = (commande) ->
+    $scope.set_selected = (commande) ->
       $scope.selected_commande = commande
-      get_route()
+      if $scope.selected_commande
+        get_route()
 
   $scope.commandes = []
   $http.post('api/resto_commande', param)

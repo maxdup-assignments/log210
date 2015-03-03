@@ -11,7 +11,7 @@
     <th></th>
   </tr>
   <tr ng-repeat="commande in filtered(commandes, ['ready', 'delivered'])"
-ng-click="setSelected(commande)" ng-class="{selectedrow: commande === selected_commande}">
+ng-click="set_selected(commande)" ng-class="{selectedrow: commande === selected_commande}">
     <td>
       <span ng-show="commande.status == 'ready'"
             class="label label-danger">En attente</span>
@@ -37,5 +37,15 @@ ng-click="setSelected(commande)" ng-class="{selectedrow: commande === selected_c
   </tr>
 </table>
 
+<div class="form-group">
+  <label class="col-md-2 control-label">Your current location:</label>
+  <div class="col-md-4 input-group" style="margin-top:30px;">
+    <input class="form-control" ng-model="current_location">
+    <span class="input-group-btn">
+      <button class="btn" ng-click="set_selected(selected_commande)">
+        update</button>
+    </span>
+  </div>
+</div>
 
 <div id="map-canvas"></div>

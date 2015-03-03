@@ -104,7 +104,13 @@
       get_route = function() {
         var map, request;
         request = {
-          origin: $scope.selected_commande.details.addressFrom,
+          origin: $scope.current_location || $scope.selected_commande.details.addressFrom,
+          waypoints: [
+            {
+              location: $scope.selected_commande.details.addressFrom,
+              stopover: true
+            }
+          ],
           destination: $scope.selected_commande.details.addressTo,
           travelMode: google.maps.TravelMode.DRIVING
         };
@@ -116,9 +122,11 @@
         map = new google.maps.Map(document.getElementById('map-canvas'));
         return directionsDisplay.setMap(map);
       };
-      $scope.setSelected = function(commande) {
+      $scope.set_selected = function(commande) {
         $scope.selected_commande = commande;
-        return get_route();
+        if ($scope.selected_commande) {
+          return get_route();
+        }
       };
     }
     $scope.commandes = [];
