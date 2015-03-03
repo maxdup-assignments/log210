@@ -32,13 +32,16 @@ body {
 .form-group {
   height: 32px;
 }
-.form-group > span{
+.form-group > span {
   padding-top: 7px;
+}
+.selectedrow {
+  background: #dff0d8;
 }
 
 
 .profiles input{
-width:100px;
+  width:100px;
 }
 
 .spinner {
@@ -76,4 +79,11 @@ width:100px;
   position: absolute;
   top: 0;
   left: 4px;
+}
+
+#map-canvas {
+  height: 600px;
+  width: 100%;
+  margin: 0px;
+  padding: 0px
 }

@@ -8,19 +8,20 @@
     $scope.order = {
       'details': {
         'commande': [],
-        'adresse': '',
-        'time': new Date()
+        'addressTo': '',
+        'addressFrom': '',
+        'requestedTime': new Date()
       },
       'restaurant': param
     };
     $http.get('api/profile').success(function(data) {
       $scope.profile = data;
-      return $scope.order.details.adresse = $scope.profile.adresse[0];
+      return $scope.order.details.addressTo = $scope.profile.adresse[0];
     });
     $http.get('api/all_resto').success(function(data) {
       var resto;
       if (param) {
-        return $scope.current_resto = ((function() {
+        $scope.current_resto = ((function() {
           var _i, _len, _results;
           _results = [];
           for (resto = _i = 0, _len = data.length; _i < _len; resto = ++_i) {
@@ -31,6 +32,7 @@
           }
           return _results;
         })())[0];
+        return $scope.order.details.addressFrom = $scope.current_resto.address;
       }
     });
     $scope.add_item = function(item) {
@@ -58,17 +60,15 @@
       return total;
     };
     $scope.place_order = function() {
-      if ($scope.order.details.adresse === '##new') {
+      if ($scope.order.details.addressTo === '##new') {
         $scope.profile.adresse.push($scope.new_address);
-        $scope.order.details.adresse = $scope.new_address;
-        console.log('new profile', $scope.profile);
+        $scope.order.details.addressTo = $scope.new_address;
         $http.post('api/edit_profile', $scope.profile).error(function(data) {
           return console.log(data);
         });
       }
       return $http.post('api/create_commande', $scope.order).success(function(data) {
-        alert('commande envoyé');
-        return console.log(data);
+        return alert('commande envoyé');
       }).error(function(data) {
         return console.log(data);
       });
@@ -81,9 +81,46 @@
       $event.stopPropagation();
       return $scope.opened = true;
     };
-  }).controller('CommandeManageController', function($scope, $http, $routeParams) {
-    var param;
+  }).controller('CommandeManageController', function($scope, $http, $location, $routeParams) {
+    var directionsDisplay, directionsService, get_route, param;
     param = $routeParams.param;
+    $scope.filtered = function(array, filter) {
+      var name;
+      return (function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = array.length; _i < _len; _i++) {
+          name = array[_i];
+          if (filter.indexOf(name.status) !== -1) {
+            _results.push(name);
+          }
+        }
+        return _results;
+      })();
+    };
+    if ($location.path() === '/deliver_commande') {
+      directionsService = new google.maps.DirectionsService();
+      directionsDisplay = new google.maps.DirectionsRenderer();
+      get_route = function() {
+        var map, request;
+        request = {
+          origin: $scope.selected_commande.details.addressFrom,
+          destination: $scope.selected_commande.details.addressTo,
+          travelMode: google.maps.TravelMode.DRIVING
+        };
+        directionsService.route(request, function(response, status) {
+          if (status === google.maps.DirectionsStatus.OK) {
+            return directionsDisplay.setDirections(response);
+          }
+        });
+        map = new google.maps.Map(document.getElementById('map-canvas'));
+        return directionsDisplay.setMap(map);
+      };
+      $scope.setSelected = function(commande) {
+        $scope.selected_commande = commande;
+        return get_route();
+      };
+    }
     $scope.commandes = [];
     $http.post('api/resto_commande', param).success(function(data) {
       return $scope.commandes = data;
@@ -95,7 +132,13 @@
         'status': status,
         'commande': commande
       }).success(function(data) {
-        return commande.status = status;
+        commande.details = data.details;
+        commande.status = data.status;
+        if (__indexOf.call(_.keys(data), 'error') >= 0) {
+          return alert('Un autre livreur a déjà livré cette commande');
+        }
+      }).error(function(data) {
+        return console.log(data);
       });
     };
   });

@@ -140,7 +140,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='24 mars 2010',
-            adresse=['8907 14e avenue'],
+            adresse=['1100 Rue Notre-Dame Ouest'],
             telephone='5148800928',
             is_admin=True)
         profile.save()
@@ -156,7 +156,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='24 mars 2010',
-            adresse=['8907 14e avenue'],
+            adresse=['1100 Rue Notre-Dame Ouest'],
             telephone='5148800928',
             is_entrepreneur=True)
         profile.save()
@@ -172,7 +172,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='24 mars 2010',
-            adresse=['8907 14e avenue'],
+            adresse=['1100 Rue Notre-Dame Ouest'],
             telephone='5148800928',
             is_restaurateur=True)
         profile.save()
@@ -188,7 +188,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='24 mars 2010',
-            adresse=['8907 14e avenue'],
+            adresse=['1100 Rue Notre-Dame Ouest'],
             telephone='5148800928',
             is_livreur=True)
         profile.save()
@@ -204,7 +204,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='24 mars 2010',
-            adresse=['8907 14e avenue'],
+            adresse=['1100 Rue Notre-Dame Ouest'],
             telephone='5148800928')
         profile.save()
 
@@ -219,7 +219,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='26 mars 2010',
-            adresse=['8907 14e avecu'],
+            adresse=['1100 Rue Notre-Dame Ouest'],
             telephone='5148800928',
             is_restaurateur=True)
         profile.save()
@@ -235,7 +235,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='28 mars 2000',
-            adresse=['8888 lacordaire'],
+            adresse=['1100 Rue Notre-Dame Ouest'],
             telephone='1234567514',
             is_restaurateur=True)
         profile.save()
@@ -251,7 +251,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='27 mars 1990',
-            adresse=['8212 dumoulin'],
+            adresse=['1100 Rue Notre-Dame Ouest'],
             telephone='1234561234')
         profile.save()
 
@@ -266,7 +266,7 @@ def populateUser(request):
         profile = UserProfile.objects.create(
             user=user,
             date_naissance='25 mars 1980',
-            adresse=['8210 dumouton'],
+            adresse=['1100 Rue Notre-Dame Ouest'],
             telephone='5432102020',
             is_restaurateur=True)
         profile.save()

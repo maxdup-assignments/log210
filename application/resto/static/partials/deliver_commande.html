@@ -1,0 +1,41 @@
+<h1>Livraison des commandes</h1>
+
+<table class="table">
+  <tr>
+    <th>status</th>
+    <th>order</th>
+    <th>requested time</th>
+    <th>delivery time</th>
+    <th>From</th>
+    <th>To</th>
+    <th></th>
+  </tr>
+  <tr ng-repeat="commande in filtered(commandes, ['ready', 'delivered'])"
+ng-click="setSelected(commande)" ng-class="{selectedrow: commande === selected_commande}">
+    <td>
+      <span ng-show="commande.status == 'ready'"
+            class="label label-danger">En attente</span>
+      <span ng-show="commande.status == 'delivered'"
+            class="label label-success">Livré</span>
+    <td>
+      <div ng-repeat="item in commande.details.commande">
+        {{item.qty}}
+        {{item.name}}
+      </div>
+    </td>
+    <td>{{commande.details.requestedTime | date:'MM/dd/yyyy - hh:mm'}}</td>
+    <td>{{commande.details.deliveryTime | date:'MM/dd/yyyy - hh:mm'}}</td>
+    <td>{{commande.details.addressFrom}}</td>
+    <td>{{commande.details.addressTo}}</td>
+    <td>
+      <button class="btn btn-sm btn-info" style="float:right"
+              ng-click="update_status(commande, 'delivered')"
+              ng-show="commande.status == 'ready'">
+        livrer
+      </button>
+    </td>
+  </tr>
+</table>
+
+
+<div id="map-canvas"></div>

@@ -67,7 +67,7 @@
     <div class="col-md-6" style="padding-top: 34px;">
       <p class="input-group">
         <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy"
-               ng-model="$parent.order.details.time" is-open="opened"
+               ng-model="$parent.order.details.requestedTime" is-open="opened"
                min-date="minDate" max-date="'2015-06-22'" close-text="Close" />
         <span class="input-group-btn">
           <button type="button" class="btn btn-default" ng-click="open($event)">
@@ -75,7 +75,7 @@
         </span>
       </p>
     </div>
-    <timepicker ng-model="$parent.order.details.time"
+    <timepicker ng-model="$parent.order.details.requestedTime"
                 hour-step="hstep" minute-step="mstep"
                 show-meridian="true"></timepicker>
 
@@ -83,7 +83,7 @@
     <div class="form-group">
       <div class="radio" ng-repeat="ad in profile.adresse">
         <label>
-          <input type="radio" name="address" ng-model="order.details.adresse" value="{{ad}}"/>
+          <input type="radio" name="address" ng-model="order.details.addressTo" value="{{ad}}"/>
           {{ad}}
           <br/>
         </label>
@@ -91,10 +91,10 @@
       <div class="radio">
         <label>
           <input type="radio" name="address"
-                 ng-model="order.details.adresse" value="##new"/>
-          <span ng-hide="order.details.adresse == '##new'">
+                 ng-model="order.details.addressTo" value="##new"/>
+          <span ng-hide="order.details.addressTo == '##new'">
             Nouvelle adresse</span>
-          <input ng-show="order.details.adresse == '##new'"
+          <input ng-show="order.details.addressTo == '##new'"
                  ng-model="new_address"/>
           <br/>
         </label>

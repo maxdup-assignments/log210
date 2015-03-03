@@ -7,6 +7,7 @@ from api.serializers import CommandeSerializer
 from rest_framework.renderers import JSONRenderer
 import json
 
+import datetime
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -35,7 +36,7 @@ def create_commande(request):
     <tr><th>plat</th><th>prix</th><th>quantite</th></tr>'''
     for item in commande_info['details']['commande']:
         html+= '<tr><td>'+item['name']+'</td><td>'+str(item['price'])+'</td><td>'+str(item['qty'])+'$</td></tr>'
-    html+="</table><br/><br/>a l'adresse: " + commande_info['details']['adresse'] + '<br/> pour le: ' + commande_info['details']['time']+'</body></html>'
+    html+="</table><br/><br/>a l'adresse: " + commande_info['details']['addressTo'] + '<br/> pour le: ' + commande_info['details']['requestedTime']+'</body></html>'
 
     msg.attach(MIMEText(html, 'html'))
 
@@ -43,7 +44,6 @@ def create_commande(request):
     server = smtplib.SMTP('smtp.gmail.com:587')
     server.starttls()
     server.login(username,password)
-    print(request.user.username)
     server.sendmail(username, request.user.username, msg.as_string())
     server.quit()
 
@@ -52,8 +52,11 @@ def create_commande(request):
     return HttpResponse(JSONRenderer().render(commande.data))
 
 def resto_commande(request):
-    resto = Restaurant.objects.get(pk=request.body)
-    commandes = Commande.objects.filter(restaurant=resto)
+    if request.body:
+        resto = Restaurant.objects.get(pk=request.body)
+        commandes = Commande.objects.filter(restaurant=resto)
+    else:
+        commandes = Commande.objects.all()
     response = []
     for commande in commandes:
         commande = CommandeSerializer(commande)
@@ -63,9 +66,20 @@ def resto_commande(request):
 def update_commande_status(request):
     commande_info = json.loads(request.body)
     commande = Commande.objects.get(pk=commande_info['commande']['pk'])
+    note = {}
+    if commande_info['status'] == 'delivered':
+        print commande.status
+        if commande.status == 'delivered':
+            note['error'] = 'already delivered'
+            print note
+        else:
+            commande.details['deliveryTime'] = datetime.datetime.now()
+
     commande.status = commande_info['status']
 
     commande.save()
-    commande = CommandeSerializer(commande)
-
-    return HttpResponse(JSONRenderer().render(commande.data))
+    response = CommandeSerializer(commande).data
+    if note:
+        response.update(note)
+    print response
+    return HttpResponse(JSONRenderer().render(response))
