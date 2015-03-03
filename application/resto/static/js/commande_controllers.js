@@ -36,6 +36,11 @@
       }
     });
     $scope.add_item = function(item) {
+      if ($scope.sending) {
+        $scope.order.details.commande = [];
+      }
+      $scope.sending = false;
+      $scope.confirm = null;
       if (__indexOf.call($scope.order.details.commande, item) >= 0) {
         return item.qty += 1;
       } else {
@@ -49,10 +54,10 @@
     $scope.qty_adjust = function(item, adjustment) {
       return item.qty = Math.max(0, item.qty + adjustment);
     };
-    $scope.total = function() {
+    $scope.total = function(commande) {
       var item, total, _i, _len, _ref;
       total = 0;
-      _ref = $scope.order.details.commande;
+      _ref = commande.details.commande;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         item = _ref[_i];
         total += item.price * item.qty;
@@ -60,6 +65,7 @@
       return total;
     };
     $scope.place_order = function() {
+      $scope.sending = true;
       if ($scope.order.details.addressTo === '##new') {
         $scope.profile.adresse.push($scope.new_address);
         $scope.order.details.addressTo = $scope.new_address;
@@ -68,7 +74,7 @@
         });
       }
       return $http.post('api/create_commande', $scope.order).success(function(data) {
-        return alert('commande envoyé \n numéro confirmation:' + data.pk);
+        return $scope.confirm = data;
       }).error(function(data) {
         return console.log(data);
       });
