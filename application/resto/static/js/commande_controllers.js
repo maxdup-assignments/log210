@@ -68,7 +68,7 @@
         });
       }
       return $http.post('api/create_commande', $scope.order).success(function(data) {
-        return alert('commande envoyé');
+        return alert('commande envoyé \n numéro confirmation:' + data.pk);
       }).error(function(data) {
         return console.log(data);
       });

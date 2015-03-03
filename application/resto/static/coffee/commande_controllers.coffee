@@ -52,7 +52,7 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
           console.log(data)
     $http.post('api/create_commande', $scope.order)
       .success (data) ->
-        alert('commande envoyé')
+        alert('commande envoyé \n numéro confirmation:'+data.pk)
       .error (data) ->
         console.log(data)
   $scope.minDate = new Date()
