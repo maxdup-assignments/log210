@@ -25,6 +25,10 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
         $scope.order.details.addressFrom = $scope.current_resto.address
 
   $scope.add_item = (item) ->
+    if $scope.sending
+      $scope.order.details.commande = []
+    $scope.sending = false
+    $scope.confirm = null
     if item in $scope.order.details.commande
       item.qty += 1
     else
@@ -41,12 +45,14 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
     item.qty = Math.max(0, item.qty + adjustment)
     update_total()
 
-  update_total = ->
+
+  update_total = (commande) ->
     $scope.total = 0
-    for item in $scope.order.details.commande
+    for item in commande.details.commande
       $scope.total += item.price * item.qty
 
   $scope.place_order = ->
+    $scope.sending = true
     if $scope.order.details.addressTo == '##new'
       $scope.profile.adresse.push($scope.new_address)
       $scope.order.details.addressTo = $scope.new_address
@@ -55,7 +61,7 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
           console.log(data)
     $http.post('api/create_commande', $scope.order)
       .success (data) ->
-        alert('commande envoyé')
+        $scope.confirm = data
       .error (data) ->
         console.log(data)
   $scope.minDate = new Date()

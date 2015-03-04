@@ -24,86 +24,118 @@
 
 <div class="row" ng-hide="order.details.commande.length == 0">
   <h2>votre commande</h2>
-  <div class="col-md-6">
-    <div>
-      <table class="table">
-        <tr>
-          <th style="width:250px">Nom</th>
-          <th style="width:250px">Quantité</th>
-          <th style="width:50px">Prix</th>
-        </tr>
-        <tr ng-repeat="item in order.details.commande">
-          <td>{{ item.name }}</td>
-          <td>
-            <div class="input-group spinner">
-              <input type="text" class="form-control" ng-model="item.qty">
-              <div class="input-group-btn-vertical">
-                <button class="btn btn-default dropup"
-                        ng-click="qty_adjust(item, 1)">
-                  <span class="caret"/></button>
-                <button class="btn btn-default"
-                        ng-click="qty_adjust(item, -1)">
-                  <span class="caret"/></button>
-              </div>
-            </div>
-          </td>
-          <td>{{ item.price * item.qty}}$
-            <button class="btn btn-danger"
-                    style="float:right"
-                    ng-click="remove_item(item)">
-              enlever</button>
-          </td>
-        </tr>
-        <tr>
-          <th style="width:250px">Total</th>
-          <th style="width:50px"></th>
-          <th style="width:250px">{{ total }}$</th>
-        </tr>
-      </table>
-    </div>
-  </div>
-  <div class="col-md-6 jumbotron" style="padding:15px">
-    <h3>Moment de la livraison</h3>
-    <div class="col-md-6" style="padding-top: 34px;">
-      <p class="input-group">
-        <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy"
-               ng-model="$parent.order.details.requestedTime" is-open="opened"
-               min-date="minDate" max-date="'2015-06-22'" close-text="Close" />
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-default" ng-click="open($event)">
-            <i class="glyphicon glyphicon-calendar"></i></button>
-        </span>
-      </p>
-    </div>
-    <timepicker ng-model="$parent.order.details.requestedTime"
-                hour-step="hstep" minute-step="mstep"
-                show-meridian="true"></timepicker>
 
-    <h3>Adresse de livraison</h3>
-    <div class="form-group">
-      <div class="radio" ng-repeat="ad in profile.adresse">
-        <label>
-          <input type="radio" name="address" ng-model="order.details.addressTo" value="{{ad}}"/>
-          {{ad}}
-          <br/>
-        </label>
-      </div>
-      <div class="radio">
-        <label>
-          <input type="radio" name="address"
-                 ng-model="order.details.addressTo" value="##new"/>
-          <span ng-hide="order.details.addressTo == '##new'">
-            Nouvelle adresse</span>
-          <input ng-show="order.details.addressTo == '##new'"
-                 ng-model="new_address"/>
-          <br/>
-        </label>
+  <div ng-show="sending && !confirm" class="jumbotron">
+    <h2>Envois...</h2>
+  </div>
+
+  <div ng-if="confirm" class="jumbotron">
+    <h3>votre commande a été envoyé</h3>
+    <label>Numéro de confirmation:</label> {{confirm.pk}}
+    <br/>
+    <br/>
+    <table class="table">
+      <tr>
+        <th style="width:250px">Nom</th>
+        <th style="width:250px">Quantité</th>
+        <th style="width:50px">Prix</th>
+      </tr>
+      <tr ng-repeat="item in confirm.details.commande">
+        <td>{{ item.name }}</td>
+        <td>{{item.qty}}</td>
+        <td>{{ item.price * item.qty}}$</td>
+      </tr>
+      <tr>
+        <th style="width:250px">Total</th>
+        <th style="width:50px"></th>
+        <th style="width:250px">{{ total(confirm) }}$</th>
+      </tr>
+    </table>
+  </div>
+
+  <div ng-hide="sending">
+    <div class="col-md-6">
+      <div>
+        <table class="table" style="background:white">
+          <tr>
+            <th style="width:250px">Nom</th>
+            <th style="width:250px">Quantité</th>
+            <th style="width:50px">Prix</th>
+          </tr>
+          <tr ng-repeat="item in order.details.commande">
+            <td>{{ item.name }}</td>
+            <td>
+              <div class="input-group spinner">
+                <input type="text" class="form-control" ng-model="item.qty">
+                <div class="input-group-btn-vertical">
+                  <button class="btn btn-default dropup"
+                          ng-click="qty_adjust(item, 1)">
+                    <span class="caret"/></button>
+                  <button class="btn btn-default"
+                          ng-click="qty_adjust(item, -1)">
+                    <span class="caret"/></button>
+                </div>
+              </div>
+            </td>
+            <td>{{ item.price * item.qty}}$
+              <button class="btn btn-danger"
+                      style="float:right"
+                      ng-click="remove_item(item)">
+                enlever</button>
+            </td>
+          </tr>
+          <tr>
+            <th style="width:250px">Total</th>
+            <th style="width:50px"></th>
+            <th style="width:250px">{{ total(order) }}$</th>
+          </tr>
+        </table>
       </div>
     </div>
-    <button class="btn btn-lg btn-success"
-            style="float:right" ng-click="place_order()">
-      Envoyer Commande
-    </button>
+    <div class="col-md-6 jumbotron" style="padding:15px">
+      <h3>Moment de la livraison</h3>
+      <div class="col-md-6" style="padding-top: 34px;">
+        <p class="input-group">
+          <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy"
+                 ng-model="$parent.order.details.requestedTime" is-open="opened"
+                 min-date="minDate" max-date="'2015-06-22'" close-text="Close" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open($event)">
+              <i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
+      </div>
+      <timepicker ng-model="$parent.order.details.requestedTime"
+                  hour-step="hstep" minute-step="mstep"
+                  show-meridian="true"></timepicker>
+
+      <h3>Adresse de livraison</h3>
+      <div class="form-group">
+        <div class="radio" ng-repeat="ad in profile.adresse">
+          <label>
+            <input type="radio" name="address" ng-model="order.details.addressTo" value="{{ad}}"/>
+            {{ad}}
+            <br/>
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="address"
+                   ng-model="order.details.addressTo" value="##new"/>
+            <span ng-hide="order.details.addressTo == '##new'">
+              Nouvelle adresse</span>
+            <input ng-show="order.details.addressTo == '##new'"
+                   ng-model="new_address"/>
+            <br/>
+          </label>
+        </div>
+      </div>
+      <button class="btn btn-lg btn-success"
+              style="float:right" ng-click="place_order()">
+        Envoyer Commande
+      </button>
+    </div>
+
 
     <form ng-submit="place_order()"
           action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
