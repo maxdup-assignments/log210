@@ -30,18 +30,21 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
     else
       item.qty = 1
       $scope.order.details.commande.push(item)
+    update_total()
 
   $scope.remove_item = (item) ->
     $scope.order.details.commande =
       _.without($scope.order.details.commande, item)
+    update_total()
+
   $scope.qty_adjust = (item, adjustment) ->
     item.qty = Math.max(0, item.qty + adjustment)
+    update_total()
 
-  $scope.total = ->
-    total = 0
+  update_total = ->
+    $scope.total = 0
     for item in $scope.order.details.commande
-      total += item.price * item.qty
-    return total
+      $scope.total += item.price * item.qty
 
   $scope.place_order = ->
     if $scope.order.details.addressTo == '##new'
