@@ -14,11 +14,11 @@ msgstr ""
 
 #: application/resto/static/partials/profile.html:60
 msgid "Address:"
-msgstr "アドレッス"
+msgstr "アドレッス："
 
 #: application/resto/static/partials/profile.html:35
 msgid "Birthday:"
-msgstr "誕生日"
+msgstr "誕生日："
 
 #: application/resto/static/partials/profile.html:82
 msgid "Cancel"
@@ -30,7 +30,7 @@ msgstr "エテェット"
 
 #: application/resto/static/partials/profile.html:8
 msgid "Email:"
-msgstr "Eメール:"
+msgstr "Eメール："
 
 #: application/resto/static/partials/profile.html:17
 msgid "First Name:"
@@ -50,7 +50,7 @@ msgstr "プロフィルを合います！"
 
 #: application/resto/static/partials/profile.html:53
 msgid "Password:"
-msgstr "パスワード:"
+msgstr "パスワード："
 
 #: application/resto/static/partials/profile.html:80
 msgid "Save"
@@ -63,3 +63,29 @@ msgstr "でんわ："
 #: application/resto/static/partials/profile.html:68
 msgid "add"
 msgstr "着ける"
+
+#: application/resto/templates/index.html:63
+msgid "hello,"
+msgstr "こんにちは、"
+
+#: application/resto/templates/index.html:72
+#: application/resto/templates/index.html:80
+msgid "login"
+msgstr "ログイン"
+
+#: application/resto/templates/index.html:68
+msgid "logout"
+msgstr "ログアウト"
+
+#: application/resto/templates/index.html:81
+msgid "register"
+msgstr "レジスター"
+
+#: application/resto/templates/index.html:47
+#: application/resto/templates/index.html:56
+msgid "restaurants"
+msgstr "料理屋"
+
+#: application/resto/templates/index.html:50
+msgid "restaurateurs"
+msgstr "料理屋のカントク"
