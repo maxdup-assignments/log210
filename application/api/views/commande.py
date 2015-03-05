@@ -51,6 +51,11 @@ def create_commande(request):
     commande = CommandeSerializer(commande)
     return HttpResponse(JSONRenderer().render(commande.data))
 
+def get_commande(request):
+    commande = Commande.objects.get(pk=request.body)
+    response = CommandeSerializer(commande).data
+    return HttpResponse(JSONRenderer().render(response))
+
 def resto_commande(request):
     if request.body:
         resto = Restaurant.objects.get(pk=request.body)
@@ -67,19 +72,21 @@ def update_commande_status(request):
     commande_info = json.loads(request.body)
     commande = Commande.objects.get(pk=commande_info['commande']['pk'])
     note = {}
+
     if commande_info['status'] == 'delivered':
-        print commande.status
         if commande.status == 'delivered':
             note['error'] = 'already delivered'
-            print note
         else:
             commande.details['deliveryTime'] = datetime.datetime.now()
 
-    commande.status = commande_info['status']
+    if commande_info['status'] == 'paid':
+        if commande.status == 'pending':
+            commande.status = commande_info['status']
+    else:
+        commande.status = commande_info['status']
 
     commande.save()
     response = CommandeSerializer(commande).data
     if note:
         response.update(note)
-    print response
     return HttpResponse(JSONRenderer().render(response))

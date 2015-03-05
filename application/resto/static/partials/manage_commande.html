@@ -7,9 +7,9 @@
     <th>requested delivery time</th>
     <th></th>
   </tr>
-  <tr ng-repeat="commande in filtered(commandes, ['ready', 'preparing', 'pending'])">
+  <tr ng-repeat="commande in filtered(commandes, ['ready', 'preparing', 'paid'])">
     <td>
-      <span ng-show="commande.status == 'pending'" class="label label-danger">
+      <span ng-show="commande.status == 'paid'" class="label label-danger">
         En attente</span>
       <span ng-show="commande.status == 'preparing'" class="label label-warning">
         En préparation</span>
@@ -26,7 +26,7 @@
     <td>
       <button class="btn btn-xs btn-info" style="float:right"
               ng-click="update_status(commande, 'preparing')"
-              ng-show="commande.status == 'pending'">
+              ng-show="commande.status == 'paid'">
         commencer préparation</button>
       <button class="btn btn-xs btn-info" style="float:right"
               ng-click="update_status(commande, 'ready')"

@@ -1,5 +1,6 @@
 angular.module('resto.commandeControllers', ['ui.bootstrap'])
 .controller 'CommandeController', ($scope, $http, $routeParams) ->
+  $scope.form = {}
   param = $routeParams.param
 
   $scope.order = {
@@ -11,6 +12,8 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
     },
   'restaurant': param
   }
+
+  $scope.confirm = {}
 
   $http.get('api/profile')
     .success (data) ->
@@ -46,9 +49,9 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
     update_total()
 
 
-  update_total = (commande) ->
+  update_total = ->
     $scope.total = 0
-    for item in commande.details.commande
+    for item in $scope.order.details.commande
       $scope.total += item.price * item.qty
 
   $scope.place_order = ->
@@ -64,6 +67,8 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
         $scope.confirm = data
       .error (data) ->
         console.log(data)
+    $scope.confirm
+
   $scope.minDate = new Date()
   $scope.hstep = 1
   $scope.mstep = 15
@@ -125,3 +130,17 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
           alert('Un autre livreur a déjà livré cette commande')
       .error (data) ->
         console.log(data)
+
+
+.controller 'CommandeConfirmController', ($scope, $http, $routeParams) ->
+  param = $routeParams.param
+  $scope.total = 0
+  $http.post('api/update_commande', {
+    'status':'paid',
+    'commande':{
+      'pk':param
+    }
+  }).success (data) ->
+    $scope.confirm = data
+    for item in $scope.confirm.details.commande
+        $scope.total += item.price * item.qty

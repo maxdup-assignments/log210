@@ -3,7 +3,8 @@
   var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   angular.module('resto.commandeControllers', ['ui.bootstrap']).controller('CommandeController', function($scope, $http, $routeParams) {
-    var param;
+    var param, update_total;
+    $scope.form = {};
     param = $routeParams.param;
     $scope.order = {
       'details': {
@@ -14,6 +15,7 @@
       },
       'restaurant': param
     };
+    $scope.confirm = {};
     $http.get('api/profile').success(function(data) {
       $scope.profile = data;
       return $scope.order.details.addressTo = $scope.profile.adresse[0];
@@ -42,27 +44,31 @@
       $scope.sending = false;
       $scope.confirm = null;
       if (__indexOf.call($scope.order.details.commande, item) >= 0) {
-        return item.qty += 1;
+        item.qty += 1;
       } else {
         item.qty = 1;
-        return $scope.order.details.commande.push(item);
+        $scope.order.details.commande.push(item);
       }
+      return update_total();
     };
     $scope.remove_item = function(item) {
-      return $scope.order.details.commande = _.without($scope.order.details.commande, item);
+      $scope.order.details.commande = _.without($scope.order.details.commande, item);
+      return update_total();
     };
     $scope.qty_adjust = function(item, adjustment) {
-      return item.qty = Math.max(0, item.qty + adjustment);
+      item.qty = Math.max(0, item.qty + adjustment);
+      return update_total();
     };
-    $scope.total = function(commande) {
-      var item, total, _i, _len, _ref;
-      total = 0;
-      _ref = commande.details.commande;
+    update_total = function() {
+      var item, _i, _len, _ref, _results;
+      $scope.total = 0;
+      _ref = $scope.order.details.commande;
+      _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         item = _ref[_i];
-        total += item.price * item.qty;
+        _results.push($scope.total += item.price * item.qty);
       }
-      return total;
+      return _results;
     };
     $scope.place_order = function() {
       $scope.sending = true;
@@ -73,11 +79,12 @@
           return console.log(data);
         });
       }
-      return $http.post('api/create_commande', $scope.order).success(function(data) {
+      $http.post('api/create_commande', $scope.order).success(function(data) {
         return $scope.confirm = data;
       }).error(function(data) {
         return console.log(data);
       });
+      return $scope.confirm;
     };
     $scope.minDate = new Date();
     $scope.hstep = 1;
@@ -155,6 +162,26 @@
         return console.log(data);
       });
     };
+  }).controller('CommandeConfirmController', function($scope, $http, $routeParams) {
+    var param;
+    param = $routeParams.param;
+    $scope.total = 0;
+    return $http.post('api/update_commande', {
+      'status': 'paid',
+      'commande': {
+        'pk': param
+      }
+    }).success(function(data) {
+      var item, _i, _len, _ref, _results;
+      $scope.confirm = data;
+      _ref = $scope.confirm.details.commande;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        item = _ref[_i];
+        _results.push($scope.total += item.price * item.qty);
+      }
+      return _results;
+    });
   });
 
 }).call(this);

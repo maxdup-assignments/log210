@@ -28,6 +28,9 @@
     }).when('/manage_commande/:param', {
       controller: 'CommandeManageController',
       templateUrl: 'static/partials/manage_commande.html'
+    }).when('/commande/:param', {
+      controller: 'CommandeConfirmController',
+      templateUrl: 'static/partials/commande_success.html'
     }).when('/deliver_commande', {
       controller: 'CommandeManageController',
       templateUrl: 'static/partials/deliver_commande.html'
