@@ -12,9 +12,13 @@
   <script src="{% static "js/include/bootstrap.min.js"%}"></script>
   <script src="{% static "js/include/underscore-min.js" %}"></script>
   <script src="{% static "js/include/angular.min.js"%}"></script>
+  <script src="{% static "js/include/angular-gettext.min.js"%}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular-route.js"></script>
   <script src="{% static "js/include/ui-bootstrap-tpls-0.12.1.min.js"%}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 
+  
+  
   <script src="{% static "js/app.js" %}"></script>
   <script src="{% static "js/user_controllers.js" %}"></script>
   <script src="{% static "js/resto_controllers.js" %}"></script>
@@ -22,6 +26,7 @@
   <script src="{% static "js/home_controllers.js" %}"></script>
   <script src="{% static "js/commande_controllers.js" %}"></script>
   <script src="{% static "js/services.js" %}"></script>
+  <script src="{% static "js/translations.js" %}"></script>
 
   <script>CSRF_TOKEN = '{{ csrf_token }}';
   auth = '{{ user.is_authenticated }}';</script>
@@ -39,32 +44,32 @@
             <!--entrepreneur navbar-->
             <ul class="nav navbar-nav" ng-if="profile.is_entrepreneur || profile.is_admin">
               <li>
-                <a href="#/admin/resto">restaurants</a>
+                <a href="#/admin/resto" translate>restaurants</a>
               </li>
               <li>
-                <a href="#/admin/users">restaurateurs</a>
+                <a href="#/admin/users" translate>restaurateurs</a>
               </li>
             </ul>
             <!--restaurateur navbar-->
             <ul class="nav navbar-nav" ng-if="profile.is_restaurateur && !profile.is_entrepreneur">
               <li>
-                <a href="#/manage/resto">restaurants</a>
+                <a href="#/manage/resto" translate>restaurants</a>
               </li>
             </ul>
 
             <p class="navbar-text">
 
               <div ng-show="profile" class="login">
-                hello,
+                <translate>hello,</translate>
                 <a href="#/profile" class="navbar-link">
                   {% verbatim %}{{ profile.user.first_name }}{% endverbatim %}
                 </a>
                 -
-                <a ng-click="logout()" class="navbar-link">logout</a>
+                <a ng-click="logout()" class="navbar-link" translate>logout</a>
               </div>
 
               <div ng-hide="loggingin || profile" class="login">
-                <a ng-click="loggingin = !loggingin" class="navbar-link">login</a>
+                <a ng-click="loggingin = !loggingin" class="navbar-link" translate>login</a>
               </div>
 
               <div ng-show="loggingin" class="form-inline">
@@ -72,8 +77,8 @@
                        ng-model="loginform.username" placeholder="email">
                 <input type="password" class="form-control"
                        ng-model="loginform.password" placeholder="password">
-                <button class="btn btn-success" ng-click="login()">login</button>
-                <a ng-click="loggingin = false" href="#/register" class="btn btn-default" >register</a>
+                <button class="btn btn-success" ng-click="login()" translate>login</button>
+                <a ng-click="loggingin = false" href="#/register" class="btn btn-default" translate>register</a>
               </div>
             </p>
           </div>
