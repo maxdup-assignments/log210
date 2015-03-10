@@ -15,37 +15,42 @@ from email.mime.text import MIMEText
 
 def create_commande(request):
     commande_info = json.loads(request.body)
+
+    def send_mail(commande_info, request):
+        # secure I know
+        username = 'log210restaurant@gmail.com'
+        password = 'log210resto'
+
+        msg = MIMEMultipart('alternative')
+        msg['Subject'] = "Votre Commande"
+        msg['From'] = username
+        msg['To'] = request.user.username
+
+        html = '''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><body><h1>Votre commande a bien ete recu</h1>
+        <table>
+        <tr><th>plat</th><th>prix</th><th>quantite</th></tr>'''
+        for item in commande_info['details']['commande']:
+            html+= '<tr><td>'+item['name']+'</td><td>'+str(item['price'])+'$</td><td>'+str(item['qty'])+'</td></tr>'
+        html+="</table><br/><br/>a l'adresse: " + commande_info['details']['addressTo'] + '<br/> pour le: ' + commande_info['details']['requestedTime']+'</body></html>'
+
+        msg.attach(MIMEText(html, 'html'))
+
+
+        server = smtplib.SMTP('smtp.gmail.com:587')
+        server.starttls()
+        server.login(username,password)
+        server.sendmail(username, request.user.username, msg.as_string())
+        server.quit()
+        return html
+
     restaurant = Restaurant.objects.get(pk=commande_info['restaurant'])
     commande = Commande.objects.create(
         user=request.user,
         restaurant=restaurant,
         details=commande_info['details'],
-        status='pending')
+        status='paid')
 
-    # secure I know
-    username = 'log210restaurant@gmail.com'
-    password = 'log210resto'
-
-    msg = MIMEMultipart('alternative')
-    msg['Subject'] = "Votre Commande"
-    msg['From'] = username
-    msg['To'] = request.user.username
-
-    html = '''<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><body><h1>Votre commande a bien ete recu</h1>
-    <table>
-    <tr><th>plat</th><th>prix</th><th>quantite</th></tr>'''
-    for item in commande_info['details']['commande']:
-        html+= '<tr><td>'+item['name']+'</td><td>'+str(item['price'])+'</td><td>'+str(item['qty'])+'$</td></tr>'
-    html+="</table><br/><br/>a l'adresse: " + commande_info['details']['addressTo'] + '<br/> pour le: ' + commande_info['details']['requestedTime']+'</body></html>'
-
-    msg.attach(MIMEText(html, 'html'))
-
-
-    server = smtplib.SMTP('smtp.gmail.com:587')
-    server.starttls()
-    server.login(username,password)
-    server.sendmail(username, request.user.username, msg.as_string())
-    server.quit()
+    send_mail(commande_info, request)
 
     commande.save()
     commande = CommandeSerializer(commande)
