@@ -19,7 +19,8 @@ def create_resto(request):
                                           address=restoinfo['address'])
     else:
         resto = Restaurant.objects.create(name=restoinfo['name'],
-        menu=restoinfo['menu'])
+                                          menu=restoinfo['menu'],
+                                          address=restoinfo['address'])
     resto.save()
     resto = RestaurantSerializer(resto)
     return HttpResponse(JSONRenderer().render(resto.data))
