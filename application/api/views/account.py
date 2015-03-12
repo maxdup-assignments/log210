@@ -3,7 +3,6 @@ from django.http import HttpResponse,  HttpResponseForbidden
 
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.contenttypes.models import ContentType
-from permission_backend_nonrel import utils
 
 from api.models import UserProfile, Restaurant
 
