@@ -45,7 +45,7 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
     update_total()
 
   $scope.qty_adjust = (item, adjustment) ->
-    item.qty = Math.max(0, item.qty + adjustment)
+    item.qty = Math.max(1, item.qty + adjustment)
     update_total()
 
 
@@ -55,20 +55,22 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
       $scope.total += item.price * item.qty
 
   $scope.place_order = ->
-    $scope.sending = true
-    if $scope.order.details.addressTo == '##new'
-      $scope.profile.adresse.push($scope.new_address)
-      $scope.order.details.addressTo = $scope.new_address
-      $http.post('api/edit_profile', $scope.profile)
+    if $scope.auth == true
+      $scope.sending = true
+      if $scope.order.details.addressTo == '##new'
+        $scope.profile.adresse.push($scope.new_address)
+        $scope.order.details.addressTo = $scope.new_address
+        $http.post('api/edit_profile', $scope.profile)
+          .error (data) ->
+            console.log(data)
+      $http.post('api/create_commande', $scope.order)
+        .success (data) ->
+          $scope.confirm = data
         .error (data) ->
           console.log(data)
-    $http.post('api/create_commande', $scope.order)
-      .success (data) ->
-        $scope.confirm = data
-      .error (data) ->
-        console.log(data)
-    $scope.confirm
-
+      $scope.confirm
+    if $scope.auth == false
+      alert('Veuillez vous connecter')
   $scope.minDate = new Date()
   $scope.hstep = 1
   $scope.mstep = 15
