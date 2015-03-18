@@ -56,7 +56,7 @@
       return update_total();
     };
     $scope.qty_adjust = function(item, adjustment) {
-      item.qty = Math.max(0, item.qty + adjustment);
+      item.qty = Math.max(1, item.qty + adjustment);
       return update_total();
     };
     update_total = function() {
@@ -71,20 +71,25 @@
       return _results;
     };
     $scope.place_order = function() {
-      $scope.sending = true;
-      if ($scope.order.details.addressTo === '##new') {
-        $scope.profile.adresse.push($scope.new_address);
-        $scope.order.details.addressTo = $scope.new_address;
-        $http.post('api/edit_profile', $scope.profile).error(function(data) {
+      if ($scope.auth === true) {
+        $scope.sending = true;
+        if ($scope.order.details.addressTo === '##new') {
+          $scope.profile.adresse.push($scope.new_address);
+          $scope.order.details.addressTo = $scope.new_address;
+          $http.post('api/edit_profile', $scope.profile).error(function(data) {
+            return console.log(data);
+          });
+        }
+        $http.post('api/create_commande', $scope.order).success(function(data) {
+          return $scope.confirm = data;
+        }).error(function(data) {
           return console.log(data);
         });
+        $scope.confirm;
       }
-      $http.post('api/create_commande', $scope.order).success(function(data) {
-        return $scope.confirm = data;
-      }).error(function(data) {
-        return console.log(data);
-      });
-      return $scope.confirm;
+      if ($scope.auth === false) {
+        return alert('Veuillez vous connecter');
+      }
     };
     $scope.minDate = new Date();
     $scope.hstep = 1;

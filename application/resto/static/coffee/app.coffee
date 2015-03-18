@@ -1,5 +1,5 @@
-angular.module('restoApp', ['resto.userControllers', 'resto.restoControllers', 'resto.menuControllers', 'resto.homeControllers', 'resto.commandeControllers','resto.services'])
-.config(($routeProvider, $httpProvider) ->
+angular.module('restoApp', ['ngRoute', 'resto.userControllers', 'resto.restoControllers', 'resto.menuControllers', 'resto.homeControllers', 'resto.commandeControllers','resto.services', 'gettext'])
+.config ($routeProvider, $httpProvider) ->
   $routeProvider
   .when '/home',
     controller: 'HomeController'
@@ -40,4 +40,7 @@ angular.module('restoApp', ['resto.userControllers', 'resto.restoControllers', '
 
   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-)
+
+.run (gettextCatalog) ->
+  gettextCatalog.setCurrentLanguage('en');
+  gettextCatalog.debug = true;
