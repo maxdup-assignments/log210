@@ -22,5 +22,7 @@ urlpatterns = patterns('',
     url(r'^create_commande', views.create_commande, name='create_commande'),
     url(r'^get_commande', views.get_commande, name='get_commande'),
     url(r'^resto_commande', views.resto_commande, name='resto_commande'),
-    url(r'^update_commande', views.update_commande_status, name='update_commande_status')
+    url(r'^update_commande', views.update_commande_status, name='update_commande_status'),
+    url(r'^populatecommande', views.populate_commande, name='populatecommandes'),
+
 )

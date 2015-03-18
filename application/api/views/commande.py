@@ -95,3 +95,22 @@ def update_commande_status(request):
     if note:
         response.update(note)
     return HttpResponse(JSONRenderer().render(response))
+
+def populate_commande(request):
+    user = User.objects.get(username='mdupuis@hotmail.ca')
+    restaurant = Restaurant.objects.get(name='Pataterie')
+    commande = Commande.objects.create(
+        user=user,
+        restaurant=restaurant,
+        details={
+            'commande': [{
+                'desc':'des patates',
+                'name':'patate',
+                'price':'3',
+                'qty':'1'}],
+            'addressTo': 'XX_destination',
+            'addressFrom': 'XX_adresse_resto',
+            'requestedTime': datetime.datetime.now(),
+        },
+        status='paid')
+    return HttpResponse({'success': True})

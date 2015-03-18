@@ -98,7 +98,6 @@ def populate_resto(request):
     # a script that populates the database with restaurants
 
     restaurateurs = UserProfile.objects.filter(is_restaurateur=True)
-    print restaurateurs
 
     if not Restaurant.objects.filter(name='Pataterie').exists():
         resto = Restaurant.objects.create(
