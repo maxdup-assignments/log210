@@ -181,7 +181,7 @@ def populateUser(request):
             username='livreur@resto.com',
             first_name='livreur',
             last_name='f',
-            email='restaurateur@resto.com',
+            email='livreur@resto.com',
             password='asd')
 
         profile = UserProfile.objects.create(

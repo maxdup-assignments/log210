@@ -5,7 +5,7 @@ import datetime
 
 from django.contrib.auth.models import User
 from api.models import UserProfile, Restaurant, Commande
-from api.serializers import ProfileSerializer, UserSerializer
+from api.serializers import ProfileSerializer, UserSerializer, RestaurantSerializer, CommandeSerializer
 
 from api.views.account import *
 from api.views.restaurant import *
@@ -19,19 +19,17 @@ class PopulateTestCase(TestCase):
         populate_commande(None)
 
 
-        #todo change population tests
+    # tests population
     def test_account_population(self):
-        admin = User.objects.get(username="admin@resto.com")
-        self.assertEqual(self.admin.first_name, 'admin')
+        self.assertEqual(9, User.objects.all().count())
 
     def test_resto_population(self):
-        resto = Restaurant.objects.get(name="Pataterie")
-        self.assertEqual(self.resto.address, '1877 Rue Amherst')
+        self.assertEqual(4, Restaurant.objects.all().count())
 
     def test_commande_population(self):
-        resto = Commande.objects.all()
-        self.assertEqual(1,1)
+        self.assertEqual(3, Commande.objects.all().count())
 
+    #tests utilisateurs
     def test_account_login(self):
         c = Client()
         response = c.post('/api/login/', content_type='application/json',
@@ -115,7 +113,68 @@ class PopulateTestCase(TestCase):
         self.assertEqual(body['user']['first_name'], 'patr')
         self.assertEqual(body['telephone'], '1234')
 
+    # tests restaurant
+    def test_create_resto(self):
+        c = Client()
+        user = User.objects.get(email='restaurateur@resto.com')
+        restoform = {
+            'name': 'rETSo',
+            'menu': {},
+            'user': user.pk,
+            'address': 'some adress'
+        }
+        response = c.post('/api/create_resto/', content_type='application/json',
+                          data=JSONRenderer().render(restoform))
+        self.assertEqual(response.status_code, 200)
+        body = json.loads(response.content)
+        self.assertEqual(body['name'], 'rETSo')
+        self.assertEqual(body['user']['pk'], user.pk)
 
+    def test_delete_resto(self):
+        c = Client()
+        resto = Restaurant.objects.get(name="Buffet")
+        resto = RestaurantSerializer(resto).data
+        response = c.post('/api/delete_resto/',
+                          content_type='application/json',
+                          data=JSONRenderer().render(resto))
+
+        self.assertEqual(response.status_code, 200)
+        exist = Restaurant.objects.filter(pk=resto['pk']).exists()
+        self.assertEqual(exist, False)
+
+    def test_all_resto(self):
+        c = Client()
+        response = c.get('/api/all_resto/')
+        self.assertEqual(response.status_code, 200)
+        body = json.loads(response.content)
+        self.assertEqual(len(body), 4)
+
+    def test_assigned_resto(self):
+        c = Client()
+        c.post('/api/login/', content_type='application/json',
+               data=json.dumps({'username': 'andy@hotmail.com',
+                                'password': 'patate'}))
+        response = c.get('/api/assigned_resto/')
+        self.assertEqual(response.status_code, 200)
+        body = json.loads(response.content)
+        self.assertEqual(len(body), 1)
+
+    def test_edit_resto(self):
+        c = Client()
+        resto = Restaurant.objects.get(name="Buffet")
+
+        resto.name = 'Le Buffet'
+        resto.address = 'newaddress'
+        request = RestaurantSerializer(resto).data
+
+        response = c.post('/api/edit_resto/', content_type='application/json',
+                          data=JSONRenderer().render(request))
+        self.assertEqual(response.status_code, 200)
+        body = json.loads(response.content)
+        self.assertEqual(body['name'], 'Le Buffet')
+        self.assertEqual(body['address'], 'newaddress')
+
+    # tests commandes
     def test_create_commande(self):
         c = Client()
         resto = Restaurant.objects.get(name="Pataterie")
@@ -151,6 +210,27 @@ class PopulateTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
         self.assertEqual(body['status'], 'paid')
+
+    def test_resto_commande(self):
+        c = Client()
+        resto = Restaurant.objects.get(name="Pataterie")
+        commande = Commande.objects.filter(restaurant=resto)
+        response = c.post('/api/resto_commande/',
+                          content_type='application/json', data=resto.pk)
+        self.assertEqual(response.status_code, 200)
+        body = json.loads(response.content)
+        self.assertEqual(2, len(body))
+
+    def test_update_commande(self):
+        c = Client()
+        commande = Commande.objects.all()[0]
+        response = c.post('/api/update_commande/',
+                          content_type='application/json',
+                          data=json.dumps({'status':'preparing',
+                                           'commande':CommandeSerializer(commande).data}))
+        self.assertEqual(response.status_code, 200)
+        body = json.loads(response.content)
+        self.assertEqual('preparing', body['status'])
 
     def tearDown(self):
         c = Connection()

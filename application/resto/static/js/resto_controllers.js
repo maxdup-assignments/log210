@@ -144,7 +144,7 @@
       }
     };
     return $scope.save_menu = function() {
-      return $http.post('/api/edit_menu', $scope.current_resto).success(function(data) {
+      return $http.post('/api/edit_resto', $scope.current_resto).success(function(data) {
         return console.log(data);
       });
     };

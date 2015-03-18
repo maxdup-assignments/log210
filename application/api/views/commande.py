@@ -99,7 +99,8 @@ def update_commande_status(request):
 def populate_commande(request):
     user = User.objects.get(username='mdupuis@hotmail.ca')
     restaurant = Restaurant.objects.get(name='Pataterie')
-    commande = Commande.objects.create(
+    restaurant2 = Restaurant.objects.get(name='Subway')
+    Commande.objects.create(
         user=user,
         restaurant=restaurant,
         details={
@@ -110,7 +111,35 @@ def populate_commande(request):
                 'qty':'1'}],
             'addressTo': 'XX_destination',
             'addressFrom': 'XX_adresse_resto',
-            'requestedTime': datetime.datetime.now(),
+            'requestedTime': "2015-03-18T20:15:02.449Z",
+        },
+        status='paid')
+    Commande.objects.create(
+        user=user,
+        restaurant=restaurant,
+        details={
+            'commande': [{
+                'name': 'poutine',
+                'desc': 'de la poutine',
+                'price': '7',
+                'qty':'1'}],
+            'addressTo': 'XX_destination',
+            'addressFrom': 'XX_adresse_resto',
+            'requestedTime': "2015-03-18T20:15:02.449Z",
+        },
+        status='paid')
+    Commande.objects.create(
+        user=user,
+        restaurant=restaurant2,
+        details={
+            'commande': [{
+                'name': 'sous-marin',
+                'desc': '12 pouces',
+                'price': '5',
+                'qty':'1'}],
+            'addressTo': 'XX_destination',
+            'addressFrom': 'XX_adresse_resto',
+            'requestedTime': "2015-03-18T20:15:02.449Z",
         },
         status='paid')
     return HttpResponse({'success': True})
