@@ -19,7 +19,8 @@ def create_resto(request):
                                           address=restoinfo['address'])
     else:
         resto = Restaurant.objects.create(name=restoinfo['name'],
-        menu=restoinfo['menu'])
+                                          menu=restoinfo['menu'],
+                                          address=restoinfo['address'])
     resto.save()
     resto = RestaurantSerializer(resto)
     return HttpResponse(JSONRenderer().render(resto.data))
@@ -39,15 +40,23 @@ def edit_resto(request):
 
     restoinfo = json.loads(request.body)
     resto = Restaurant.objects.get(pk=restoinfo['pk'])
-    print(restoinfo)
+
+    # sanitizing
     del restoinfo['user']
+    if 'sous_menu' in restoinfo['menu']:
+        for menu in restoinfo['menu']['sous_menus']:
+            if 'newitem' in menu:
+                del menu['newitem']
+
     resto.__dict__.update(**restoinfo)
+
     if 'new_user' in restoinfo:
         if restoinfo['new_user']['value']:
             new_user = User.objects.get(pk=restoinfo['new_user']['value'])
             resto.user = new_user
         else:
             resto.user = None
+
     resto.save()
     resto = RestaurantSerializer(resto)
     return HttpResponse(JSONRenderer().render(resto.data))
@@ -65,7 +74,6 @@ def all_resto(request):
 def assigned_resto(request):
     # returns all restaurants assigned to the current user in an array
 
-    print request.user.pk
     user = User.objects.get(pk=request.user.pk)
     restos = Restaurant.objects.filter(user=user)
 
@@ -75,29 +83,10 @@ def assigned_resto(request):
         response.append(resto.data)
     return HttpResponse(JSONRenderer().render(response))
 
-
-def edit_menu(request):
-    # updates the menu of a restaurant
-    # -receives a json formated restaurant 
-    # -returns the updated restaurant
-
-    restoinfo = json.loads(request.body)
-    resto = Restaurant.objects.get(pk=restoinfo['pk'])
-
-    for menu in restoinfo['menu']['sous_menus']:
-        if 'newitem' in menu:
-            del menu['newitem']
-    resto.menu = restoinfo['menu']
-    resto.save()
-    response = RestaurantSerializer(resto)
-    return HttpResponse(JSONRenderer().render(response.data))
-
-    
 def populate_resto(request):
     # a script that populates the database with restaurants
 
     restaurateurs = UserProfile.objects.filter(is_restaurateur=True)
-    print restaurateurs
 
     if not Restaurant.objects.filter(name='Pataterie').exists():
         resto = Restaurant.objects.create(

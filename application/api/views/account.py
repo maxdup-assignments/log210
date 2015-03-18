@@ -3,7 +3,6 @@ from django.http import HttpResponse,  HttpResponseForbidden
 
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.contenttypes.models import ContentType
-from permission_backend_nonrel import utils
 
 from api.models import UserProfile, Restaurant
 
@@ -182,7 +181,7 @@ def populateUser(request):
             username='livreur@resto.com',
             first_name='livreur',
             last_name='f',
-            email='restaurateur@resto.com',
+            email='livreur@resto.com',
             password='asd')
 
         profile = UserProfile.objects.create(
