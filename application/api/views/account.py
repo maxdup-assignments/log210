@@ -10,12 +10,17 @@ from api.serializers import ProfileSerializer, UserSerializer
 from rest_framework.renderers import JSONRenderer
 import json
 
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+@ensure_csrf_cookie
 def get_current_profile(request):
     # returns the current profile
-    user = User.objects.get(pk=request.user.pk)
-    profile = UserProfile.objects.get(user=user.pk)
-    profile = ProfileSerializer(profile)
-    return HttpResponse(JSONRenderer().render(profile.data))
+    if request.user.is_authenticated():
+        user = User.objects.get(pk=request.user.pk)
+        profile = UserProfile.objects.get(user=user.pk)
+        profile = ProfileSerializer(profile)
+        return HttpResponse(JSONRenderer().render(profile.data))
+    return HttpResponse()
 
 def get_profiles(request):
     # returns all profiles
