@@ -1,0 +1,22 @@
+<div class="jumbotron">
+  <h1>Votre paiement a été recu</h1>
+  <h2>état de votre commande: <span class="label label-primary">{{ confirm.status }}</span></h2>
+
+  <table class="table" style="margin-top:40px">
+    <tr>
+      <th style="width:250px">Nom</th>
+      <th style="width:250px">Quantité</th>
+      <th style="width:50px">Prix</th>
+    </tr>
+    <tr ng-repeat="item in confirm.details.commande">
+      <td>{{ item.name }}</td>
+      <td>{{ item.qty }}</td>
+      <td>{{ item.price * item.qty }}$</td>
+    </tr>
+    <tr>
+      <th style="width:250px">Total</th>
+      <th style="width:50px"></th>
+      <th style="width:250px">{{ total }}$</th>
+    </tr>
+  </table>
+</div>

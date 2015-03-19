@@ -1,0 +1,113 @@
+
+<div ng-hide="profiles">Loading...</div>
+<table ng-show="profiles" class="table table-responsive profiles">
+  <tr>
+    <th>email</th>
+    <th>first name</th>
+    <th>last name</th>
+    <th>adresse</th>
+    <th>telephone</th>
+    <th>date de naissance</th>
+    <th>permissions</th>
+  </tr>
+
+  <tr ng-repeat="prof in profiles">
+    <td ng-hide="prof.backup">{{ prof.user.username }}</td>
+    <td ng-hide="prof.backup">{{ prof.user.first_name }}</td>
+    <td ng-hide="prof.backup">{{ prof.user.last_name }}</td>
+    <td ng-hide="prof.backup">{{ prof.adresse }}</td>
+    <td ng-hide="prof.backup">{{ prof.telephone }}</td>
+    <td ng-hide="prof.backup">{{ prof.date_naissance }}</td>
+    <td ng-hide="prof.backup">
+      <span ng-if="prof.is_admin">admin</span>
+      <span ng-if="prof.is_entrepreneur">entrepreneur</span>
+      <span ng-if="prof.is_restaurateur">restaurateur</span>
+      <span ng-if="prof.is_livreur">livreur</span>
+    </td>
+    <td ng-hide="prof.backup">
+      <button class="btn btn-xs" ng-click="edit(prof)">Edit</button>
+      <button ng-disabled="profile.is_entrepreneur && (prof.is_admin || prof.is_entrepreneur)"
+              class="btn btn-xs btn-danger" ng-click="delete(prof)">Remove</button>
+    </td>
+
+    <td ng-show="prof.backup">
+      <input style="width=20px;" ng-model="prof.user.username"/></td>
+    <td ng-show="prof.backup"><input ng-model="prof.user.first_name"/></td>
+    <td ng-show="prof.backup"><input ng-model="prof.user.last_name"/></td>
+    <td ng-show="prof.backup">{{prof.adresse}}</td>
+    <td ng-show="prof.backup"><input ng-model="prof.telephone"/></td>
+    <td ng-show="prof.backup"><input ng-model="prof.date_naissance"/></td>
+    <td ng-show="prof.backup">
+      <label><input type="checkbox" ng-model="prof.is_entrepreneur" style="width: 30px"
+                    ng-disabled="profile.is_entrepreneur"/>entrepreneur</label><br/>
+      <label><input type="checkbox" ng-model="prof.is_restaurateur" style="width: 30px"/>restaurateur</label><br/>
+      <label><input type="checkbox" ng-model="prof.is_livreur" style="width: 30px"/>livreur</label><br/>
+    </td>
+
+    <td ng-show="prof.backup">
+      <button class="btn btn-xs btn-success"
+              ng-click="save(prof)">Save</button>
+      <button class="btn btn-xs btn-danger"
+              ng-click="cancel(prof)">Cancel</button>
+    </td>
+  </tr>
+</table>
+
+<div>
+<h3>Ajouter Restaurateur</h3>
+<form class="form-horizontal">
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Email:</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" ng-model="userform.email">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">First name:</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" ng-model="userform.first_name">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Last name:</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" ng-model="userform.last_name">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Adresse:</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" ng-model="userform.adresse">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Birthday:</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" ng-model="userform.date_naissance">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Telephone Number:</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" ng-model="userform.telephone">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Password:</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="password" ng-model="userform.password">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Restaurant:</label>
+    <div class="col-sm-2">
+      <select class="form-control"
+              ng-model="selected_resto"
+              ng-change="userform.resto = selected_resto.value"
+              ng-options="resto as resto.label for resto in options"/>
+    </div>
+  </div>
+</form>
+<button class="btn btn-success" ng-click="submit(true)" style="float:right">Submit</button>
+</div>

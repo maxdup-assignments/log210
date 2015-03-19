@@ -1,0 +1,12 @@
+<div class="row">
+  <h1>Nos Restaurants</h1>
+  <br/>
+  <div ng-repeat="resto in restos" class="panel panel-default">
+    <div class="panel-body">
+      <h4 style="float:left">{{resto.name}}</h4>
+      <h6 style="float:left; margin-left:50px; line-height:20px">{{resto.address}}</h6>
+      <a ng-hide="!resto.menu.sous_menus" class="btn btn-success" href="#/resto/{{resto.pk}}" style="float:right">voir menu</a>
+      <a ng-show="!resto.menu.sous_menus" disabled="true" class="btn btn-default" href="#/resto/{{resto.pk}}" style="float:right">bientot disponible</a>
+    </div>
+  </div>
+</div>
