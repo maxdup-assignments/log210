@@ -1,16 +1,41 @@
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse,  HttpResponseForbidden
 
-from django.contrib.auth.models import User, Group, Permission
-from django.contrib.contenttypes.models import ContentType
-
+from django.contrib.auth.models import User
 from api.models import UserProfile, Restaurant
-
 from api.serializers import ProfileSerializer, UserSerializer
+
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+# plan to delete
+from django.http import HttpResponse,  HttpResponseForbidden
 from rest_framework.renderers import JSONRenderer
 import json
 
-from django.views.decorators.csrf import ensure_csrf_cookie
+@ensure_csrf_cookie
+@api_view(['GET','POST'])
+def profile(request, pk=None):
+    if request.method == 'GET':
+        if pk:
+            profile = UserProfile.objects.get(pk=pk)
+            output = ProfileSerializer(profile)
+        else:
+            profiles = UserProfile.objects.all()
+            output = ProfileSerializer(profiles, many=True)
+        return Response(output.data)
+
+    elif request.method == 'POST':
+        profile = RestaurantSerializer(data=request.data)
+        if resto.is_valid():
+            profile.save()
+            return Response(profile.data,
+                            status=status.HTTP_201_CREATED)
+        else:
+            return Response(profile.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
 
 @ensure_csrf_cookie
 def get_current_profile(request):

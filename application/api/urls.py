@@ -26,4 +26,6 @@ urlpatterns = patterns('',
     url(r'^resto_commande', resto_commande, name='resto_commande'),
     url(r'^update_commande', update_commande_status, name='update_commande_status'),
     url(r'^populatecommande', populate_commande, name='populatecommandes'),
+    url(r'^resto(?:/(?P<pk>\w+))?$', resto),
+    url(r'^profile(?:/(?P<pk>\w+))?$', profile),
 )

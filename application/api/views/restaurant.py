@@ -1,10 +1,49 @@
-from django.http import HttpResponse,  HttpResponseForbidden
-
 from api.models import Restaurant, User, UserProfile
-
 from api.serializers import RestaurantSerializer
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+# plan to delete
+from django.http import HttpResponse,  HttpResponseForbidden
 from rest_framework.renderers import JSONRenderer
 import json
+
+@api_view(['GET','POST'])
+def resto(request, pk=None):
+
+    if pk:
+        resto = Restaurant.objects.get(pk=pk)
+
+    if request.method == 'GET':
+        if pk:
+            output = RestaurantSerializer(resto)
+        else:
+            restos = Restaurant.objects.all()
+            output = RestaurantSerializer(restos, many=True)
+        return Response(output.data)
+
+    elif request.method == 'POST':
+        resto = RestaurantSerializer(data=request.data)
+        if resto.is_valid():
+            resto.save()
+            return Response(resto.data,
+                            status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,
+                            resto=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'PUT' and pk:
+        resto = RestaurantSerializer(resto, data=request.data)
+        if resto.is_valid():
+            resto.save()
+            return Response(resto.data)
+        return Response(resto.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        resto.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 def create_resto(request):
     # creates a restorant in database.
