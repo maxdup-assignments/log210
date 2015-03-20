@@ -1,18 +1,18 @@
 angular.module('resto.userControllers', [])
-.controller 'RootController', ($scope, $location, $http, $route) ->
-  $scope.auth = auth == 'True'
-
-  $http.get('/api/profile')
-    .success (data) ->
-      $scope.profile = data
+.controller 'RootController', ($scope, $location, $http, $route, $cookies) ->
+  $http.defaults.headers.post['X-CSRFToken'] = $cookies['csrftoken']
 
   $scope.loginform = {
     'username':''
     'password':''
   }
 
+  $http.get('http://127.0.0.1:8000/api/profile')
+    .success (data) ->
+      $scope.profile = data
+
   $scope.login = ->
-    $http.post('api/login', $scope.loginform)
+    $http.post('http://127.0.0.1:8000/api/login', $scope.loginform)
       .success (data) ->
         $scope.auth = true
         $scope.loggingin = false
@@ -23,7 +23,7 @@ angular.module('resto.userControllers', [])
         console.log(data)
 
   $scope.logout = ->
-    $http.get('/api/logout')
+    $http.get('http://127.0.0.1:8000/api/logout')
       .success (data) ->
         $scope.auth = false
         $scope.profile = null

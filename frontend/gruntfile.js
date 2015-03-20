@@ -12,7 +12,7 @@ module.exports = function(grunt){
 	nggettext_compile: {
 	  all: {
 	    files: [
-			{src: ['po/*.po'], dest: 'application/resto/static/js/translations.js'},
+			{src: ['po/*.po'], dest: 'app/js/translations.js'},
 		]
 	  },
 	},
@@ -20,9 +20,9 @@ module.exports = function(grunt){
       app: {
         files: [{
           expand: true,
-          cwd: 'application/resto/static/coffee/',
+          cwd: 'app/coffee/',
           src: ['*.coffee','!.*.coffee'],
-          dest: 'application/resto/static/js/',
+          dest: 'app/js/',
           ext: '.js'
         }],
         options:{
@@ -34,9 +34,9 @@ module.exports = function(grunt){
       app: {
         files: [{
           expand: true,
-          cwd: 'application/resto/static/less/',
+          cwd: 'app/less/',
           src: ['*.less', '!.*.less'],
-          dest: 'application/resto/static/css/',
+          dest: 'app/css/',
           ext: '.css'
         }]
       }

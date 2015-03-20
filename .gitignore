@@ -58,3 +58,6 @@ target/
 
 # node
 node_modules/
+
+# bower
+bower_components/

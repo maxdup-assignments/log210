@@ -4,7 +4,7 @@
     $scope.restos = [];
     return $http.get('http://127.0.0.1:8000/api/resto').success(function(data) {
       return $scope.restos = data;
-    }).error(function(data){console.log(data)});
+    });
   });
 
 }).call(this);
