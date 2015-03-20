@@ -1,15 +1,12 @@
 angular.module('resto.userControllers', [])
-.controller 'RootController', ($scope, $location, $http, $route, $cookies) ->
-  $http.defaults.headers.post['X-CSRFToken'] = $cookies['csrftoken']
+.controller 'RootController', ($scope, $location, $http, $route, Profile) ->
 
   $scope.loginform = {
     'username':''
     'password':''
   }
-
-  $http.get('http://127.0.0.1:8000/api/profile')
-    .success (data) ->
-      $scope.profile = data
+  $scope.profile = Profile.get({id:'self'})
+  console.log($scope.profile)
 
   $scope.login = ->
     $http.post('http://127.0.0.1:8000/api/login', $scope.loginform)
@@ -33,24 +30,28 @@ angular.module('resto.userControllers', [])
         $route.reload()
 
 
-.controller 'UserController', ($scope, $location, $http) ->
+.controller 'UserController', ($scope, $location, $http, Profile) ->
+
   userform = {
-    'email':'',
-    'first_name': '',
-    'last_name': '',
+    'user':{
+      'username':''
+      'email':'',
+      'first_name': '',
+      'last_name': '',
+      'password': ''}
     'date_naissance': '',
     'adresse': '',
     'telephone': '',
-    'password': ''
   }
 
-  $scope.userform = {}
   _.extend($scope.userform, userform)
 
   $scope.submit = (restaurateur=false) ->
     $scope.userform.is_restaurateur = restaurateur
-    $http.post('/api/register', $scope.userform)
-      .success (data) ->
+    $scope.userform.user.email = $scope.userform.user.username
+    userform = {}
+    Profile.save($scope.userform).$promise.then(
+      (value) ->
         if $location.path() == '/admin/users'
           $scope.profiles.push(data)
           if $scope.userform.resto
@@ -62,9 +63,10 @@ angular.module('resto.userControllers', [])
           _.extend($scope.userform, userform)
         else
           alert('registration successful')
-          $location.path( "#/home" );
-      .error (data) ->
-        console.log(data)
+          $location.path("#/home")
+      (error) ->
+        console.log(error.data)
+      )
 
   if $location.path() == '/admin/users'
     $http.get('/api/all_profiles')
@@ -94,9 +96,12 @@ angular.module('resto.userControllers', [])
     delete profile['backup']
 
   $scope.save = (profile) ->
-    $http.post('/api/edit_profile', profile)
-      .success (data) ->
-        delete profile['backup']
+    Profile.update({id:profile.pk}, profile).$promise.then(
+      (value) ->
+        console.log(value)
+      (error) ->
+        console.log(error.data)
+      )
 
   $scope.delete = (profile) ->
     $http.post('/api/delete_profile', profile)

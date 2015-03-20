@@ -68,6 +68,14 @@ CORS_ORIGIN_WHITELIST = (
     'ram.mdupuis.com',
     '127.0.0.1:8000',
 )
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
+)
 
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"

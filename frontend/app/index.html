@@ -9,22 +9,24 @@
   <script src="js/include/bootstrap.min.js"></script>
   <script src="js/include/underscore-min.js"></script>
 
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-route/angular-route.js"></script>
-  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/bower_components/angular-route/angular-route.js"></script>
+  <script src="/bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="/bower_components/angular-resource/angular-resource.min.js"></script>
   <script src="js/include/angular-gettext.min.js"></script>
+  <script src="js/translations.js"></script>
 
   <script src="js/include/ui-bootstrap-tpls-0.12.1.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
   
   <script src="js/app.js"></script>
+  <script src="js/services.js"></script>
+
   <script src="js/user_controllers.js"></script>
   <script src="js/resto_controllers.js"></script>
   <script src="js/menu_controllers.js"></script>
   <script src="js/home_controllers.js"></script>
   <script src="js/commande_controllers.js"></script>
-  <script src="js/services.js"></script>
-  <script src="js/translations.js"></script>
 
   <script>CSRF_TOKEN = '{{ csrf_token }}';
   auth = '{{ user.is_authenticated }}';</script>

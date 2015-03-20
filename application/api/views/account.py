@@ -8,6 +8,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 
 # plan to delete
 from django.http import HttpResponse,  HttpResponseForbidden
@@ -15,11 +16,13 @@ from rest_framework.renderers import JSONRenderer
 import json
 
 @ensure_csrf_cookie
-@api_view(['GET','POST'])
+@api_view(['GET','POST','PUT'])
 def profile(request, pk=None):
+
     if request.method == 'GET':
         if pk:
-            profile = UserProfile.objects.get(pk=pk)
+            user = User.objects.get(pk=request.user.pk)
+            profile = UserProfile.objects.get(user=user)
             output = ProfileSerializer(profile)
         else:
             profiles = UserProfile.objects.all()
@@ -27,15 +30,29 @@ def profile(request, pk=None):
         return Response(output.data)
 
     elif request.method == 'POST':
-        profile = RestaurantSerializer(data=request.data)
-        if resto.is_valid():
+        request.data['user']['username'] = request.data['user']['email']
+        profile = ProfileSerializer(data=request.data)
+        if profile.is_valid():
             profile.save()
             return Response(profile.data,
                             status=status.HTTP_201_CREATED)
-        else:
-            return Response(profile.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+        return Response(profile.errors,
+                        status=status.HTTP_400_BAD_REQUEST)
 
+    elif request.method == 'PUT':
+        userdata = request.data.pop('user')
+        user = User.objects.get(pk=request.user.pk)
+        user = UserSerializer(user, data=userdata)
+        if user.is_valid():
+            user.save()
+            profile = UserProfile.objects.get(user=user.data['pk'])
+            profile = ProfileSerializer(profile, data=request.data, partial=True)
+            if profile.is_valid():
+                profile.save()
+                print('profile saved')
+                return Response(user.data)
+
+        return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @ensure_csrf_cookie
 def get_current_profile(request):

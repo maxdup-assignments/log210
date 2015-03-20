@@ -1,4 +1,4 @@
-angular.module('restoApp', ['ngRoute', 'ngCookies', 'resto.userControllers', 'resto.restoControllers', 'resto.menuControllers', 'resto.homeControllers', 'resto.commandeControllers','resto.services', 'gettext'])
+angular.module('restoApp', ['ngRoute', 'ngCookies', 'ngResource', 'resto.services', 'resto.userControllers', 'resto.restoControllers', 'resto.menuControllers', 'resto.homeControllers', 'resto.commandeControllers', 'gettext'])
 .config ($routeProvider, $httpProvider) ->
   $routeProvider
   .when '/home',
@@ -38,10 +38,13 @@ angular.module('restoApp', ['ngRoute', 'ngCookies', 'resto.userControllers', 're
   .otherwise
     redirectTo: '/home'
 
-  $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-  $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-  $httpProvider.defaults.withCredentials = true;
+  $httpProvider.defaults.xsrfCookieName = 'csrftoken'
+  $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken'
+  $httpProvider.defaults.withCredentials = true
 
-.run (gettextCatalog) ->
+.run (gettextCatalog, $http, $cookies) ->
+  $http.defaults.headers.post['X-CSRFToken'] = $cookies['csrftoken']
+  $http.defaults.headers.put['X-CSRFToken'] = $cookies['csrftoken']
+  $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
   gettextCatalog.setCurrentLanguage('en');
   gettextCatalog.debug = true;
