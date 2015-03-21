@@ -26,7 +26,7 @@
         $scope.profile = null;
         $scope.loginform['username'] = '';
         $scope.loginform['password'] = '';
-        $location.path("#/home");
+        $location.path("/app/#/home");
         return $route.reload();
       });
     };
@@ -76,7 +76,7 @@
           return _.extend($scope.userform, userform);
         } else {
           alert('registration successful');
-          return $location.path("#/home");
+          return $location.path("app/#/home");
         }
       });
     };

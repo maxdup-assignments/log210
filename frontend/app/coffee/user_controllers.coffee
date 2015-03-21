@@ -29,7 +29,7 @@ angular.module('resto.userControllers', ['resto.dev'])
         $scope.profile = null
         $scope.loginform['username'] = ''
         $scope.loginform['password'] = ''
-        $location.path( "#/home" )
+        $location.path( "/app/#/home" )
         $route.reload()
 
 
@@ -68,7 +68,7 @@ angular.module('resto.userControllers', ['resto.dev'])
           _.extend($scope.userform, userform)
         else
           alert('registration successful')
-          $location.path("#/home"))
+          $location.path("app/#/home"))
 
   if $location.path() == '/admin/users'
 
