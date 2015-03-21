@@ -5,10 +5,6 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-# plan to delete
-from django.http import HttpResponse,  HttpResponseForbidden
-from rest_framework.renderers import JSONRenderer
-import json
 
 @api_view(['GET','POST','PUT','DELETE'])
 def resto(request, pk=None):
@@ -22,7 +18,7 @@ def resto(request, pk=None):
         if pk:
             output = RestaurantSerializer(resto)
 
-        #returns restos correspondiong to user
+        # returns restos correspondiong to user
         elif 'user' in request.GET:
             user = User.objects.get(pk=request.GET['user'])
             restos = Restaurant.objects.filter(user=user)

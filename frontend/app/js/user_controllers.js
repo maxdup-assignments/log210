@@ -18,8 +18,6 @@
         $scope.profile = data.profile;
         $scope.username = data.username;
         return $route.reload();
-      }).error(function(data) {
-        return console.log(data);
       });
     };
     return $scope.logout = function() {
@@ -80,16 +78,10 @@
           alert('registration successful');
           return $location.path("#/home");
         }
-      }, function(error) {
-        return console.log(error.data);
       });
     };
     if ($location.path() === '/admin/users') {
-      $http.get('http://127.0.0.1:8000/api/all_profiles').success(function(data) {
-        return $scope.profiles = data;
-      }).error(function(data) {
-        return console.log(data);
-      });
+      $scope.profiles = Profile.query();
       $scope.options = [
         {
           'label': 'None',
@@ -135,17 +127,13 @@
     $scope.save = function(profile) {
       return Profile.update({
         id: profile.pk
-      }, profile).$promise.then(function(value) {
-        return console.log(value);
-      }, function(error) {
-        return console.log(error.data);
-      });
+      }, profile);
     };
-    return $scope["delete"] = function(profile) {
-      return $http.post('http://127.0.0.1:8000/api/delete_profile', profile).success(function(data) {
+    return $scope.remove = function(profile) {
+      return Profile["delete"]({
+        id: profile.user.pk
+      }).$promise.then(function(value) {
         return $scope.profiles = _.without($scope.profiles, profile);
-      }).error(function(data) {
-        return console.log(data);
       });
     };
   });

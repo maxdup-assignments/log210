@@ -21,8 +21,6 @@ angular.module('resto.userControllers', [])
         $scope.profile = data.profile
         $scope.username = data.username
         $route.reload()
-      .error (data) ->
-        console.log(data)
 
   $scope.logout = ->
     $http.get('http://127.0.0.1:8000/api/logout')
@@ -70,18 +68,11 @@ angular.module('resto.userControllers', [])
           _.extend($scope.userform, userform)
         else
           alert('registration successful')
-          $location.path("#/home")
-      (error) ->
-        console.log(error.data)
-      )
+          $location.path("#/home"))
 
   if $location.path() == '/admin/users'
-    $http.get('http://127.0.0.1:8000/api/all_profiles')
-      .success (data) ->
-        $scope.profiles = data
-      .error (data) ->
-        console.log(data)
 
+    $scope.profiles = Profile.query()
     $scope.options = [{'label':'None', 'value':''}]
     $scope.selected_resto = $scope.options[0]
 
@@ -103,16 +94,9 @@ angular.module('resto.userControllers', [])
     delete profile['backup']
 
   $scope.save = (profile) ->
-    Profile.update({id:profile.pk}, profile).$promise.then(
-      (value) ->
-        console.log(value)
-      (error) ->
-        console.log(error.data)
-      )
+    Profile.update({id:profile.pk}, profile)
 
-  $scope.delete = (profile) ->
-    $http.post('http://127.0.0.1:8000/api/delete_profile', profile)
-      .success (data) ->
-        $scope.profiles = _.without($scope.profiles, profile)
-      .error (data) ->
-        console.log(data)
+  $scope.remove = (profile) ->
+    Profile.delete(id:profile.user.pk).$promise.then(
+      (value) ->
+        $scope.profiles = _.without($scope.profiles, profile))

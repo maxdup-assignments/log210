@@ -46,5 +46,5 @@ angular.module('restoApp', ['ngRoute', 'ngCookies', 'ngResource', 'resto.service
   $http.defaults.headers.post['X-CSRFToken'] = $cookies['csrftoken']
   $http.defaults.headers.put['X-CSRFToken'] = $cookies['csrftoken']
   $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
-  gettextCatalog.setCurrentLanguage('en');
-  gettextCatalog.debug = true;
+  gettextCatalog.setCurrentLanguage('en')
+  gettextCatalog.debug = true

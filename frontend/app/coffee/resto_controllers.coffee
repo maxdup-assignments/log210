@@ -1,7 +1,7 @@
 angular.module('resto.restoControllers', [])
 
 .controller 'RestaurantController',
-($scope, $location, $http, Resto) ->
+($scope, $location, $http, Profile, Resto) ->
 
   $scope.restos = []
 
@@ -15,12 +15,14 @@ angular.module('resto.restoControllers', [])
     $scope.options = [{'label':'None', 'value':''}]
 
     $scope.selected_staff = ''
-    $http.get('http://127.0.0.1:8000/api/all_staff')
-      .success (data) ->
-        for user in data
-          $scope.options.push({'label': user.email,'value':user.pk})
+    Profile.query({restaurateur:true}).$promise.then(
+      (value) ->
+        console.log(value)
+        for profile in value
+          $scope.options.push(
+            {'label': profile.user.email, 'value': profile.user.pk})
         $scope.selected_staff = $scope.options[0]
-        $scope.new_resto.user = $scope.selected_staff.value
+        $scope.new_resto.user = $scope.selected_staff.value)
 
     assign_selection = (resto) ->
       if resto.user
@@ -41,8 +43,8 @@ angular.module('resto.restoControllers', [])
 
       Resto.save($scope.new_resto).$promise.then(
         (value) ->
-          assign_selection(data)
-          $scope.restos.push(data)
+          assign_selection(value)
+          $scope.restos.push(value)
           $scope.new_resto = {'name':'', 'menu':{}, 'user':''})
 
   else

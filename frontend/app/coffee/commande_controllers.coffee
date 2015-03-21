@@ -1,7 +1,7 @@
 angular.module('resto.commandeControllers', ['ui.bootstrap'])
 
 .controller 'CommandeController',
-($scope, $http, $routeParams, Resto, Commande) ->
+($scope, $http, $routeParams, Profile, Resto, Commande) ->
   $scope.form = {}
   param = $routeParams.param
 
@@ -54,14 +54,11 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
     if $scope.order.details.addressTo == '##new'
       $scope.profile.adresse.push($scope.new_address)
       $scope.order.details.addressTo = $scope.new_address
-      $http.post('http://127.0.0.1:8000/api/edit_profile', $scope.profile)
+      Profile.update({id:$scope.profile.user.pk}, $scope.profile)
     Commande.save($scope.order).$promise.then(
       (value) ->
         $scope.confirm = value
-        console.log(value)
-      (error) ->
-        console.log(error.data)
-    )
+        console.log(value))
 
     if $scope.auth == false
       alert('Veuillez vous connecter')
@@ -123,9 +120,7 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
         if 'error' in _.keys(value)
           alert('Un autre livreur a déjà livré cette commande')
         else
-          commande = value
-      (error) ->
-        console.log(error.data))
+          commande = value)
 
 
 .controller 'CommandeConfirmController',
@@ -141,14 +136,5 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
 
       if value.status == 'pending'
         value.status = 'paid'
-        Commande.update({id:param}, value).$promise.then(
-          (value) ->
-            console.log('okay',value)
-          (error) ->
-            console.log(error.data)
-        )
-      $scope.confirm = value
-
-    (error) ->
-      console.log(error.data)
-  )
+        Commande.update({id:param}, value)
+      $scope.confirm = value)

@@ -1,4 +1,5 @@
 from models import *
+from django.http import HttpResponse
 
 def populate_database(request):
     populate_user()

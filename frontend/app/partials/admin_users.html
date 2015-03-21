@@ -27,7 +27,7 @@
     <td ng-hide="prof.backup">
       <button class="btn btn-xs" ng-click="edit(prof)">Edit</button>
       <button ng-disabled="profile.is_entrepreneur && (prof.is_admin || prof.is_entrepreneur)"
-              class="btn btn-xs btn-danger" ng-click="delete(prof)">Remove</button>
+              class="btn btn-xs btn-danger" ng-click="remove(prof)">Remove</button>
     </td>
 
     <td ng-show="prof.backup">

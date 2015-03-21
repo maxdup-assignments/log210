@@ -2,7 +2,7 @@
 (function() {
   var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  angular.module('resto.commandeControllers', ['ui.bootstrap']).controller('CommandeController', function($scope, $http, $routeParams, Resto, Commande) {
+  angular.module('resto.commandeControllers', ['ui.bootstrap']).controller('CommandeController', function($scope, $http, $routeParams, Profile, Resto, Commande) {
     var param, update_total;
     $scope.form = {};
     param = $routeParams.param;
@@ -71,13 +71,13 @@
       if ($scope.order.details.addressTo === '##new') {
         $scope.profile.adresse.push($scope.new_address);
         $scope.order.details.addressTo = $scope.new_address;
-        $http.post('http://127.0.0.1:8000/api/edit_profile', $scope.profile);
+        Profile.update({
+          id: $scope.profile.user.pk
+        }, $scope.profile);
       }
       Commande.save($scope.order).$promise.then(function(value) {
         $scope.confirm = value;
         return console.log(value);
-      }, function(error) {
-        return console.log(error.data);
       });
       if ($scope.auth === false) {
         return alert('Veuillez vous connecter');
@@ -157,8 +157,6 @@
         } else {
           return commande = value;
         }
-      }, function(error) {
-        return console.log(error.data);
       });
     };
   }).controller('CommandeConfirmController', function($scope, $http, $routeParams, Commande) {
@@ -179,15 +177,9 @@
         value.status = 'paid';
         Commande.update({
           id: param
-        }, value).$promise.then(function(value) {
-          return console.log('okay', value);
-        }, function(error) {
-          return console.log(error.data);
-        });
+        }, value);
       }
       return $scope.confirm = value;
-    }, function(error) {
-      return console.log(error.data);
     });
   });
 

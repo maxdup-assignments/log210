@@ -11,9 +11,6 @@ from email.mime.text import MIMEText
 import datetime
 import smtplib
 
-from django.http import HttpResponse,  HttpResponseForbidden
-from rest_framework.renderers import JSONRenderer
-import json
 
 @api_view(['GET','POST','PUT'])
 def commande(request, pk=None):
