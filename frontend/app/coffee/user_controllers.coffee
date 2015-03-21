@@ -1,12 +1,17 @@
 angular.module('resto.userControllers', [])
-.controller 'RootController', ($scope, $location, $http, $route, Profile) ->
+
+.controller 'RootController',
+($scope, $location, $http, $route, $rootScope, Profile) ->
 
   $scope.loginform = {
     'username':''
     'password':''
   }
-  $scope.profile = Profile.get({id:'self'})
-  console.log($scope.profile)
+  Profile.get({id:'self'}).$promise.then(
+    (value) ->
+      $scope.profile = value
+      $rootScope.$broadcast('profileload')
+  )
 
   $scope.login = ->
     $http.post('http://127.0.0.1:8000/api/login', $scope.loginform)
@@ -30,7 +35,8 @@ angular.module('resto.userControllers', [])
         $route.reload()
 
 
-.controller 'UserController', ($scope, $location, $http, Profile) ->
+.controller 'UserController',
+($scope, $location, $http, Profile, Resto) ->
 
   userform = {
     'user':{
@@ -56,7 +62,8 @@ angular.module('resto.userControllers', [])
           $scope.profiles.push(data)
           if $scope.userform.resto
             $scope.options =
-              (opt for opt, opt in $scope.options when opt.value != $scope.userform.resto)
+              (opt for opt, opt in $scope.options \
+                when opt.value != $scope.userform.resto)
             $scope.selected_resto = $scope.options[0]
           else
             alert("il est preferable d'assigner un restaurant")
@@ -69,7 +76,7 @@ angular.module('resto.userControllers', [])
       )
 
   if $location.path() == '/admin/users'
-    $http.get('/api/all_profiles')
+    $http.get('http://127.0.0.1:8000/api/all_profiles')
       .success (data) ->
         $scope.profiles = data
       .error (data) ->
@@ -77,15 +84,15 @@ angular.module('resto.userControllers', [])
 
     $scope.options = [{'label':'None', 'value':''}]
     $scope.selected_resto = $scope.options[0]
-    $http.get('/api/all_resto')
-      .success (data) ->
-        $scope.restos = data
+
+    Resto.query().$promise.then(
+      (value) ->
+        $scope.restos = value
         $scope.available_resto =
-        (resto for resto, resto in $scope.restos when resto.user == null)
+          (resto for resto, resto in $scope.restos \
+            when resto.user == null)
         for resto in $scope.available_resto
-          $scope.options.push({'label':resto.name, 'value':resto.pk})
-      .error (data) ->
-        console.log(data)
+          $scope.options.push({'label':resto.name, 'value':resto.pk}))
  
   $scope.edit = (profile) ->
     profile.backup = _.clone(profile)
@@ -104,7 +111,7 @@ angular.module('resto.userControllers', [])
       )
 
   $scope.delete = (profile) ->
-    $http.post('/api/delete_profile', profile)
+    $http.post('http://127.0.0.1:8000/api/delete_profile', profile)
       .success (data) ->
         $scope.profiles = _.without($scope.profiles, profile)
       .error (data) ->

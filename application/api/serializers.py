@@ -22,7 +22,6 @@ class ProfileSerializer(serializers.ModelSerializer):
                   'is_livreur', 'is_admin')
 
     def create(self, data):
-        print('create?')
         user = User(
             email=data['user']['email'],
             username=data['user']['email'],
@@ -47,10 +46,9 @@ class RestaurantSerializer(serializers.ModelSerializer):
         fields = ('pk', 'user', 'name', 'menu', 'address')
 
 class CommandeSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
     restaurant = RestaurantSerializer()
     pk = serializers.CharField(read_only=True)
 
     class Meta:
         model = Commande
-        fields = ('pk', 'user', 'restaurant', 'details', 'status')
+        fields = ('pk', 'restaurant', 'details', 'status')

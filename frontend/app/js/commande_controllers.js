@@ -2,7 +2,7 @@
 (function() {
   var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  angular.module('resto.commandeControllers', ['ui.bootstrap']).controller('CommandeController', function($scope, $http, $routeParams) {
+  angular.module('resto.commandeControllers', ['ui.bootstrap']).controller('CommandeController', function($scope, $http, $routeParams, Resto, Commande) {
     var param, update_total;
     $scope.form = {};
     param = $routeParams.param;
@@ -13,31 +13,27 @@
         'addressFrom': '',
         'requestedTime': new Date()
       },
-      'restaurant': param
+      'resto': param
     };
-    $scope.confirm = {};
-    $http.get('api/profile').success(function(data) {
-      $scope.profile = data;
-      return $scope.order.details.addressTo = $scope.profile.adresse[0];
-    });
-    $http.get('api/all_resto').success(function(data) {
+    Resto.query().$promise.then(function(value) {
       var resto;
-      if (param) {
-        $scope.current_resto = ((function() {
-          var _i, _len, _results;
-          _results = [];
-          for (resto = _i = 0, _len = data.length; _i < _len; resto = ++_i) {
-            resto = data[resto];
-            if (resto.pk === param) {
-              _results.push(resto);
-            }
+      $scope.current_resto = ((function() {
+        var _i, _len, _results;
+        _results = [];
+        for (resto = _i = 0, _len = value.length; _i < _len; resto = ++_i) {
+          resto = value[resto];
+          if (resto.pk === param) {
+            _results.push(resto);
           }
-          return _results;
-        })())[0];
-        return $scope.order.details.addressFrom = $scope.current_resto.address;
-      }
+        }
+        return _results;
+      })())[0];
+      return $scope.order.details.addressFrom = $scope.current_resto.address;
     });
     $scope.add_item = function(item) {
+      if (!$scope.order.details.addressTo) {
+        $scope.order.details.addressTo = $scope.profile.adresse[0];
+      }
       if ($scope.sending) {
         $scope.order.details.commande = [];
       }
@@ -71,22 +67,18 @@
       return _results;
     };
     $scope.place_order = function() {
-      if ($scope.auth === true) {
-        $scope.sending = true;
-        if ($scope.order.details.addressTo === '##new') {
-          $scope.profile.adresse.push($scope.new_address);
-          $scope.order.details.addressTo = $scope.new_address;
-          $http.post('api/edit_profile', $scope.profile).error(function(data) {
-            return console.log(data);
-          });
-        }
-        $http.post('api/create_commande', $scope.order).success(function(data) {
-          return $scope.confirm = data;
-        }).error(function(data) {
-          return console.log(data);
-        });
-        $scope.confirm;
+      $scope.sending = true;
+      if ($scope.order.details.addressTo === '##new') {
+        $scope.profile.adresse.push($scope.new_address);
+        $scope.order.details.addressTo = $scope.new_address;
+        $http.post('http://127.0.0.1:8000/api/edit_profile', $scope.profile);
       }
+      Commande.save($scope.order).$promise.then(function(value) {
+        $scope.confirm = value;
+        return console.log(value);
+      }, function(error) {
+        return console.log(error.data);
+      });
       if ($scope.auth === false) {
         return alert('Veuillez vous connecter');
       }
@@ -99,7 +91,7 @@
       $event.stopPropagation();
       return $scope.opened = true;
     };
-  }).controller('CommandeManageController', function($scope, $http, $location, $routeParams) {
+  }).controller('CommandeManageController', function($scope, $http, $location, $routeParams, Commande) {
     var directionsDisplay, directionsService, get_route, param;
     param = $routeParams.param;
     $scope.filtered = function(array, filter) {
@@ -147,45 +139,55 @@
         }
       };
     }
-    $scope.commandes = [];
-    $http.post('api/resto_commande', param).success(function(data) {
-      return $scope.commandes = data;
-    }).error(function(data) {
-      return console.log(data);
+    $scope.commandes = Commande.query({
+      resto: param
     });
     return $scope.update_status = function(commande, status) {
-      return $http.post('api/update_commande_status', {
-        'status': status,
-        'commande': commande
-      }).success(function(data) {
-        commande.details = data.details;
-        commande.status = data.status;
-        if (__indexOf.call(_.keys(data), 'error') >= 0) {
+      var updated_commande;
+      updated_commande = commande;
+      updated_commande.status = status;
+      if (status = 'delivered') {
+        updated_commande.details.deliveryTime = new Date();
+      }
+      return Commande.update({
+        id: commande.pk
+      }, updated_commande).$promise.then(function(value) {
+        if (__indexOf.call(_.keys(value), 'error') >= 0) {
           return alert('Un autre livreur a déjà livré cette commande');
+        } else {
+          return commande = value;
         }
-      }).error(function(data) {
-        return console.log(data);
+      }, function(error) {
+        return console.log(error.data);
       });
     };
-  }).controller('CommandeConfirmController', function($scope, $http, $routeParams) {
+  }).controller('CommandeConfirmController', function($scope, $http, $routeParams, Commande) {
     var param;
     param = $routeParams.param;
     $scope.total = 0;
-    return $http.post('api/update_commande', {
-      'status': 'paid',
-      'commande': {
-        'pk': param
-      }
-    }).success(function(data) {
-      var item, _i, _len, _ref, _results;
-      $scope.confirm = data;
-      _ref = $scope.confirm.details.commande;
-      _results = [];
+    return Commande.get({
+      id: param
+    }).$promise.then(function(value) {
+      var item, _i, _len, _ref;
+      console.log(value);
+      _ref = value.details.commande;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         item = _ref[_i];
-        _results.push($scope.total += item.price * item.qty);
+        $scope.total += item.price * item.qty;
       }
-      return _results;
+      if (value.status === 'pending') {
+        value.status = 'paid';
+        Commande.update({
+          id: param
+        }, value).$promise.then(function(value) {
+          return console.log('okay', value);
+        }, function(error) {
+          return console.log(error.data);
+        });
+      }
+      return $scope.confirm = value;
+    }, function(error) {
+      return console.log(error.data);
     });
   });
 

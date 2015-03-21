@@ -1,5 +1,7 @@
 angular.module('resto.commandeControllers', ['ui.bootstrap'])
-.controller 'CommandeController', ($scope, $http, $routeParams) ->
+
+.controller 'CommandeController',
+($scope, $http, $routeParams, Resto, Commande) ->
   $scope.form = {}
   param = $routeParams.param
 
@@ -10,24 +12,18 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
       'addressFrom': '',
       'requestedTime': new Date(),
     },
-  'restaurant': param
+  'resto': param
   }
 
-  $scope.confirm = {}
-
-  $http.get('api/profile')
-    .success (data) ->
-      $scope.profile = data
-      $scope.order.details.addressTo = $scope.profile.adresse[0]
-
-  $http.get('api/all_resto')
-    .success (data) ->
-      if param
-        $scope.current_resto =
-          (resto for resto, resto in data when resto.pk == param)[0]
-        $scope.order.details.addressFrom = $scope.current_resto.address
+  Resto.query().$promise.then(
+    (value) ->
+      $scope.current_resto =
+        (resto for resto, resto in value when resto.pk == param)[0]
+      $scope.order.details.addressFrom = $scope.current_resto.address)
 
   $scope.add_item = (item) ->
+    if not $scope.order.details.addressTo
+      $scope.order.details.addressTo = $scope.profile.adresse[0]
     if $scope.sending
       $scope.order.details.commande = []
     $scope.sending = false
@@ -48,29 +44,29 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
     item.qty = Math.max(1, item.qty + adjustment)
     update_total()
 
-
   update_total = ->
     $scope.total = 0
     for item in $scope.order.details.commande
       $scope.total += item.price * item.qty
 
   $scope.place_order = ->
-    if $scope.auth == true
-      $scope.sending = true
-      if $scope.order.details.addressTo == '##new'
-        $scope.profile.adresse.push($scope.new_address)
-        $scope.order.details.addressTo = $scope.new_address
-        $http.post('api/edit_profile', $scope.profile)
-          .error (data) ->
-            console.log(data)
-      $http.post('api/create_commande', $scope.order)
-        .success (data) ->
-          $scope.confirm = data
-        .error (data) ->
-          console.log(data)
-      $scope.confirm
+    $scope.sending = true
+    if $scope.order.details.addressTo == '##new'
+      $scope.profile.adresse.push($scope.new_address)
+      $scope.order.details.addressTo = $scope.new_address
+      $http.post('http://127.0.0.1:8000/api/edit_profile', $scope.profile)
+    Commande.save($scope.order).$promise.then(
+      (value) ->
+        $scope.confirm = value
+        console.log(value)
+      (error) ->
+        console.log(error.data)
+    )
+
     if $scope.auth == false
       alert('Veuillez vous connecter')
+
+
   $scope.minDate = new Date()
   $scope.hstep = 1
   $scope.mstep = 15
@@ -81,7 +77,8 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
     $scope.opened = true
 
 
-.controller 'CommandeManageController', ($scope, $http, $location, $routeParams) ->
+.controller 'CommandeManageController',
+($scope, $http, $location, $routeParams, Commande) ->
   param = $routeParams.param
 
   $scope.filtered = (array, filter) ->
@@ -114,35 +111,44 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
       if $scope.selected_commande
         get_route()
 
-  $scope.commandes = []
-  $http.post('api/resto_commande', param)
-    .success (data) ->
-      $scope.commandes = data
-    .error (data) ->
-      console.log(data)
+  $scope.commandes = Commande.query({resto:param})
 
   $scope.update_status = (commande, status) ->
-    $http.post('api/update_commande_status', {
-      'status': status,
-      'commande': commande})
-      .success (data) ->
-        commande.details = data.details
-        commande.status = data.status
-        if 'error' in _.keys(data)
+    updated_commande = commande
+    updated_commande.status = status
+    if status = 'delivered'
+      updated_commande.details.deliveryTime = new Date()
+    Commande.update({id:commande.pk}, updated_commande).$promise.then(
+      (value) ->
+        if 'error' in _.keys(value)
           alert('Un autre livreur a déjà livré cette commande')
-      .error (data) ->
-        console.log(data)
+        else
+          commande = value
+      (error) ->
+        console.log(error.data))
 
 
-.controller 'CommandeConfirmController', ($scope, $http, $routeParams) ->
+.controller 'CommandeConfirmController',
+($scope, $http, $routeParams, Commande) ->
+
   param = $routeParams.param
   $scope.total = 0
-  $http.post('api/update_commande', {
-    'status':'paid',
-    'commande':{
-      'pk':param
-    }
-  }).success (data) ->
-    $scope.confirm = data
-    for item in $scope.confirm.details.commande
+  Commande.get({id:param}).$promise.then(
+    (value) ->
+      console.log(value)
+      for item in value.details.commande
         $scope.total += item.price * item.qty
+
+      if value.status == 'pending'
+        value.status = 'paid'
+        Commande.update({id:param}, value).$promise.then(
+          (value) ->
+            console.log('okay',value)
+          (error) ->
+            console.log(error.data)
+        )
+      $scope.confirm = value
+
+    (error) ->
+      console.log(error.data)
+  )

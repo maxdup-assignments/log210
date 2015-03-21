@@ -19,7 +19,6 @@ class Restaurant(models.Model):
     address = models.CharField(max_length=80)
 
 class Commande(models.Model):
-    user = models.OneToOneField(User)
-    restaurant = models.OneToOneField(Restaurant)
+    restaurant = models.OneToOneField(Restaurant, null=True, blank=True)
     details = DictField()
     status = models.CharField(max_length=10)
