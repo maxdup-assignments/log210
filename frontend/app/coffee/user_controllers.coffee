@@ -1,7 +1,7 @@
-angular.module('resto.userControllers', [])
+angular.module('resto.userControllers', ['resto.dev'])
 
 .controller 'RootController',
-($scope, $location, $http, $route, $rootScope, Profile) ->
+($scope, $location, $http, $route, $rootScope, Profile, conf) ->
 
   $scope.loginform = {
     'username':''
@@ -14,7 +14,7 @@ angular.module('resto.userControllers', [])
   )
 
   $scope.login = ->
-    $http.post('http://127.0.0.1:8000/api/login', $scope.loginform)
+    $http.post(conf.url + 'login', $scope.loginform)
       .success (data) ->
         $scope.auth = true
         $scope.loggingin = false
@@ -23,7 +23,7 @@ angular.module('resto.userControllers', [])
         $route.reload()
 
   $scope.logout = ->
-    $http.get('http://127.0.0.1:8000/api/logout')
+    $http.get(conf.url + 'logout')
       .success (data) ->
         $scope.auth = false
         $scope.profile = null

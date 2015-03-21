@@ -75,10 +75,7 @@
           id: $scope.profile.user.pk
         }, $scope.profile);
       }
-      Commande.save($scope.order).$promise.then(function(value) {
-        $scope.confirm = value;
-        return console.log(value);
-      });
+      $scope.confirm = Commande.save($scope.order);
       if ($scope.auth === false) {
         return alert('Veuillez vous connecter');
       }
@@ -167,7 +164,6 @@
       id: param
     }).$promise.then(function(value) {
       var item, _i, _len, _ref;
-      console.log(value);
       _ref = value.details.commande;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         item = _ref[_i];

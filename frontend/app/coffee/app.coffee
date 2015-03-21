@@ -1,4 +1,4 @@
-angular.module('restoApp', ['ngRoute', 'ngCookies', 'ngResource', 'resto.services', 'resto.userControllers', 'resto.restoControllers', 'resto.menuControllers', 'resto.homeControllers', 'resto.commandeControllers', 'gettext'])
+angular.module('restoApp', ['ngRoute', 'ngCookies', 'ngResource', 'resto.services', 'resto.userControllers', 'resto.restoControllers', 'resto.menuControllers', 'resto.commandeControllers', 'gettext'])
 .config ($routeProvider, $httpProvider) ->
   $routeProvider
   .when '/home',

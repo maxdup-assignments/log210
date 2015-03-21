@@ -55,10 +55,7 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
       $scope.profile.adresse.push($scope.new_address)
       $scope.order.details.addressTo = $scope.new_address
       Profile.update({id:$scope.profile.user.pk}, $scope.profile)
-    Commande.save($scope.order).$promise.then(
-      (value) ->
-        $scope.confirm = value
-        console.log(value))
+    $scope.confirm = Commande.save($scope.order)
 
     if $scope.auth == false
       alert('Veuillez vous connecter')
@@ -130,7 +127,6 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
   $scope.total = 0
   Commande.get({id:param}).$promise.then(
     (value) ->
-      console.log(value)
       for item in value.details.commande
         $scope.total += item.price * item.qty
 

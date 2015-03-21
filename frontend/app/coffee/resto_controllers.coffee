@@ -1,5 +1,8 @@
 angular.module('resto.restoControllers', [])
 
+.controller 'HomeController', ($scope, $http, Resto) ->
+    $scope.restos = Resto.query()
+
 .controller 'RestaurantController',
 ($scope, $location, $http, Profile, Resto) ->
 
@@ -17,7 +20,6 @@ angular.module('resto.restoControllers', [])
     $scope.selected_staff = ''
     Profile.query({restaurateur:true}).$promise.then(
       (value) ->
-        console.log(value)
         for profile in value
           $scope.options.push(
             {'label': profile.user.email, 'value': profile.user.pk})
@@ -56,7 +58,6 @@ angular.module('resto.restoControllers', [])
     resto.backup.user = _.clone(resto.user)
     if assign_selection
       assign_selection(resto)
-    console.log(resto)
 
   $scope.save_resto = (resto) ->
     if (resto.user and resto.new_user and resto.new_user.value == resto.user.pk)
@@ -66,7 +67,6 @@ angular.module('resto.restoControllers', [])
     Resto.update({id:resto.pk}, resto).$promise.then(
       (value) ->
         _.extend(resto, value)
-        console.log(value)
         if not value.user
           alert("il est préferable d'assigner un restaurateur"))
 
