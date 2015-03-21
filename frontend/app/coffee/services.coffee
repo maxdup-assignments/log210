@@ -1,14 +1,19 @@
-angular.module('resto.services', ['ngResource'])
+angular.module('resto.prod', [])
+.constant('conf',{url:'http://ram.mdupuis.com/api/'})
 
-.factory 'Resto', ($resource) ->
-  $resource('http://127.0.0.1:8000/api/resto/:id',
+angular.module('resto.dev', [])
+.constant('conf',{url:'http://127.0.0.1:8000/api/'})
+
+angular.module('resto.services', ['ngResource', 'resto.dev'])
+.factory 'Resto', ($resource, conf) ->
+  $resource(conf.url+'resto/:id',
     { id: '@_id' }, {update:{method:'PUT'}})
 
-.factory 'Profile', ($resource) ->
-  $resource('http://127.0.0.1:8000/api/profile/:id',
+.factory 'Profile', ($resource, conf) ->
+  $resource(conf.url + 'profile/:id',
     { id: '@_id' }, {update:{method:'PUT'}})
 
-.factory 'Commande', ($resource) ->
-  $resource('http://127.0.0.1:8000/api/commande/:id',
+.factory 'Commande', ($resource, conf) ->
+  $resource(conf.url + 'commande/:id',
     { id: '@_id' }, {update:{method:'PUT'}})
 
