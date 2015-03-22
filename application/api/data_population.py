@@ -202,7 +202,7 @@ def populate_resto():
                 'sous_menus': [
                     {'name': 'eat fat',
                      'items': [
-                                         {'name': 'BigMac',
+                         {'name': 'BigMac',
                          'desc': '100% boeuf',
                          'price': '7'}
                     ]}

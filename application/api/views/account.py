@@ -47,6 +47,7 @@ def profile(request, pk=None):
 
         # creates a profile
         request.data['user']['username'] = request.data['user']['email']
+        request.data['adresse'] = [request.data['adresse']]
         profile = ProfileSerializer(data=request.data)
         if profile.is_valid():
             profile.save()
@@ -65,7 +66,6 @@ def profile(request, pk=None):
             profile = ProfileSerializer(profile, data=request.data, partial=True)
             if profile.is_valid():
                 profile.save()
-                print('profile saved')
                 return Response(user.data)
 
         return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)

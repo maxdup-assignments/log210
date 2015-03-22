@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('pk', 'username', 'email', 'first_name', 'last_name')
+        fields = ('pk','password', 'username', 'email', 'first_name', 'last_name')
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
@@ -27,13 +27,16 @@ class ProfileSerializer(serializers.ModelSerializer):
             username=data['user']['email'],
             last_name=data['user']['last_name'],
             first_name=data['user']['first_name'])
+        user.set_password(data['user']['password'])
+        user.save()
 
         profile = UserProfile(
             user=user,
-            adresse=[data['adresse']],
+            adresse=data['adresse'],
             telephone=data['telephone'],
             date_naissance=data['date_naissance'],
             is_restaurateur=data['is_restaurateur'])
+        profile.save()
 
         return profile
 

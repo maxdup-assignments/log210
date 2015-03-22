@@ -34,14 +34,19 @@ def resto(request, pk=None):
     elif request.method == 'POST':
 
         # creates a resto
-        resto = RestaurantSerializer(data=request.data)
-        if resto.is_valid():
-            resto.save()
-            return Response(resto.data,
-                            status=status.HTTP_201_CREATED)
-        else:
-            return Response(resto.errors,
-                            resto=status.HTTP_400_BAD_REQUEST)
+        user = None
+        if request.data['user']:
+            user = User.objects.get(pk=request.data['user'])
+        resto = Restaurant(
+            user=user,
+            name=request.data['name'],
+            address=request.data['address'],
+            menu={},
+        )
+        resto.save()
+        resto = RestaurantSerializer(resto)
+        return Response(resto.data,
+                        status=status.HTTP_201_CREATED)
 
     elif request.method == 'PUT' and pk:
 
