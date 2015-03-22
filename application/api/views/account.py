@@ -30,6 +30,7 @@ def profile(request, pk=None):
         # returns a single profile
         if pk:
             output = ProfileSerializer(profile)
+            del output.data['user']['password']
 
         # returns profiles that are restaurateur
         elif 'restaurateur' in request.GET:
@@ -58,8 +59,13 @@ def profile(request, pk=None):
 
     elif request.method == 'PUT':
         userdata = request.data.pop('user')
-        user = User.objects.get(pk=request.user.pk)
-        user = UserSerializer(user, data=userdata)
+        user = User.objects.get(pk=userdata['pk'])
+        if 'password' in userdata:
+            if userdata['password']:
+                user.set_password(userdata.pop('password'))
+                print 'password been set'
+
+        user = UserSerializer(user, data=userdata, partial=True)
         if user.is_valid():
             user.save()
             profile = UserProfile.objects.get(user=user.data['pk'])
@@ -89,6 +95,7 @@ def user_login(request):
             login(request, user)
             profile = UserProfile.objects.get(user=user)
             profile = ProfileSerializer(profile)
+            del profile.data['user']['password']
             return HttpResponse(json.dumps({'success':True,
                                             'profile': profile.data}))
 

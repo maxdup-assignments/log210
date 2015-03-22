@@ -126,8 +126,10 @@
     };
     $scope.save = function(profile) {
       return Profile.update({
-        id: profile.pk
-      }, profile);
+        id: profile.user.pk
+      }, profile).$promise.then(function(value) {
+        return delete profile['backup'];
+      });
     };
     return $scope.remove = function(profile) {
       return Profile["delete"]({

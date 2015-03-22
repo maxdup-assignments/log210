@@ -49,14 +49,7 @@
     </div>
   </div>
 
-  <div class="form-group" ng-show="profile.backup">
-    <label class="col-md-2 control-label" translate>Password:</label>
-    <div class="col-md-4">
-      <input class="form-control" type="password" ng-model="profile.user.password">
-    </div>
-  </div>
-
-  <div class="form-group">
+  <div class="form-group" style="height: auto">
     <label class="col-md-2 control-label" translate>Address:</label>
     <div class="col-md-4">
       <div ng-repeat="ad in profile.adresse">
@@ -71,6 +64,13 @@
           </span>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="form-group" ng-show="profile.backup">
+    <label class="col-md-2 control-label" translate>Password:</label>
+    <div class="col-md-4">
+      <input class="form-control" type="password" ng-model="profile.user.password">
     </div>
   </div>
 

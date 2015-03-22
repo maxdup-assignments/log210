@@ -90,11 +90,13 @@ angular.module('resto.userControllers', ['resto.dev'])
     profile.backup.user = _.clone(profile.user)
 
   $scope.cancel = (profile) ->
-    _.extend(profile, profile.backup);
+    _.extend(profile, profile.backup)
     delete profile['backup']
 
   $scope.save = (profile) ->
-    Profile.update({id:profile.pk}, profile)
+    Profile.update({id:profile.user.pk}, profile).$promise.then(
+      (value) ->
+        delete profile['backup'])
 
   $scope.remove = (profile) ->
     Profile.delete(id:profile.user.pk).$promise.then(
