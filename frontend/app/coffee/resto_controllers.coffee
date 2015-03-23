@@ -50,8 +50,11 @@ angular.module('resto.restoControllers', [])
           $scope.new_resto = {'name':'', 'menu':{}, 'user':''})
 
   else
-    $scope.$on 'profileload', ->
+    if $scope.profile
       $scope.restos = Resto.query({user:$scope.profile.user.pk})
+    else
+      $scope.$on 'profileload', ->
+        $scope.restos = Resto.query({user:$scope.profile.user.pk})
 
   $scope.edit_resto = (resto) ->
     resto.backup = _.clone(resto)

@@ -74,11 +74,17 @@
         });
       };
     } else {
-      $scope.$on('profileload', function() {
-        return $scope.restos = Resto.query({
+      if ($scope.profile) {
+        $scope.restos = Resto.query({
           user: $scope.profile.user.pk
         });
-      });
+      } else {
+        $scope.$on('profileload', function() {
+          return $scope.restos = Resto.query({
+            user: $scope.profile.user.pk
+          });
+        });
+      }
     }
     $scope.edit_resto = function(resto) {
       resto.backup = _.clone(resto);

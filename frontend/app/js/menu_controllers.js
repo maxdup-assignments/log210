@@ -37,16 +37,27 @@
         if (!menu.newitem.desc) {
           alert("il est préférable d'avoir une description");
         }
-        return menu.newitem = {
+        menu.newitem = {
           'name': '',
           'desc': '',
           'price': ''
         };
+        return $scope.save_menu();
       } else {
         return alert('il faut spécifier un nom et un prix');
       }
     };
     return $scope.save_menu = function() {
+      var empty_menus, menu, _i, _len, _ref;
+      empty_menus = [];
+      _ref = $scope.current_resto.menu.sous_menus;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        menu = _ref[_i];
+        if (_.isEmpty(menu.items)) {
+          empty_menus.push(menu);
+        }
+      }
+      $scope.current_resto.menu.sous_menus = _.difference($scope.current_resto.menu.sous_menus, empty_menus);
       return Resto.update({
         id: $scope.current_resto.pk
       }, $scope.current_resto);

@@ -29,8 +29,14 @@ angular.module('resto.menuControllers', [])
       if not menu.newitem.desc
         alert("il est préférable d'avoir une description")
       menu.newitem = {'name':'', 'desc':'', 'price':''}
+      $scope.save_menu()
     else
       alert('il faut spécifier un nom et un prix')
       
   $scope.save_menu = ->
+    empty_menus = []
+    for menu in $scope.current_resto.menu.sous_menus
+      if _.isEmpty(menu.items)
+        empty_menus.push(menu)
+    $scope.current_resto.menu.sous_menus =  _.difference($scope.current_resto.menu.sous_menus, empty_menus)
     Resto.update({id:$scope.current_resto.pk}, $scope.current_resto)
