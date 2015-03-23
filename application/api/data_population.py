@@ -1,7 +1,7 @@
 from models import *
 from django.http import HttpResponse
 
-def populate_database(request):
+def populate_database(request=None):
     populate_user()
     populate_resto()
     populate_commande()
@@ -224,42 +224,42 @@ def populate_commande():
 
     commande = Commande.objects.create(
         restaurant=restaurant,
+        status='paid',
         details={
             'commande': [{
-            'desc':'des patates',
+                'desc':'des patates',
                 'name':'patate',
-            'price':'3',
-            'qty':'1'}],
-            'addressTo': 'XX_destination',
-            'addressFrom': 'XX_adresse_resto',
-            'requestedTime': "2015-03-18T20:15:02.449Z",
-            },
-        status='paid')
-
-    commande = Commande.objects.create(
-        restaurant=restaurant,
-        details={
-            'commande': [{
-            'name': 'poutine',
-            'desc': 'de la poutine',
-            'price': '7',
-            'qty':'1'}],
-            'addressTo': 'XX_destination',
-            'addressFrom': 'XX_adresse_resto',
-            'requestedTime': "2015-03-18T20:15:02.449Z",
-            },
-        status='paid')
-
-    commande = Commande.objects.create(
-        restaurant=restaurant2,
-        details={
-            'commande': [{
-            'name': 'sous-marin',
-            'desc': '12 pouces',
-            'price': '5',
+                'price':'3',
                 'qty':'1'}],
             'addressTo': 'XX_destination',
             'addressFrom': 'XX_adresse_resto',
             'requestedTime': "2015-03-18T20:15:02.449Z",
-        },
-        status='paid')
+        })
+
+    commande = Commande.objects.create(
+        restaurant=restaurant,
+        status='paid',
+        details={
+            'commande': [{
+                'name': 'poutine',
+                'desc': 'de la poutine',
+                'price': '7',
+                'qty':'1'}],
+            'addressTo': 'XX_destination',
+            'addressFrom': 'XX_adresse_resto',
+            'requestedTime': "2015-03-18T20:15:02.449Z",
+        })
+
+    commande = Commande.objects.create(
+        restaurant=restaurant2,
+        status='paid',
+        details={
+            'commande': [{
+                'name': 'sous-marin',
+                'desc': '12 pouces',
+                'price': '5',
+                'qty':'1'}],
+            'addressTo': 'XX_destination',
+            'addressFrom': 'XX_adresse_resto',
+            'requestedTime': "2015-03-18T20:15:02.449Z",
+        })
