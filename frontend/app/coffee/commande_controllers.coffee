@@ -52,10 +52,13 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
   $scope.place_order = ->
     $scope.sending = true
     if $scope.order.details.addressTo == '##new'
-      $scope.profile.adresse.push($scope.new_address)
+      $scope.profile.adresse.unshift($scope.new_address)
       $scope.order.details.addressTo = $scope.new_address
       Profile.update({id:$scope.profile.user.pk}, $scope.profile)
-    $scope.confirm = Commande.save($scope.order)
+    Commande.save($scope.order).$promise.then(
+      (value) ->
+        $scope.confirm = value
+    )
 
     if $scope.auth == false
       alert('Veuillez vous connecter')

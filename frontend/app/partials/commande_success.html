@@ -1,6 +1,13 @@
 <div class="jumbotron">
   <h1>Votre paiement a été recu</h1>
   <h2>état de votre commande: <span class="label label-primary">{{ confirm.status }}</span></h2>
+  <div>
+    <ul>
+      <li>Numéro de commande: {{confirm.pk}}</li>
+      <li>commander pour: {{confirm.details.requestedTime | date:'yyyy-MM-dd HH:mm:ss'}}</li>
+      <li>à l'adresse: {{confirm.details.addressTo}}</li>
+    </ul>
+  </div>
 
   <table class="table" style="margin-top:40px">
     <tr>

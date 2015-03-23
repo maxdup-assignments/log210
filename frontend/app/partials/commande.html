@@ -29,11 +29,7 @@
     <h2>Envois...</h2>
   </div>
 
-  <div ng-if="confirm" class="jumbotron">
-    <h3>votre commande a été envoyé</h3>
-    <label>Numéro de commande:</label> {{confirm.pk}}
-    <br/>
-    <br/>
+  <div ng-if="confirm.pk" class="jumbotron">
     <table class="table">
       <tr>
         <th style="width:250px">Nom</th>
@@ -51,19 +47,29 @@
         <th style="width:250px">{{ total }}$</th>
       </tr>
     </table>
-    <form id="paypal" name="paypalform" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top" ng-submit="place_order()">
+    <form style="float:right" id="paypal" name="paypalform"
+          action="https://www.sandbox.paypal.com/cgi-bin/webscr"
+          method="post" target="_top" ng-submit="place_order()">
       <input type="hidden" name="cmd" value="_xclick">
-      <input type="hidden" name="business" value="mdupuis-facilitator@hotmail.ca">
+      <input type="hidden" name="business"
+             value="mdupuis-facilitator@hotmail.ca">
       <input type="hidden" name="lc" value="CA">
       <input type="hidden" name="item_name" value="facture resto">
       <input type="hidden" name="amount" value="{{total}}">
       <input type="hidden" name="currency_code" value="CAD">
       <input type="hidden" name="button_subtype" value="services">
       <input type="hidden" name="no_note" value="0">
-      <input type="hidden" name="bn" value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest">
-      <input type="hidden" name="return" value="http://127.0.0.1:8000/#/commande/{{confirm.pk}}">
-      <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-      <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+      <input type="hidden" name="bn"
+             value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest">
+      <input type="hidden" name="return"
+             value="http://127.0.0.1:8001/app/#/commande/{{confirm.pk}}">
+      <input type="image"
+             src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif"
+             border="0" name="submit"
+             alt="PayPal - The safer, easier way to pay online!">
+      <img alt="" border="0"
+           src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"
+           width="1" height="1">
     </form>
   </div>
 
@@ -111,7 +117,7 @@
       <div class="col-md-6" style="padding-top: 34px;">
         <p class="input-group">
           <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy"
-                 ng-model="$parent.order.details.requestedTime" is-open="opened"
+                 ng-model="order.details.requestedTime" is-open="opened"
                  min-date="minDate" max-date="'2015-06-22'" close-text="Close" />
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="open($event)">
@@ -146,7 +152,7 @@
       </div>
       <button class="btn btn-lg btn-success"
               style="float:right" ng-click="place_order()">
-        Envoyer Commande
+        Poursuivre
       </button>
     </div>
   </div>
