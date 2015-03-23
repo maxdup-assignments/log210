@@ -20,24 +20,29 @@ msgstr "着ける"
 msgid "Add Menu"
 msgstr "メニューを着ける"
 
+#: application/resto/static/partials/admin_users.html:76
 #: application/resto/static/partials/profile.html:60
 msgid "Address:"
 msgstr "アドレッス："
 
+#: application/resto/static/partials/admin_users.html:82
 #: application/resto/static/partials/profile.html:35
 msgid "Birthday:"
 msgstr "誕生日："
 
 #: application/resto/static/partials/admin_resto.html:42
+#: application/resto/static/partials/admin_users.html:48
 #: application/resto/static/partials/profile.html:82
 msgid "Cancel"
 msgstr "キャンセル"
 
 #: application/resto/static/partials/admin_resto.html:33
+#: application/resto/static/partials/admin_users.html:28
 #: application/resto/static/partials/profile.html:79
 msgid "Edit"
 msgstr "エテェット"
 
+#: application/resto/static/partials/admin_users.html:58
 #: application/resto/static/partials/profile.html:8
 msgid "Email:"
 msgstr "Eメール："
@@ -46,13 +51,25 @@ msgstr "Eメール："
 msgid "First Name:"
 msgstr "名前："
 
+#: application/resto/static/partials/admin_users.html:64
+msgid "First name:"
+msgstr "名前："
+
 #: application/resto/static/partials/profile.html:1
 msgid "Hello {{profile.user.first_name}}"
 msgstr "こんにちは {{profile.user.first_name}}"
 
 #: application/resto/static/partials/profile.html:26
 msgid "Last Name:"
-msgstr "姓:"
+msgstr "姓："
+
+#: application/resto/static/partials/admin_users.html:70
+msgid "Last name:"
+msgstr "せい："
+
+#: application/resto/static/partials/admin_users.html:2
+msgid "Loading..."
+msgstr "ロヂンッグ。。。"
 
 #: application/resto/static/partials/profile.html:3
 msgid "Meet your profile!"
@@ -66,19 +83,34 @@ msgstr "メニュー"
 msgid "Name"
 msgstr "名前"
 
+#: application/resto/static/partials/admin_users.html:94
 #: application/resto/static/partials/profile.html:53
 msgid "Password:"
 msgstr "パスワード："
 
 #: application/resto/static/partials/admin_resto.html:35
+#: application/resto/static/partials/admin_users.html:29
 msgid "Remove"
 msgstr "落とす"
 
+#: application/resto/static/partials/admin_users.html:101
+msgid "Restaurant:"
+msgstr "料理屋："
+
 #: application/resto/static/partials/admin_resto.html:40
+#: application/resto/static/partials/admin_users.html:46
 #: application/resto/static/partials/manage_menu.html:32
 #: application/resto/static/partials/profile.html:80
 msgid "Save"
 msgstr "セーブ"
+
+#: application/resto/static/partials/admin_users.html:110
+msgid "Submit"
+msgstr "出す："
+
+#: application/resto/static/partials/admin_users.html:88
+msgid "Telephone Number:"
+msgstr "電話番号："
 
 #: application/resto/static/partials/profile.html:44
 msgid "Telephone:"
@@ -93,13 +125,46 @@ msgstr "着ける"
 msgid "address"
 msgstr "アドレッス"
 
+#: application/resto/static/partials/admin_users.html:22
+msgid "admin"
+msgstr "アドミン"
+
+#: application/resto/static/partials/admin_users.html:8
+msgid "adresse"
+msgstr "アドレッス"
+
+#: application/resto/static/partials/admin_users.html:10
+msgid "birthday"
+msgstr "誕生日"
+
+#: application/resto/static/partials/admin_users.html:25
+#: application/resto/static/partials/admin_users.html:42
+msgid "delivery man"
+msgstr "届けた人"
+
 #: application/resto/static/partials/manage_menu.html:12
 msgid "description"
 msgstr "記載"
 
+#: application/resto/static/partials/admin_users.html:5
+msgid "email"
+msgstr "メール"
+
+#: application/resto/static/partials/admin_users.html:23
+msgid "entrepreneur"
+msgstr "アンとるぷるなーる"
+
+#: application/resto/static/partials/admin_users.html:6
+msgid "first name"
+msgstr "名前"
+
 #: application/resto/templates/index.html:66
 msgid "hello,"
 msgstr "こんにちは、"
+
+#: application/resto/static/partials/admin_users.html:7
+msgid "last name"
+msgstr "姓"
 
 #: application/resto/templates/index.html:75
 #: application/resto/templates/index.html:83
@@ -118,6 +183,10 @@ msgstr "メニュー。。。"
 msgid "name"
 msgstr "名前"
 
+#: application/resto/static/partials/admin_users.html:11
+msgid "permissions"
+msgstr "許可"
+
 #: application/resto/static/partials/manage_menu.html:13
 msgid "price"
 msgstr "価格"
@@ -132,12 +201,18 @@ msgid "restaurants"
 msgstr "料理屋"
 
 #: application/resto/static/partials/admin_resto.html:6
+#: application/resto/static/partials/admin_users.html:24
+#: application/resto/static/partials/admin_users.html:41
 msgid "restaurateur"
 msgstr "料理屋のカントク"
 
 #: application/resto/templates/index.html:50
 msgid "restaurateurs"
 msgstr "料理屋のカントク"
+
+#: application/resto/static/partials/admin_users.html:9
+msgid "telephone"
+msgstr "電話"
 
 #~ msgid "Ajouter menu"
 #~ msgstr "メニューを"
