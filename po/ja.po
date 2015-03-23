@@ -45,7 +45,7 @@ msgstr "エテェット"
 #: application/resto/static/partials/admin_users.html:58
 #: application/resto/static/partials/profile.html:8
 msgid "Email:"
-msgstr "Eメール："
+msgstr "メール："
 
 #: application/resto/static/partials/profile.html:17
 msgid "First Name:"
@@ -82,6 +82,10 @@ msgstr "メニュー"
 #: application/resto/static/partials/admin_resto.html:4
 msgid "Name"
 msgstr "名前"
+
+#: application/resto/static/partials/home.html:2
+msgid "Our Restaurants"
+msgstr "私たちの料理屋"
 
 #: application/resto/static/partials/admin_users.html:94
 #: application/resto/static/partials/profile.html:53
@@ -136,6 +140,10 @@ msgstr "アドレッス"
 #: application/resto/static/partials/admin_users.html:10
 msgid "birthday"
 msgstr "誕生日"
+
+#: application/resto/static/partials/home.html:9
+msgid "coming soon"
+msgstr "カミングスーン"
 
 #: application/resto/static/partials/admin_users.html:25
 #: application/resto/static/partials/admin_users.html:42
@@ -209,6 +217,10 @@ msgstr "料理屋のカントク"
 #: application/resto/templates/index.html:50
 msgid "restaurateurs"
 msgstr "料理屋のカントク"
+
+#: application/resto/static/partials/home.html:8
+msgid "see menu"
+msgstr "メニューを見せる"
 
 #: application/resto/static/partials/admin_users.html:9
 msgid "telephone"
