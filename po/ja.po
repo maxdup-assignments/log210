@@ -12,6 +12,14 @@ msgstr ""
 "X-Generator: Poedit 1.7.4\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: application/resto/static/partials/manage_menu.html:24
+msgid "Add"
+msgstr "着ける"
+
+#: application/resto/static/partials/manage_menu.html:30
+msgid "Add Menu"
+msgstr "メニューを着ける"
+
 #: application/resto/static/partials/profile.html:60
 msgid "Address:"
 msgstr "アドレッス："
@@ -20,10 +28,12 @@ msgstr "アドレッス："
 msgid "Birthday:"
 msgstr "誕生日："
 
+#: application/resto/static/partials/admin_resto.html:42
 #: application/resto/static/partials/profile.html:82
 msgid "Cancel"
 msgstr "キャンセル"
 
+#: application/resto/static/partials/admin_resto.html:33
 #: application/resto/static/partials/profile.html:79
 msgid "Edit"
 msgstr "エテェット"
@@ -48,10 +58,24 @@ msgstr "姓:"
 msgid "Meet your profile!"
 msgstr "プロフィルを合います！"
 
+#: application/resto/static/partials/admin_resto.html:7
+msgid "Menu"
+msgstr "メニュー"
+
+#: application/resto/static/partials/admin_resto.html:4
+msgid "Name"
+msgstr "名前"
+
 #: application/resto/static/partials/profile.html:53
 msgid "Password:"
 msgstr "パスワード："
 
+#: application/resto/static/partials/admin_resto.html:35
+msgid "Remove"
+msgstr "落とす"
+
+#: application/resto/static/partials/admin_resto.html:40
+#: application/resto/static/partials/manage_menu.html:32
 #: application/resto/static/partials/profile.html:80
 msgid "Save"
 msgstr "セーブ"
@@ -60,24 +84,45 @@ msgstr "セーブ"
 msgid "Telephone:"
 msgstr "でんわ："
 
+#: application/resto/static/partials/admin_resto.html:58
 #: application/resto/static/partials/profile.html:68
 msgid "add"
 msgstr "着ける"
 
-#: application/resto/templates/index.html:63
+#: application/resto/static/partials/admin_resto.html:5
+msgid "address"
+msgstr "アドレッス"
+
+#: application/resto/static/partials/manage_menu.html:12
+msgid "description"
+msgstr "記載"
+
+#: application/resto/templates/index.html:66
 msgid "hello,"
 msgstr "こんにちは、"
 
-#: application/resto/templates/index.html:72
-#: application/resto/templates/index.html:80
+#: application/resto/templates/index.html:75
+#: application/resto/templates/index.html:83
 msgid "login"
 msgstr "ログイン"
 
-#: application/resto/templates/index.html:68
+#: application/resto/templates/index.html:71
 msgid "logout"
 msgstr "ログアウト"
 
-#: application/resto/templates/index.html:81
+#: application/resto/static/partials/admin_resto.html:56
+msgid "menu..."
+msgstr "メニュー。。。"
+
+#: application/resto/static/partials/manage_menu.html:11
+msgid "name"
+msgstr "名前"
+
+#: application/resto/static/partials/manage_menu.html:13
+msgid "price"
+msgstr "価格"
+
+#: application/resto/templates/index.html:84
 msgid "register"
 msgstr "レジスター"
 
@@ -86,6 +131,19 @@ msgstr "レジスター"
 msgid "restaurants"
 msgstr "料理屋"
 
+#: application/resto/static/partials/admin_resto.html:6
+msgid "restaurateur"
+msgstr "料理屋のカントク"
+
 #: application/resto/templates/index.html:50
 msgid "restaurateurs"
 msgstr "料理屋のカントク"
+
+#~ msgid "Ajouter menu"
+#~ msgstr "メニューを"
+
+#~ msgid "nom"
+#~ msgstr "名前"
+
+#~ msgid "prix"
+#~ msgstr "価格"

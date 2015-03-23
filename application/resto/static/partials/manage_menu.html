@@ -8,9 +8,9 @@
   <h4>{{ menu.name }}</h4>
   <table class="table">
     <tr>
-      <th>nom</th>
-      <th>description</th>
-      <th>prix</th>
+      <th translate>name</th>
+      <th translate>description</th>
+      <th translate>price</th>
     </tr>
     <tr ng-repeat="item in menu.items">
       <td>{{ item.name }}</td>
@@ -21,12 +21,12 @@
       <td><input type="text" ng-model="menu.newitem.name"/></td>
       <td><input type="text" ng-model="menu.newitem.desc"/></td>
       <td><input type="text" ng-model="menu.newitem.price"/></td>
-      <td><button class="btn btn-xs" ng-click="add_menuitem(menu)">Add</button></td>
+      <td><button class="btn btn-xs" ng-click="add_menuitem(menu)" translate>Add</button></td>
     </tr>
   </table>
 </div>
 <div style="height:20px"/>
 <input type="text" ng-model="new_menu_name"/>
-<button class="btn" ng-click="add_menu()">Ajouter menu</button>
+<button class="btn" ng-click="add_menu()" translate>Add Menu</button>
 <div style="height:20px"/>
-<button class="btn btn-success" style="float:right" ng-click="save_menu()">Save</button>
+<button class="btn btn-success" style="float:right" ng-click="save_menu()" translate>Save</button>
