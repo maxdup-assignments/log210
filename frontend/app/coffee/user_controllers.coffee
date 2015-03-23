@@ -1,17 +1,20 @@
-angular.module('resto.userControllers', ['resto.dev'])
+angular.module('resto.userControllers', ['resto.dev', 'ngCookies'])
 
 .controller 'RootController',
-($scope, $location, $http, $route, $rootScope, Profile, conf) ->
+($scope, $location, $http, $route, $rootScope, Profile, conf, $cookies) ->
 
   $scope.loginform = {
     'username':''
     'password':''
   }
-  Profile.get({id:'self'}).$promise.then(
-    (value) ->
-      $scope.profile = value
-      $rootScope.$broadcast('profileload')
-  )
+  update_profile = ()->
+    Profile.get({id:'self'}).$promise.then(
+      (value) ->
+        if value.pk
+          $scope.profile = value
+          $rootScope.$broadcast('profileload')
+    )
+  update_profile()
 
   $scope.login = ->
     $http.post(conf.url + 'login', $scope.loginform)
@@ -20,6 +23,11 @@ angular.module('resto.userControllers', ['resto.dev'])
         $scope.loggingin = false
         $scope.profile = data.profile
         $scope.username = data.username
+        update_profile()
+        $scope.$on 'profileload', ->
+          $http.defaults.headers.post['X-CSRFToken'] = $cookies['csrftoken']
+          $http.defaults.headers.put['X-CSRFToken'] = $cookies['csrftoken']
+          $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
         $route.reload()
 
   $scope.logout = ->
@@ -29,6 +37,8 @@ angular.module('resto.userControllers', ['resto.dev'])
         $scope.profile = null
         $scope.loginform['username'] = ''
         $scope.loginform['password'] = ''
+        delete $cookies['csrftoken']
+        delete $cookies['sessionid']
         $location.path( "/app/#/home" )
         $route.reload()
 

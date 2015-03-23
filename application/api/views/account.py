@@ -20,7 +20,10 @@ def profile(request, pk=None):
 
     if pk:
         if pk == 'self':
+            if not request.user.is_authenticated():
+                return Response(status=status.HTTP_204_NO_CONTENT)
             user = User.objects.get(pk=request.user.pk)
+
         else:
             user = User.objects.get(pk=pk)
         profile = UserProfile.objects.get(user=user)
@@ -60,6 +63,7 @@ def profile(request, pk=None):
                         status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'PUT':
+
         userdata = request.data.pop('user')
         user = User.objects.get(pk=userdata['pk'])
         if 'password' in userdata:

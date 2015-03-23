@@ -22,6 +22,9 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
       $scope.order.details.addressFrom = $scope.current_resto.address)
 
   $scope.add_item = (item) ->
+    if not $scope.profile
+      return alert("Veuillez d'abord vous connecter")
+
     if not $scope.order.details.addressTo
       $scope.order.details.addressTo = $scope.profile.adresse[0]
     if $scope.sending
@@ -57,12 +60,7 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
       Profile.update({id:$scope.profile.user.pk}, $scope.profile)
     Commande.save($scope.order).$promise.then(
       (value) ->
-        $scope.confirm = value
-    )
-
-    if $scope.auth == false
-      alert('Veuillez vous connecter')
-
+        $scope.confirm = value)
 
   $scope.minDate = new Date()
   $scope.hstep = 1

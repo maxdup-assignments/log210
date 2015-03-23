@@ -31,6 +31,9 @@
       return $scope.order.details.addressFrom = $scope.current_resto.address;
     });
     $scope.add_item = function(item) {
+      if (!$scope.profile) {
+        return alert("Veuillez d'abord vous connecter");
+      }
       if (!$scope.order.details.addressTo) {
         $scope.order.details.addressTo = $scope.profile.adresse[0];
       }
@@ -75,12 +78,9 @@
           id: $scope.profile.user.pk
         }, $scope.profile);
       }
-      Commande.save($scope.order).$promise.then(function(value) {
+      return Commande.save($scope.order).$promise.then(function(value) {
         return $scope.confirm = value;
       });
-      if ($scope.auth === false) {
-        return alert('Veuillez vous connecter');
-      }
     };
     $scope.minDate = new Date();
     $scope.hstep = 1;
