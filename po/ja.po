@@ -36,6 +36,22 @@ msgstr "誕生日："
 msgid "Cancel"
 msgstr "キャンセル"
 
+#: application/resto/static/partials/commande.html:34
+msgid "Confirmation number:"
+msgstr "確認の番号"
+
+#: application/resto/static/partials/commande.html:112
+msgid "Delivery Address"
+msgstr "届けたのアドレッス"
+
+#: application/resto/static/partials/commande.html:96
+msgid "Delivery time"
+msgstr "届けたの時"
+
+#: application/resto/static/partials/commande.html:8
+msgid "Description"
+msgstr "記述"
+
 #: application/resto/static/partials/admin_resto.html:33
 #: application/resto/static/partials/admin_users.html:28
 #: application/resto/static/partials/profile.html:79
@@ -80,8 +96,22 @@ msgid "Menu"
 msgstr "メニュー"
 
 #: application/resto/static/partials/admin_resto.html:4
+#: application/resto/static/partials/commande.html:39
+#: application/resto/static/partials/commande.html:61
 msgid "Name"
 msgstr "名前"
+
+#: application/resto/static/partials/commande.html:125
+msgid "New Address"
+msgstr "新しいアドレッス"
+
+#: application/resto/static/partials/commande.html:7
+msgid "Nom"
+msgstr "名前"
+
+#: application/resto/static/partials/commande.html:33
+msgid "Order sent"
+msgstr "オーダーが送りました"
 
 #: application/resto/static/partials/home.html:2
 msgid "Our Restaurants"
@@ -91,6 +121,20 @@ msgstr "私たちの料理屋"
 #: application/resto/static/partials/profile.html:53
 msgid "Password:"
 msgstr "パスワード："
+
+#: application/resto/static/partials/commande.html:41
+#: application/resto/static/partials/commande.html:63
+msgid "Price"
+msgstr "価格"
+
+#: application/resto/static/partials/commande.html:9
+msgid "Prix"
+msgstr "価格"
+
+#: application/resto/static/partials/commande.html:40
+#: application/resto/static/partials/commande.html:62
+msgid "Quantity"
+msgstr "量"
 
 #: application/resto/static/partials/admin_resto.html:35
 #: application/resto/static/partials/admin_users.html:29
@@ -108,9 +152,17 @@ msgstr "料理屋："
 msgid "Save"
 msgstr "セーブ"
 
+#: application/resto/static/partials/commande.html:29
+msgid "Sending..."
+msgstr "出している"
+
 #: application/resto/static/partials/admin_users.html:110
 msgid "Submit"
 msgstr "出す："
+
+#: application/resto/static/partials/commande.html:133
+msgid "Submit Order"
+msgstr "オーだを出す"
 
 #: application/resto/static/partials/admin_users.html:88
 msgid "Telephone Number:"
@@ -119,6 +171,11 @@ msgstr "電話番号："
 #: application/resto/static/partials/profile.html:44
 msgid "Telephone:"
 msgstr "でんわ："
+
+#: application/resto/static/partials/commande.html:49
+#: application/resto/static/partials/commande.html:88
+msgid "Total"
+msgstr "ごうけい"
 
 #: application/resto/static/partials/admin_resto.html:58
 #: application/resto/static/partials/profile.html:68
@@ -137,6 +194,10 @@ msgstr "アドミン"
 msgid "adresse"
 msgstr "アドレッス"
 
+#: application/resto/static/partials/commande.html:16
+msgid "ajouter"
+msgstr "着ける"
+
 #: application/resto/static/partials/admin_users.html:10
 msgid "birthday"
 msgstr "誕生日"
@@ -144,6 +205,10 @@ msgstr "誕生日"
 #: application/resto/static/partials/home.html:9
 msgid "coming soon"
 msgstr "カミングスーン"
+
+#: application/resto/static/partials/commande.html:81
+msgid "delete"
+msgstr "落とす"
 
 #: application/resto/static/partials/admin_users.html:25
 #: application/resto/static/partials/admin_users.html:42
@@ -225,6 +290,25 @@ msgstr "メニューを見せる"
 #: application/resto/static/partials/admin_users.html:9
 msgid "telephone"
 msgstr "電話"
+
+#: application/resto/static/partials/commande.html:26
+msgid "votre commande"
+msgstr "注文"
+
+#~ msgid "Envois..."
+#~ msgstr "おくる。。。"
+
+#~ msgid "Numéro de confirmation:"
+#~ msgstr "かくにんのばんご："
+
+#~ msgid "Quantité"
+#~ msgstr "量"
+
+#~ msgid "enlever"
+#~ msgstr "落とす"
+
+#~ msgid "votre commande a été envoyé"
+#~ msgstr "ちゅもんが送りました"
 
 #~ msgid "Ajouter menu"
 #~ msgstr "メニューを"
