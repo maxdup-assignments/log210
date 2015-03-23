@@ -1,14 +1,15 @@
 
 <div ng-hide="profiles">Loading...</div>
-<table ng-show="profiles" class="table table-responsive profiles">
+<table ng-show="profiles" class="table table-responsive table-condensed profiles">
   <tr>
     <th>email</th>
     <th>first name</th>
     <th>last name</th>
     <th>adresse</th>
-    <th>telephone</th>
-    <th>date de naissance</th>
-    <th>permissions</th>
+    <th style="width:100px">telephone</th>
+    <th style="width:110px">date de naissance</th>
+    <th style="width:128px">permissions</th>
+    <th style="width:115px"></th>
   </tr>
 
   <tr ng-repeat="prof in profiles">
@@ -31,7 +32,7 @@
     </td>
 
     <td ng-show="prof.backup">
-      <input style="width=20px;" ng-model="prof.user.username"/></td>
+      <input style="width:100%;" ng-model="prof.user.username"/></td>
     <td ng-show="prof.backup"><input ng-model="prof.user.first_name"/></td>
     <td ng-show="prof.backup"><input ng-model="prof.user.last_name"/></td>
     <td ng-show="prof.backup">{{prof.adresse}}</td>
@@ -59,19 +60,19 @@
   <div class="form-group">
     <label class="col-sm-2 control-label">Email:</label>
     <div class="col-sm-10">
-      <input class="form-control" type="text" ng-model="userform.email">
+      <input class="form-control" type="text" ng-model="userform.user.email">
     </div>
   </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">First name:</label>
     <div class="col-sm-10">
-      <input class="form-control" type="text" ng-model="userform.first_name">
+      <input class="form-control" type="text" ng-model="userform.user.first_name">
     </div>
   </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">Last name:</label>
     <div class="col-sm-10">
-      <input class="form-control" type="text" ng-model="userform.last_name">
+      <input class="form-control" type="text" ng-model="userform.user.last_name">
     </div>
   </div>
   <div class="form-group">
@@ -95,7 +96,7 @@
   <div class="form-group">
     <label class="col-sm-2 control-label">Password:</label>
     <div class="col-sm-10">
-      <input class="form-control" type="password" ng-model="userform.password">
+      <input class="form-control" type="password" ng-model="userform.user.password">
     </div>
   </div>
 

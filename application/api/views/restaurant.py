@@ -51,7 +51,8 @@ def resto(request, pk=None):
     elif request.method == 'PUT' and pk:
 
         # updates a resto
-        request.data.pop('user')
+        if 'user' in request.data:
+            request.data.pop('user')
 
         if 'new_user' in request.data:
             if request.data['new_user']['value']:

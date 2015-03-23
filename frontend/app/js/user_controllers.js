@@ -50,13 +50,19 @@
         restaurateur = false;
       }
       $scope.userform.is_restaurateur = restaurateur;
-      $scope.userform.user.email = $scope.userform.user.username;
-      userform = {};
       return Profile.save($scope.userform).$promise.then(function(value) {
         var opt;
         if ($location.path() === '/admin/users') {
-          $scope.profiles.push(data);
+          $scope.profiles.push(value);
           if ($scope.userform.resto) {
+            Resto.update({
+              id: $scope.userform.resto
+            }, {
+              'pk': $scope.userform.resto,
+              'new_user': {
+                'value': value.user.pk
+              }
+            });
             $scope.options = (function() {
               var _i, _len, _ref, _results;
               _ref = $scope.options;
@@ -69,11 +75,10 @@
               }
               return _results;
             })();
-            $scope.selected_resto = $scope.options[0];
+            return $scope.selected_resto = $scope.options[0];
           } else {
-            alert("il est preferable d'assigner un restaurant");
+            return alert("il est preferable d'assigner un restaurant");
           }
-          return _.extend($scope.userform, userform);
         } else {
           alert('registration successful');
           return $location.path("app/#/home");

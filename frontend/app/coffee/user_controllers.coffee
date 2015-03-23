@@ -52,23 +52,24 @@ angular.module('resto.userControllers', ['resto.dev'])
 
   $scope.submit = (restaurateur=false) ->
     $scope.userform.is_restaurateur = restaurateur
-    $scope.userform.user.email = $scope.userform.user.username
-    userform = {}
     Profile.save($scope.userform).$promise.then(
       (value) ->
         if $location.path() == '/admin/users'
-          $scope.profiles.push(data)
+          $scope.profiles.push(value)
           if $scope.userform.resto
+            Resto.update({id:$scope.userform.resto},
+              {'pk': $scope.userform.resto,
+              'new_user': {'value':value.user.pk}})
             $scope.options =
               (opt for opt, opt in $scope.options \
                 when opt.value != $scope.userform.resto)
             $scope.selected_resto = $scope.options[0]
           else
             alert("il est preferable d'assigner un restaurant")
-          _.extend($scope.userform, userform)
         else
           alert('registration successful')
           $location.path("app/#/home"))
+
 
   if $location.path() == '/admin/users'
 

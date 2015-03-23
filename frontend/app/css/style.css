@@ -39,9 +39,8 @@ body {
   background: #dff0d8;
 }
 
-
 .profiles input{
-  width:100px;
+  width:100%;
 }
 
 .spinner {

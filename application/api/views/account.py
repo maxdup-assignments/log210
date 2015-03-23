@@ -41,6 +41,8 @@ def profile(request, pk=None):
         else:
             profiles = UserProfile.objects.all()
             output = ProfileSerializer(profiles, many=True)
+            for profile in output.data:
+                del profile['user']['password']
 
         return Response(output.data)
 
