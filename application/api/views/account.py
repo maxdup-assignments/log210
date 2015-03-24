@@ -69,7 +69,6 @@ def profile(request, pk=None):
         if 'password' in userdata:
             if userdata['password']:
                 user.set_password(userdata.pop('password'))
-                print 'password been set'
 
         user = UserSerializer(user, data=userdata, partial=True)
         if user.is_valid():

@@ -201,14 +201,14 @@ class PopulateTestCase(TestCase):
                     'qty':'1'}],
                 'addressTo': 'XX_destination',
                 'addressFrom': 'XX_adresse_resto',
-                'requestedTime': datetime.datetime.now(),
+                'requestedTime': "2015-03-18T20:15:02.449Z",
             },
             'restaurant': resto.pk
         }
 
-        response = c.post('/api/create_commande/', content_type='application/json',
-                          data=JSONRenderer().render(order))
-        self.assertEqual(response.status_code, 200)
+        response = c.post('/api/commande', content_type='application/json',
+                          data=json.dumps(order))
+        self.assertEqual(response.status_code, 201)
         body = json.loads(response.content)
         self.assertEqual(body['details']['addressTo'], 'XX_destination')
         self.assertEqual(body['restaurant']['pk'], resto.pk)
@@ -216,29 +216,27 @@ class PopulateTestCase(TestCase):
     def test_get_commande(self):
         c = Client()
         commande = Commande.objects.all()[0]
-        response = c.post('/api/get_commande/', content_type='application/json',
-               data=commande.pk)
+        response = c.get('/api/commande/'+commande.pk)
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
         self.assertEqual(body['status'], 'paid')
 
     def test_resto_commande(self):
         c = Client()
-        resto = Restaurant.objects.get(name="Pataterie")
-        commande = Commande.objects.filter(restaurant=resto)
-        response = c.post('/api/resto_commande/',
-                          content_type='application/json', data=resto.pk)
+        resto = Restaurant.objects.get(name="Subway")
+        commande = Commande.objects.filter(restaurant=resto).count()
+        response = c.get('/api/commande', {'resto':resto.pk})
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
-        self.assertEqual(2, len(body))
+        self.assertEqual(commande, len(body))
 
     def test_update_commande(self):
         c = Client()
         commande = Commande.objects.all()[0]
-        response = c.post('/api/update_commande/',
+        commande.status = 'preparing'
+        response = c.put('/api/commande/'+commande.pk,
                           content_type='application/json',
-                          data=json.dumps({'status':'preparing',
-                                           'commande':CommandeSerializer(commande).data}))
+                          data=json.dumps(CommandeSerializer(commande).data))
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
         self.assertEqual('preparing', body['status'])

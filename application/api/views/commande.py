@@ -40,7 +40,7 @@ def commande(request, pk=None):
     elif request.method == 'POST':
 
         # creates a commande
-        resto = Restaurant.objects.get(pk=request.data.pop('resto'))
+        resto = Restaurant.objects.get(pk=request.data.pop('restaurant'))
         commande = Commande(
             restaurant=resto,
             details=request.data['details'],

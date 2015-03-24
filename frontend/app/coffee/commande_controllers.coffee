@@ -12,7 +12,7 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
       'addressFrom': '',
       'requestedTime': new Date(),
     },
-  'resto': param
+  'restaurant': param
   }
 
   Resto.query().$promise.then(
