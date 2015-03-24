@@ -120,7 +120,7 @@ def populate_user():
             username= 'mdupuis@hotmail.ca',
             first_name='maxime',
             last_name='dupuis',
-            email='mdupui@hotmail.ca',
+            email='mdupuis@hotmail.ca',
             password='asd')
 
         profile = UserProfile.objects.create(

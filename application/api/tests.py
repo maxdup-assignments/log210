@@ -27,7 +27,6 @@ class PopulateTestCase(TestCase):
     def test_commande_population(self):
         self.assertEqual(3, Commande.objects.all().count())
 
-    '''
     #tests utilisateurs
     def test_account_login(self):
         c = Client()
@@ -50,19 +49,22 @@ class PopulateTestCase(TestCase):
         c.post('/api/login/', content_type='application/json',
                data=json.dumps({'username': 'mdupuis@hotmail.ca',
                                 'password': 'asd'}))
-        response = c.get('/api/profile/')
+
+        response = c.get('/api/profile/self')
+        self.assertEqual(str(response.data['user']['email']),
+                         'mdupuis@hotmail.ca')
         self.assertEqual(response.status_code, 200)
 
     def test_account_all_profiles(self):
         c = Client()
-        response = c.get('/api/all_profiles/')
+        response = c.get('/api/profile')
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
         self.assertEqual(len(body), 9)
 
     def test_account_all_staff(self):
         c = Client()
-        response = c.get('/api/all_staff/')
+        response = c.get('/api/profile', {'restaurateur':'true'})
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
         self.assertEqual(len(body), 4)
@@ -75,42 +77,51 @@ class PopulateTestCase(TestCase):
         profile.telephone = '1234567'
         request = ProfileSerializer(profile).data
 
-        response = c.post('/api/edit_profile/', content_type='application/json',
-                          data=JSONRenderer().render(request))
+        response = c.put('/api/profile', content_type='application/json',
+                          data=json.dumps(request))
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
-        self.assertTrue(body['success'])
+        self.assertEqual(body['user']['first_name'], 'pat')
+        self.assertEqual(body['telephone'], '1234567')
 
     def test_account_delete_profile(self):
         c = Client()
-        user = User.objects.get(email='jacques@hotmail.com')
+        user = User.objects.get(username='jacques@hotmail.com')
+        u_pk = user.pk
         profile = UserProfile.objects.get(user=user)
         pk = profile.pk
-        request = ProfileSerializer(profile).data
+        p_pk = profile.pk
+        request = UserSerializer(user).data
 
-        response = c.post('/api/delete_profile/', content_type='application/json',
-                          data=JSONRenderer().render(request))
+        response = c.delete('/api/profile/'+request['pk'],
+                            content_type='application/json',
+                            data=json.dumps(request))
 
-        self.assertEqual(response.status_code, 200)
-        profile = UserProfile.objects.filter(pk=pk).exists()
+        self.assertEqual(response.status_code, 204)
+        profile = UserProfile.objects.filter(pk=p_pk).exists()
         self.assertEqual(profile, False)
+        user = User.objects.filter(pk=u_pk).exists()
+        self.assertEqual(user, False)
 
     def test_account_register(self):
         c = Client()
-        userform = {'email':'asd',
-                    'first_name':'patr',
-                    'last_name':'asd',
-                    'date_naissance':'asd',
-                    'adresse':'asd',
-                    'telephone':'1234',
-                    'password':'asd',
-                    'is_restaurateur': False}
-        response = c.post('/api/register/', content_type='application/json',
-                          data=JSONRenderer().render(userform))
-        self.assertEqual(response.status_code, 200)
+        userform = {
+            'user':{
+                'email':'asdf@asdf.com',
+                'first_name':'patr',
+                'last_name':'asd',
+                'password':'asd'},
+            'date_naissance':'asd',
+            'adresse':'asd',
+            'telephone':'1234',
+            'is_restaurateur': False}
+        response = c.post('/api/profile', content_type='application/json',
+                          data=json.dumps(userform))
+        self.assertEqual(response.status_code, 201)
         body = json.loads(response.content)
         self.assertEqual(body['user']['first_name'], 'patr')
         self.assertEqual(body['telephone'], '1234')
+    '''
 
     # tests restaurant
     def test_create_resto(self):

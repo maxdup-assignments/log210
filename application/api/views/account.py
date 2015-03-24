@@ -78,16 +78,18 @@ def profile(request, pk=None):
             profile = ProfileSerializer(profile, data=request.data, partial=True)
             if profile.is_valid():
                 profile.save()
-                return Response(user.data)
+                return Response(profile.data)
 
         return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
 
         # deletes a profile
-        profile.delete()
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if pk:
+            profile.delete()
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 def user_login(request):
