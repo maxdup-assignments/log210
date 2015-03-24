@@ -121,7 +121,6 @@ class PopulateTestCase(TestCase):
         body = json.loads(response.content)
         self.assertEqual(body['user']['first_name'], 'patr')
         self.assertEqual(body['telephone'], '1234')
-    '''
 
     # tests restaurant
     def test_create_resto(self):
@@ -133,9 +132,9 @@ class PopulateTestCase(TestCase):
             'user': user.pk,
             'address': 'some adress'
         }
-        response = c.post('/api/create_resto/', content_type='application/json',
-                          data=JSONRenderer().render(restoform))
-        self.assertEqual(response.status_code, 200)
+        response = c.post('/api/resto', content_type='application/json',
+                          data=json.dumps(restoform))
+        self.assertEqual(response.status_code, 201)
         body = json.loads(response.content)
         self.assertEqual(body['name'], 'rETSo')
         self.assertEqual(body['user']['pk'], user.pk)
@@ -144,27 +143,29 @@ class PopulateTestCase(TestCase):
         c = Client()
         resto = Restaurant.objects.get(name="Buffet")
         resto = RestaurantSerializer(resto).data
-        response = c.post('/api/delete_resto/',
+        response = c.delete('/api/resto/'+resto['pk'],
                           content_type='application/json',
-                          data=JSONRenderer().render(resto))
+                          data=json.dumps(resto))
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 204)
         exist = Restaurant.objects.filter(pk=resto['pk']).exists()
         self.assertEqual(exist, False)
 
     def test_all_resto(self):
         c = Client()
-        response = c.get('/api/all_resto/')
+        response = c.get('/api/resto')
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
         self.assertEqual(len(body), 4)
 
     def test_assigned_resto(self):
         c = Client()
-        c.post('/api/login/', content_type='application/json',
-               data=json.dumps({'username': 'andy@hotmail.com',
-                                'password': 'patate'}))
-        response = c.get('/api/assigned_resto/')
+        user = c.post('/api/login/', content_type='application/json',
+                      data=json.dumps({'username': 'andy@hotmail.com',
+                                       'password': 'patate'}))
+        user = json.loads(user.content)
+        response = c.get('/api/resto',
+                         {'user': user['profile']['user']['pk']})
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
         self.assertEqual(len(body), 1)
@@ -176,9 +177,9 @@ class PopulateTestCase(TestCase):
         resto.name = 'Le Buffet'
         resto.address = 'newaddress'
         request = RestaurantSerializer(resto).data
-
-        response = c.post('/api/edit_resto/', content_type='application/json',
-                          data=JSONRenderer().render(request))
+        response = c.put('/api/resto/'+resto.pk,
+                         content_type='application/json',
+                         data=json.dumps(request))
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
         self.assertEqual(body['name'], 'Le Buffet')
@@ -241,8 +242,6 @@ class PopulateTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         body = json.loads(response.content)
         self.assertEqual('preparing', body['status'])
-
-    '''
 
     def tearDown(self):
         c = Connection()
