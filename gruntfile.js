@@ -2,6 +2,20 @@ module.exports = function(grunt){
   pkg: grunt.file.readJSON('package.json'),
 
   grunt.initConfig({
+	 nggettext_extract:{
+	  pot: {
+	    files: {
+	      'po/template.pot':['**/*.html']
+		}
+	  },
+	},
+	nggettext_compile: {
+	  all: {
+	    files: [
+			{src: ['po/*.po'], dest: 'application/resto/static/js/translations.js'},
+		]
+	  },
+	},
     coffee: {
       app: {
         files: [{
@@ -38,6 +52,7 @@ module.exports = function(grunt){
       }
     }
   });
+  grunt.loadNpmTasks('grunt-angular-gettext');
   grunt.loadNpmTasks('grunt-contrib-less')
   grunt.loadNpmTasks('grunt-contrib-coffee')
   grunt.loadNpmTasks('grunt-contrib-watch')

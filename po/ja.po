@@ -1,0 +1,320 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.4\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: application/resto/static/partials/manage_menu.html:24
+msgid "Add"
+msgstr "着ける"
+
+#: application/resto/static/partials/manage_menu.html:30
+msgid "Add Menu"
+msgstr "メニューを着ける"
+
+#: application/resto/static/partials/admin_users.html:76
+#: application/resto/static/partials/profile.html:60
+msgid "Address:"
+msgstr "アドレッス："
+
+#: application/resto/static/partials/admin_users.html:82
+#: application/resto/static/partials/profile.html:35
+msgid "Birthday:"
+msgstr "誕生日："
+
+#: application/resto/static/partials/admin_resto.html:42
+#: application/resto/static/partials/admin_users.html:48
+#: application/resto/static/partials/profile.html:82
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: application/resto/static/partials/commande.html:34
+msgid "Confirmation number:"
+msgstr "確認の番号"
+
+#: application/resto/static/partials/commande.html:112
+msgid "Delivery Address"
+msgstr "届けたのアドレッス"
+
+#: application/resto/static/partials/commande.html:96
+msgid "Delivery time"
+msgstr "届けたの時"
+
+#: application/resto/static/partials/commande.html:8
+msgid "Description"
+msgstr "記述"
+
+#: application/resto/static/partials/admin_resto.html:33
+#: application/resto/static/partials/admin_users.html:28
+#: application/resto/static/partials/profile.html:79
+msgid "Edit"
+msgstr "エテェット"
+
+#: application/resto/static/partials/admin_users.html:58
+#: application/resto/static/partials/profile.html:8
+msgid "Email:"
+msgstr "メール："
+
+#: application/resto/static/partials/profile.html:17
+msgid "First Name:"
+msgstr "名前："
+
+#: application/resto/static/partials/admin_users.html:64
+msgid "First name:"
+msgstr "名前："
+
+#: application/resto/static/partials/profile.html:1
+msgid "Hello {{profile.user.first_name}}"
+msgstr "こんにちは {{profile.user.first_name}}"
+
+#: application/resto/static/partials/profile.html:26
+msgid "Last Name:"
+msgstr "姓："
+
+#: application/resto/static/partials/admin_users.html:70
+msgid "Last name:"
+msgstr "せい："
+
+#: application/resto/static/partials/admin_users.html:2
+msgid "Loading..."
+msgstr "ロヂンッグ。。。"
+
+#: application/resto/static/partials/profile.html:3
+msgid "Meet your profile!"
+msgstr "プロフィルを合います！"
+
+#: application/resto/static/partials/admin_resto.html:7
+msgid "Menu"
+msgstr "メニュー"
+
+#: application/resto/static/partials/admin_resto.html:4
+#: application/resto/static/partials/commande.html:39
+#: application/resto/static/partials/commande.html:61
+msgid "Name"
+msgstr "名前"
+
+#: application/resto/static/partials/commande.html:125
+msgid "New Address"
+msgstr "新しいアドレッス"
+
+#: application/resto/static/partials/commande.html:7
+msgid "Nom"
+msgstr "名前"
+
+#: application/resto/static/partials/commande.html:33
+msgid "Order sent"
+msgstr "オーダーが送りました"
+
+#: application/resto/static/partials/home.html:2
+msgid "Our Restaurants"
+msgstr "私たちの料理屋"
+
+#: application/resto/static/partials/admin_users.html:94
+#: application/resto/static/partials/profile.html:53
+msgid "Password:"
+msgstr "パスワード："
+
+#: application/resto/static/partials/commande.html:41
+#: application/resto/static/partials/commande.html:63
+msgid "Price"
+msgstr "価格"
+
+#: application/resto/static/partials/commande.html:9
+msgid "Prix"
+msgstr "価格"
+
+#: application/resto/static/partials/commande.html:40
+#: application/resto/static/partials/commande.html:62
+msgid "Quantity"
+msgstr "量"
+
+#: application/resto/static/partials/admin_resto.html:35
+#: application/resto/static/partials/admin_users.html:29
+msgid "Remove"
+msgstr "落とす"
+
+#: application/resto/static/partials/admin_users.html:101
+msgid "Restaurant:"
+msgstr "料理屋："
+
+#: application/resto/static/partials/admin_resto.html:40
+#: application/resto/static/partials/admin_users.html:46
+#: application/resto/static/partials/manage_menu.html:32
+#: application/resto/static/partials/profile.html:80
+msgid "Save"
+msgstr "セーブ"
+
+#: application/resto/static/partials/commande.html:29
+msgid "Sending..."
+msgstr "出している"
+
+#: application/resto/static/partials/admin_users.html:110
+msgid "Submit"
+msgstr "出す："
+
+#: application/resto/static/partials/commande.html:133
+msgid "Submit Order"
+msgstr "オーだを出す"
+
+#: application/resto/static/partials/admin_users.html:88
+msgid "Telephone Number:"
+msgstr "電話番号："
+
+#: application/resto/static/partials/profile.html:44
+msgid "Telephone:"
+msgstr "でんわ："
+
+#: application/resto/static/partials/commande.html:49
+#: application/resto/static/partials/commande.html:88
+msgid "Total"
+msgstr "ごうけい"
+
+#: application/resto/static/partials/admin_resto.html:58
+#: application/resto/static/partials/profile.html:68
+msgid "add"
+msgstr "着ける"
+
+#: application/resto/static/partials/admin_resto.html:5
+msgid "address"
+msgstr "アドレッス"
+
+#: application/resto/static/partials/admin_users.html:22
+msgid "admin"
+msgstr "アドミン"
+
+#: application/resto/static/partials/admin_users.html:8
+msgid "adresse"
+msgstr "アドレッス"
+
+#: application/resto/static/partials/commande.html:16
+msgid "ajouter"
+msgstr "着ける"
+
+#: application/resto/static/partials/admin_users.html:10
+msgid "birthday"
+msgstr "誕生日"
+
+#: application/resto/static/partials/home.html:9
+msgid "coming soon"
+msgstr "カミングスーン"
+
+#: application/resto/static/partials/commande.html:81
+msgid "delete"
+msgstr "落とす"
+
+#: application/resto/static/partials/admin_users.html:25
+#: application/resto/static/partials/admin_users.html:42
+msgid "delivery man"
+msgstr "届けた人"
+
+#: application/resto/static/partials/manage_menu.html:12
+msgid "description"
+msgstr "記載"
+
+#: application/resto/static/partials/admin_users.html:5
+msgid "email"
+msgstr "メール"
+
+#: application/resto/static/partials/admin_users.html:23
+msgid "entrepreneur"
+msgstr "アンとるぷるなーる"
+
+#: application/resto/static/partials/admin_users.html:6
+msgid "first name"
+msgstr "名前"
+
+#: application/resto/templates/index.html:66
+msgid "hello,"
+msgstr "こんにちは、"
+
+#: application/resto/static/partials/admin_users.html:7
+msgid "last name"
+msgstr "姓"
+
+#: application/resto/templates/index.html:75
+#: application/resto/templates/index.html:83
+msgid "login"
+msgstr "ログイン"
+
+#: application/resto/templates/index.html:71
+msgid "logout"
+msgstr "ログアウト"
+
+#: application/resto/static/partials/admin_resto.html:56
+msgid "menu..."
+msgstr "メニュー。。。"
+
+#: application/resto/static/partials/manage_menu.html:11
+msgid "name"
+msgstr "名前"
+
+#: application/resto/static/partials/admin_users.html:11
+msgid "permissions"
+msgstr "許可"
+
+#: application/resto/static/partials/manage_menu.html:13
+msgid "price"
+msgstr "価格"
+
+#: application/resto/templates/index.html:84
+msgid "register"
+msgstr "レジスター"
+
+#: application/resto/templates/index.html:47
+#: application/resto/templates/index.html:56
+msgid "restaurants"
+msgstr "料理屋"
+
+#: application/resto/static/partials/admin_resto.html:6
+#: application/resto/static/partials/admin_users.html:24
+#: application/resto/static/partials/admin_users.html:41
+msgid "restaurateur"
+msgstr "料理屋のカントク"
+
+#: application/resto/templates/index.html:50
+msgid "restaurateurs"
+msgstr "料理屋のカントク"
+
+#: application/resto/static/partials/home.html:8
+msgid "see menu"
+msgstr "メニューを見せる"
+
+#: application/resto/static/partials/admin_users.html:9
+msgid "telephone"
+msgstr "電話"
+
+#: application/resto/static/partials/commande.html:26
+msgid "votre commande"
+msgstr "注文"
+
+#~ msgid "Envois..."
+#~ msgstr "おくる。。。"
+
+#~ msgid "Numéro de confirmation:"
+#~ msgstr "かくにんのばんご："
+
+#~ msgid "Quantité"
+#~ msgstr "量"
+
+#~ msgid "enlever"
+#~ msgstr "落とす"
+
+#~ msgid "votre commande a été envoyé"
+#~ msgstr "ちゅもんが送りました"
+
+#~ msgid "Ajouter menu"
+#~ msgstr "メニューを"
+
+#~ msgid "nom"
+#~ msgstr "名前"
+
+#~ msgid "prix"
+#~ msgstr "価格"
