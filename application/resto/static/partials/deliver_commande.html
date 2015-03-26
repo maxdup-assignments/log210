@@ -1,22 +1,22 @@
-<h1>Livraison des commandes</h1>
+<h1 translate>Order Delivery</h1>
 
 <table class="table">
   <tr>
-    <th>status</th>
-    <th>order</th>
-    <th>requested time</th>
-    <th>delivery time</th>
-    <th>From</th>
-    <th>To</th>
+    <th translate>status</th>
+    <th translate>order</th>
+    <th translate>requested time</th>
+    <th translate>delivery time</th>
+    <th translate>From</th>
+    <th translate>To</th>
     <th></th>
   </tr>
   <tr ng-repeat="commande in filtered(commandes, ['ready', 'delivered'])"
 ng-click="set_selected(commande)" ng-class="{selectedrow: commande === selected_commande}">
     <td>
       <span ng-show="commande.status == 'ready'"
-            class="label label-danger">En attente</span>
+            class="label label-danger" translate>Ready</span>
       <span ng-show="commande.status == 'delivered'"
-            class="label label-success">Livré</span>
+            class="label label-success" translate>Delivered</span>
     <td>
       <div ng-repeat="item in commande.details.commande">
         {{item.qty}}
@@ -30,19 +30,19 @@ ng-click="set_selected(commande)" ng-class="{selectedrow: commande === selected_
     <td>
       <button class="btn btn-sm btn-info" style="float:right"
               ng-click="update_status(commande, 'delivered')"
-              ng-show="commande.status == 'ready'">
-        livrer
+              ng-show="commande.status == 'ready'" translate>
+        Deliver
       </button>
     </td>
   </tr>
 </table>
 
 <div class="form-group">
-  <label class="col-md-2 control-label">Your current location:</label>
+  <label class="col-md-2 control-label" translate>Your current location:</label>
   <div class="col-md-4 input-group" style="margin-top:30px;">
     <input class="form-control" ng-model="current_location">
     <span class="input-group-btn">
-      <button class="btn" ng-click="set_selected(selected_commande)">
+      <button class="btn" ng-click="set_selected(selected_commande)" translate>
         update</button>
     </span>
   </div>
