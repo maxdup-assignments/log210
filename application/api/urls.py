@@ -1,9 +1,11 @@
 from django.conf.urls import patterns, url
 
 from api.views.account import *
-from api.views.restaurant import *
-from api.views.commande import *
+from api.views.restaurant import resto
+from api.views.commande import commande
 from api.data_population import populate_database
+from api.views.bench import *
+
 
 urlpatterns = patterns('',
     url(r'^login', user_login, name='login'),

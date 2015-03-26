@@ -13,6 +13,8 @@ from api.views.restaurant import *
 from api.views.commande import *
 from json import JSONEncoder
 
+
+
 class PopulateTestCase(TestCase):
     def setUp(self):
         populate_database()
