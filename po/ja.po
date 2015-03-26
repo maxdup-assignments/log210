@@ -22,11 +22,13 @@ msgstr "メニューを着ける"
 
 #: application/resto/static/partials/admin_users.html:76
 #: application/resto/static/partials/profile.html:60
+#: application/resto/static/partials/register.html:23
 msgid "Address:"
 msgstr "アドレッス："
 
 #: application/resto/static/partials/admin_users.html:82
 #: application/resto/static/partials/profile.html:35
+#: application/resto/static/partials/register.html:29
 msgid "Birthday:"
 msgstr "誕生日："
 
@@ -39,6 +41,14 @@ msgstr "キャンセル"
 #: application/resto/static/partials/commande.html:34
 msgid "Confirmation number:"
 msgstr "確認の番号"
+
+#: application/resto/static/partials/deliver_commande.html:31
+msgid "Deliver"
+msgstr "出す"
+
+#: application/resto/static/partials/deliver_commande.html:18
+msgid "Delivered"
+msgstr "出している"
 
 #: application/resto/static/partials/commande.html:112
 msgid "Delivery Address"
@@ -60,26 +70,41 @@ msgstr "エテェット"
 
 #: application/resto/static/partials/admin_users.html:58
 #: application/resto/static/partials/profile.html:8
+#: application/resto/static/partials/register.html:5
 msgid "Email:"
 msgstr "メール："
+
+#: application/resto/static/partials/manage_commande.html:31
+msgid "Finish preparation"
+msgstr "じゅんびを終わりました"
 
 #: application/resto/static/partials/profile.html:17
 msgid "First Name:"
 msgstr "名前："
 
 #: application/resto/static/partials/admin_users.html:64
+#: application/resto/static/partials/register.html:11
 msgid "First name:"
 msgstr "名前："
+
+#: application/resto/static/partials/deliver_commande.html:9
+msgid "From"
+msgstr "から"
 
 #: application/resto/static/partials/profile.html:1
 msgid "Hello {{profile.user.first_name}}"
 msgstr "こんにちは {{profile.user.first_name}}"
+
+#: application/resto/static/partials/manage_commande.html:14
+msgid "In preparation"
+msgstr "じゅんびをしている"
 
 #: application/resto/static/partials/profile.html:26
 msgid "Last Name:"
 msgstr "姓："
 
 #: application/resto/static/partials/admin_users.html:70
+#: application/resto/static/partials/register.html:17
 msgid "Last name:"
 msgstr "せい："
 
@@ -92,6 +117,7 @@ msgid "Meet your profile!"
 msgstr "プロフィルを合います！"
 
 #: application/resto/static/partials/admin_resto.html:7
+#: application/resto/static/partials/commande.html:1
 msgid "Menu"
 msgstr "メニュー"
 
@@ -109,6 +135,18 @@ msgstr "新しいアドレッス"
 msgid "Nom"
 msgstr "名前"
 
+#: application/resto/static/partials/manage_commande.html:6
+msgid "Order"
+msgstr "オーダー"
+
+#: application/resto/static/partials/deliver_commande.html:1
+msgid "Order Delivery"
+msgstr "オーダー出し"
+
+#: application/resto/static/partials/manage_commande.html:1
+msgid "Order management"
+msgstr "オーダーまなおー"
+
 #: application/resto/static/partials/commande.html:33
 msgid "Order sent"
 msgstr "オーダーが送りました"
@@ -119,6 +157,7 @@ msgstr "私たちの料理屋"
 
 #: application/resto/static/partials/admin_users.html:94
 #: application/resto/static/partials/profile.html:53
+#: application/resto/static/partials/register.html:41
 msgid "Password:"
 msgstr "パスワード："
 
@@ -135,6 +174,15 @@ msgstr "価格"
 #: application/resto/static/partials/commande.html:62
 msgid "Quantity"
 msgstr "量"
+
+#: application/resto/static/partials/deliver_commande.html:16
+#: application/resto/static/partials/manage_commande.html:16
+msgid "Ready"
+msgstr "レーヂ"
+
+#: application/resto/static/partials/register.html:1
+msgid "Register"
+msgstr "レジスター"
 
 #: application/resto/static/partials/admin_resto.html:35
 #: application/resto/static/partials/admin_users.html:29
@@ -156,7 +204,12 @@ msgstr "セーブ"
 msgid "Sending..."
 msgstr "出している"
 
+#: application/resto/static/partials/manage_commande.html:27
+msgid "Start preparation"
+msgstr "じゅんびを始まる"
+
 #: application/resto/static/partials/admin_users.html:110
+#: application/resto/static/partials/register.html:48
 msgid "Submit"
 msgstr "出す："
 
@@ -165,6 +218,7 @@ msgid "Submit Order"
 msgstr "オーだを出す"
 
 #: application/resto/static/partials/admin_users.html:88
+#: application/resto/static/partials/register.html:35
 msgid "Telephone Number:"
 msgstr "電話番号："
 
@@ -172,10 +226,22 @@ msgstr "電話番号："
 msgid "Telephone:"
 msgstr "でんわ："
 
+#: application/resto/static/partials/deliver_commande.html:10
+msgid "To"
+msgstr "に"
+
 #: application/resto/static/partials/commande.html:49
 #: application/resto/static/partials/commande.html:88
 msgid "Total"
 msgstr "ごうけい"
+
+#: application/resto/static/partials/manage_commande.html:12
+msgid "Waiting"
+msgstr "待っている"
+
+#: application/resto/static/partials/deliver_commande.html:41
+msgid "Your current location:"
+msgstr "今のところ"
 
 #: application/resto/static/partials/admin_resto.html:58
 #: application/resto/static/partials/profile.html:68
@@ -213,7 +279,11 @@ msgstr "落とす"
 #: application/resto/static/partials/admin_users.html:25
 #: application/resto/static/partials/admin_users.html:42
 msgid "delivery man"
-msgstr "届けた人"
+msgstr "届ける人"
+
+#: application/resto/static/partials/deliver_commande.html:8
+msgid "delivery time"
+msgstr "届ける時間"
 
 #: application/resto/static/partials/manage_menu.html:12
 msgid "description"
@@ -256,6 +326,10 @@ msgstr "メニュー。。。"
 msgid "name"
 msgstr "名前"
 
+#: application/resto/static/partials/deliver_commande.html:6
+msgid "order"
+msgstr "オーダー"
+
 #: application/resto/static/partials/admin_users.html:11
 msgid "permissions"
 msgstr "許可"
@@ -267,6 +341,14 @@ msgstr "価格"
 #: application/resto/templates/index.html:84
 msgid "register"
 msgstr "レジスター"
+
+#: application/resto/static/partials/manage_commande.html:7
+msgid "requested delivery time"
+msgstr "届けの時間"
+
+#: application/resto/static/partials/deliver_commande.html:7
+msgid "requested time"
+msgstr "ほしいするじかん"
 
 #: application/resto/templates/index.html:47
 #: application/resto/templates/index.html:56
@@ -287,9 +369,18 @@ msgstr "料理屋のカントク"
 msgid "see menu"
 msgstr "メニューを見せる"
 
+#: application/resto/static/partials/deliver_commande.html:5
+#: application/resto/static/partials/manage_commande.html:5
+msgid "status"
+msgstr "じょうたい"
+
 #: application/resto/static/partials/admin_users.html:9
 msgid "telephone"
 msgstr "電話"
+
+#: application/resto/static/partials/deliver_commande.html:45
+msgid "update"
+msgstr "アプデッと"
 
 #: application/resto/static/partials/commande.html:26
 msgid "votre commande"
