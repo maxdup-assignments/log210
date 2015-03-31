@@ -18,17 +18,17 @@
     };
     update_profile();
     $scope.login = function() {
+      $scope.$on('profileload', function() {
+        $http.defaults.headers.post['X-CSRFToken'] = $cookies['csrftoken'];
+        $http.defaults.headers.put['X-CSRFToken'] = $cookies['csrftoken'];
+        return $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken'];
+      });
       return $http.post(conf.url + 'login', $scope.loginform).success(function(data) {
         $scope.auth = true;
         $scope.loggingin = false;
         $scope.profile = data.profile;
         $scope.username = data.username;
         update_profile();
-        $scope.$on('profileload', function() {
-          $http.defaults.headers.post['X-CSRFToken'] = $cookies['csrftoken'];
-          $http.defaults.headers.put['X-CSRFToken'] = $cookies['csrftoken'];
-          return $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken'];
-        });
         return $route.reload();
       });
     };

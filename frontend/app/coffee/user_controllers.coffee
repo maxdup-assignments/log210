@@ -17,6 +17,11 @@ angular.module('resto.userControllers', ['resto.dev', 'ngCookies'])
   update_profile()
 
   $scope.login = ->
+    $scope.$on 'profileload', ->
+      $http.defaults.headers.post['X-CSRFToken'] = $cookies['csrftoken']
+      $http.defaults.headers.put['X-CSRFToken'] = $cookies['csrftoken']
+      $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
+
     $http.post(conf.url + 'login', $scope.loginform)
       .success (data) ->
         $scope.auth = true
@@ -24,10 +29,6 @@ angular.module('resto.userControllers', ['resto.dev', 'ngCookies'])
         $scope.profile = data.profile
         $scope.username = data.username
         update_profile()
-        $scope.$on 'profileload', ->
-          $http.defaults.headers.post['X-CSRFToken'] = $cookies['csrftoken']
-          $http.defaults.headers.put['X-CSRFToken'] = $cookies['csrftoken']
-          $http.defaults.headers.common['X-CSRFToken'] = $cookies['csrftoken']
         $route.reload()
 
   $scope.logout = ->

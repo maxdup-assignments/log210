@@ -13,6 +13,8 @@ import smtplib
 from twilio.rest import TwilioRestClient
 from api.config import *
 
+import multiprocessing
+
 
 @api_view(['GET','POST','PUT'])
 def commande(request, pk=None):
@@ -49,7 +51,10 @@ def commande(request, pk=None):
             status='pending')
         commande.save()
         commande = CommandeSerializer(commande).data
-        send_mail(commande, request)
+        p = multiprocessing.Process(target=send_mail,
+                                    args=(commande, request,))
+        p.start()
+
         return Response(commande,
                         status=status.HTTP_201_CREATED)
 
