@@ -1,21 +1,20 @@
-<h1>Menu</h1>
+<h1 translate>Menu</h1>
 <div ng-repeat="menu in current_resto.menu.sous_menus">
 
   <h4>{{ menu.name }}</h4>
   <table class="table">
     <tr>
-      <th style="width:250px">Nom</th>
-      <th>Description</th>
-      <th style="width:50px">Prix</th>
-      <th style="width:150px"></th>
+      <th style="width:250px" translate>Nom</th>
+      <th translate>Description</th>
+      <th style="width:50px" translate>Prix</th>
+      <th style="width:150px" translate></th>
     </tr>
     <tr ng-repeat="item in menu.items">
       <td>{{ item.name }}</td>
       <td>{{ item.desc }}</td>
       <td>{{ item.price }}$</td>
-      <td><button class="btn btn-primary"
-                  style="float:right"
-                  ng-click="add_item(item)">
+      <td><button class="btn btn-primary" style="float:right"
+                  ng-click="add_item(item)" translate>
           ajouter</button></td>
     </tr>
   </table>
@@ -23,18 +22,18 @@
 
 
 <div class="row" ng-hide="order.details.commande.length == 0">
-  <h2>votre commande</h2>
+  <h2 translate>votre commande</h2>
 
   <div ng-show="sending && !confirm" class="jumbotron">
-    <h2>Envois...</h2>
+    <h2 translate>Sending...</h2>
   </div>
 
   <div ng-if="confirm.pk" class="jumbotron">
     <table class="table">
       <tr>
-        <th style="width:250px">Nom</th>
-        <th style="width:250px">Quantité</th>
-        <th style="width:50px">Prix</th>
+        <th style="width:250px" translate>Name</th>
+        <th style="width:250px" translate>Quantity</th>
+        <th style="width:50px" translate>Price</th>
       </tr>
       <tr ng-repeat="item in confirm.details.commande">
         <td>{{ item.name }}</td>
@@ -42,7 +41,7 @@
         <td>{{ item.price * item.qty}}$</td>
       </tr>
       <tr>
-        <th style="width:250px">Total</th>
+        <th style="width:250px" translate>Total</th>
         <th style="width:50px"></th>
         <th style="width:250px">{{ total }}$</th>
       </tr>
@@ -78,9 +77,9 @@
       <div>
         <table class="table" style="background:white">
           <tr>
-            <th style="width:250px">Nom</th>
-            <th style="width:250px">Quantité</th>
-            <th style="width:50px">Prix</th>
+            <th style="width:250px" translate>Name</th>
+            <th style="width:250px" translate>Quantity</th>
+            <th style="width:50px" translate>Price</th>
           </tr>
           <tr ng-repeat="item in order.details.commande">
             <td>{{ item.name }}</td>
@@ -98,14 +97,13 @@
               </div>
             </td>
             <td>{{ item.price * item.qty}}$
-              <button class="btn btn-danger"
-                      style="float:right"
-                      ng-click="remove_item(item)">
-                enlever</button>
+              <button class="btn btn-danger" style="float:right"
+                      ng-click="remove_item(item)" translate>
+                delete</button>
             </td>
           </tr>
           <tr>
-            <th style="width:250px">Total</th>
+            <th style="width:250px" translate>Total</th>
             <th style="width:50px"></th>
             <th style="width:250px">{{ total }}$</th>
           </tr>
@@ -113,7 +111,7 @@
       </div>
     </div>
     <div class="col-md-6 jumbotron" style="padding:15px">
-      <h3>Moment de la livraison</h3>
+      <h3 translate>Delivery time</h3>
       <div class="col-md-6" style="padding-top: 34px;">
         <p class="input-group">
           <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy"
@@ -129,7 +127,7 @@
                   hour-step="hstep" minute-step="mstep"
                   show-meridian="true"></timepicker>
 
-      <h3>Adresse de livraison</h3>
+      <h3 translate>Delivery Address</h3>
       <div class="form-group">
         <div class="radio" ng-repeat="ad in profile.adresse">
           <label>
@@ -142,8 +140,8 @@
           <label>
             <input type="radio" name="address"
                    ng-model="order.details.addressTo" value="##new"/>
-            <span ng-hide="order.details.addressTo == '##new'">
-              Nouvelle adresse</span>
+            <span ng-hide="order.details.addressTo == '##new'" translate>
+              New Adresse</span>
             <input ng-show="order.details.addressTo == '##new'"
                    ng-model="new_address"/>
             <br/>
@@ -156,8 +154,8 @@
         <span>notify me by sms</span>
       </label>
       <button class="btn btn-lg btn-success"
-              style="float:right" ng-click="place_order()">
-        Poursuivre
+              style="float:right" ng-click="place_order()" translate>
+        Submit Order
       </button>
     </div>
   </div>

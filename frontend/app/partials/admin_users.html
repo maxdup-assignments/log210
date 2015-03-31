@@ -1,15 +1,15 @@
 
-<div ng-hide="profiles">Loading...</div>
+<div ng-hide="profiles" translate>Loading...</div>
 <table ng-show="profiles" class="table table-responsive table-condensed profiles">
   <tr>
-    <th>email</th>
-    <th>first name</th>
-    <th>last name</th>
-    <th>adresse</th>
-    <th style="width:100px">telephone</th>
-    <th style="width:110px">date de naissance</th>
-    <th style="width:128px">permissions</th>
-    <th style="width:115px"></th>
+    <th translate>email</th>
+    <th translate>first name</th>
+    <th translate>last name</th>
+    <th translate>adresse</th>
+    <th style="width:100px" translate>telephone</th>
+    <th style="width:110px" translate>birthday</th>
+    <th style="width:128px" translate>permissions</th>
+    <th style="width:115px" translate></th>
   </tr>
 
   <tr ng-repeat="prof in profiles">
@@ -20,15 +20,15 @@
     <td ng-hide="prof.backup">{{ prof.telephone }}</td>
     <td ng-hide="prof.backup">{{ prof.date_naissance }}</td>
     <td ng-hide="prof.backup">
-      <span ng-if="prof.is_admin">admin</span>
-      <span ng-if="prof.is_entrepreneur">entrepreneur</span>
-      <span ng-if="prof.is_restaurateur">restaurateur</span>
-      <span ng-if="prof.is_livreur">livreur</span>
+      <span ng-if="prof.is_admin" translate>admin</span>
+      <span ng-if="prof.is_entrepreneur" translate>entrepreneur</span>
+      <span ng-if="prof.is_restaurateur" translate>restaurateur</span>
+      <span ng-if="prof.is_livreur" translate>delivery man</span>
     </td>
     <td ng-hide="prof.backup">
-      <button class="btn btn-xs" ng-click="edit(prof)">Edit</button>
+      <button class="btn btn-xs" ng-click="edit(prof)" translate>Edit</button>
       <button ng-disabled="profile.is_entrepreneur && (prof.is_admin || prof.is_entrepreneur)"
-              class="btn btn-xs btn-danger" ng-click="remove(prof)">Remove</button>
+              class="btn btn-xs btn-danger" ng-click="remove(prof)" translate>Remove</button>
     </td>
 
     <td ng-show="prof.backup">
@@ -41,15 +41,15 @@
     <td ng-show="prof.backup">
       <label><input type="checkbox" ng-model="prof.is_entrepreneur" style="width: 30px"
                     ng-disabled="profile.is_entrepreneur"/>entrepreneur</label><br/>
-      <label><input type="checkbox" ng-model="prof.is_restaurateur" style="width: 30px"/>restaurateur</label><br/>
-      <label><input type="checkbox" ng-model="prof.is_livreur" style="width: 30px"/>livreur</label><br/>
+      <label><input type="checkbox" ng-model="prof.is_restaurateur" style="width: 30px"/><translate>restaurateur</translate></label><br/>
+      <label><input type="checkbox" ng-model="prof.is_livreur" style="width: 30px"/><translate>livreur</translate></label><br/>
     </td>
 
     <td ng-show="prof.backup">
       <button class="btn btn-xs btn-success"
-              ng-click="save(prof)">Save</button>
+              ng-click="save(prof)" translate>Save</button>
       <button class="btn btn-xs btn-danger"
-              ng-click="cancel(prof)">Cancel</button>
+              ng-click="cancel(prof)" translate>Cancel</button>
     </td>
   </tr>
 </table>
@@ -58,50 +58,50 @@
 <h3>Ajouter Restaurateur</h3>
 <form class="form-horizontal">
   <div class="form-group">
-    <label class="col-sm-2 control-label">Email:</label>
+    <label class="col-sm-2 control-label" translate>Email:</label>
     <div class="col-sm-10">
       <input class="form-control" type="text" ng-model="userform.user.email">
     </div>
   </div>
   <div class="form-group">
-    <label class="col-sm-2 control-label">First name:</label>
+    <label class="col-sm-2 control-label" translate>First name:</label>
     <div class="col-sm-10">
       <input class="form-control" type="text" ng-model="userform.user.first_name">
     </div>
   </div>
   <div class="form-group">
-    <label class="col-sm-2 control-label">Last name:</label>
+    <label class="col-sm-2 control-label" translate>Last name:</label>
     <div class="col-sm-10">
       <input class="form-control" type="text" ng-model="userform.user.last_name">
     </div>
   </div>
   <div class="form-group">
-    <label class="col-sm-2 control-label">Adresse:</label>
+    <label class="col-sm-2 control-label" translate>Address:</label>
     <div class="col-sm-10">
       <input class="form-control" type="text" ng-model="userform.adresse">
     </div>
   </div>
   <div class="form-group">
-    <label class="col-sm-2 control-label">Birthday:</label>
+    <label class="col-sm-2 control-label" translate>Birthday:</label>
     <div class="col-sm-10">
       <input class="form-control" type="text" ng-model="userform.date_naissance">
     </div>
   </div>
   <div class="form-group">
-    <label class="col-sm-2 control-label">Telephone Number:</label>
+    <label class="col-sm-2 control-label" translate>Telephone Number:</label>
     <div class="col-sm-10">
       <input class="form-control" type="text" ng-model="userform.telephone">
     </div>
   </div>
   <div class="form-group">
-    <label class="col-sm-2 control-label">Password:</label>
+    <label class="col-sm-2 control-label" translate>Password:</label>
     <div class="col-sm-10">
       <input class="form-control" type="password" ng-model="userform.user.password">
     </div>
   </div>
 
   <div class="form-group">
-    <label class="col-sm-2 control-label">Restaurant:</label>
+    <label class="col-sm-2 control-label" translate>Restaurant:</label>
     <div class="col-sm-2">
       <select class="form-control"
               ng-model="selected_resto"
@@ -110,5 +110,5 @@
     </div>
   </div>
 </form>
-<button class="btn btn-success" ng-click="submit(true)" style="float:right">Submit</button>
+<button class="btn btn-success" ng-click="submit(true)" style="float:right" translate>Submit</button>
 </div>

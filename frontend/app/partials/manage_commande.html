@@ -1,20 +1,20 @@
-<h1>Gestion des commandes</h1>
+<h1 translate>Order management</h1>
 
 <table class="table">
   <tr>
-    <th style="width:100px">status</th>
-    <th>commande</th>
-    <th>requested delivery time</th>
+    <th style="width:100px" translate>status</th>
+    <th translate>Order</th>
+    <th translate>requested delivery time</th>
     <th></th>
   </tr>
   <tr ng-repeat="commande in filtered(commandes, ['ready', 'preparing', 'paid'])">
     <td>
-      <span ng-show="commande.status == 'paid'" class="label label-danger">
-        En attente</span>
-      <span ng-show="commande.status == 'preparing'" class="label label-warning">
-        En préparation</span>
-      <span ng-show="commande.status == 'ready'" class="label label-success">
-        Prêt</span>
+      <span ng-show="commande.status == 'paid'" class="label label-danger" translate>
+        Waiting</span>
+      <span ng-show="commande.status == 'preparing'" class="label label-warning" translate>
+        in preparation</span>
+      <span ng-show="commande.status == 'ready'" class="label label-success" translate>
+        Ready</span>
     </td>
     <td>
       <div ng-repeat="item in commande.details.commande">
@@ -26,12 +26,12 @@
     <td>
       <button class="btn btn-xs btn-info" style="float:right"
               ng-click="update_status(commande, 'preparing')"
-              ng-show="commande.status == 'paid'">
-        commencer préparation</button>
+              ng-show="commande.status == 'paid'" translate>
+        Start preparation</button>
       <button class="btn btn-xs btn-info" style="float:right"
               ng-click="update_status(commande, 'ready')"
-              ng-show="commande.status == 'preparing'">
-        terminer préparation
+              ng-show="commande.status == 'preparing'" translate>
+        Finish preparation
       </button>
     </td>
   <tr>

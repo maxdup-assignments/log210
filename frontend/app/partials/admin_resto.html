@@ -1,10 +1,10 @@
 <div>
   <table class="table">
     <tr>
-      <th>Name</th>
-      <th>adresse</th>
-      <th>restaurateur</th>
-      <th>Menu</th>
+      <th translate>Name</th>
+      <th translate>address</th>
+      <th translate>restaurateur</th>
+      <th translate>Menu</th>
     </tr>
     <tr ng-repeat="resto in restos">
       <!-- restaurant display -->
@@ -30,16 +30,16 @@
 
       <td>
         <span ng-hide="resto.backup">
-          <button class="btn btn-success btn-xs" ng-click="edit_resto(resto)">
+          <button class="btn btn-success btn-xs" ng-click="edit_resto(resto)" translate>
             Edit</button>
-          <button class="btn btn-danger btn-xs" ng-click="delete_resto(resto)">
+          <button class="btn btn-danger btn-xs" ng-click="delete_resto(resto)" translate>
             Remove</button>
         </span ng-show="resto.backup">
 
         <span ng-show="resto.backup">
-          <button class="btn btn-success btn-xs" ng-click="save_resto(resto)">
+          <button class="btn btn-success btn-xs" ng-click="save_resto(resto)" translate>
             Save</button>
-          <button class="btn btn-danger btn-xs" ng-click="cancel_resto(resto)">
+          <button class="btn btn-danger btn-xs" ng-click="cancel_resto(resto)" translate>
             Cancel</button>
         </span>
       </td>
@@ -53,9 +53,9 @@
       <td><select ng-model="selected_staff"
                   ng-change="new_resto.user = selected_staff.value"
                   ng-options="staff as staff.label for staff in options"/></td>
-      <td>menu...</td>
+      <td translate>menu...</td>
       <td>
-        <button class="btn btn-success btn-xs" ng-click="create_resto()">add</buton>
+        <button class="btn btn-success btn-xs" ng-click="create_resto()" translate>add</buton>
       </td>
     </tr>
   </table>

@@ -5,7 +5,7 @@
 <form class="form-horizontal">
 
   <div class="form-group">
-    <label class="col-md-2 control-label"translate>Email:</label>
+    <label class="col-md-2 control-label" translate>Email:</label>
     <span class="col-md-4" ng-hide="profile.backup">
       {{profile.user.username}} </span>
     <div class="col-md-4" ng-show="profile.backup">
@@ -23,7 +23,7 @@
   </div>
 
   <div class="form-group">
-    <label class="col-md-2 control-label"translate>Last Name:</label>
+    <label class="col-md-2 control-label" translate>Last Name:</label>
     <span class="col-md-4" ng-hide="profile.backup">
       {{profile.user.last_name}} </span>
     <div class="col-md-4" ng-show="profile.backup">
@@ -41,7 +41,7 @@
   </div>
 
   <div class="form-group">
-    <label class="col-md-2 control-label"translate>Telephone:</label>
+    <label class="col-md-2 control-label" translate>Telephone:</label>
     <span class="col-md-4" ng-hide="profile.backup">
       {{profile.telephone}} </span>
     <div class="col-md-4" ng-show="profile.backup">
@@ -76,11 +76,11 @@
 
   <div class="form-group">
     <div class="col-md-12" style="padding-top:20px;">
-      <button class="btn btn-lg" ng-hide="profile.backup" ng-click="edit(profile)"translate>Edit</button>
+      <button class="btn btn-lg" ng-hide="profile.backup" ng-click="edit(profile)" translate>Edit</button>
       <button class="btn btn-lg btn-success" ng-show="profile.backup"
               ng-click="save(profile)" translate>Save</button>
 	  <button class="btn btn-lg btn-danger" ng-show="profile.backup"
-              ng-click="cancel(profile)"translate>Cancel</button>
+              ng-click="cancel(profile)" translate>Cancel</button>
     </div>
   </div>
 
