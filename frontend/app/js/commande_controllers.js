@@ -11,9 +11,10 @@
         'commande': [],
         'addressTo': '',
         'addressFrom': '',
-        'requestedTime': new Date()
+        'requestedTime': new Date(),
+        'notify': false
       },
-      'resto': param
+      'restaurant': param
     };
     Resto.query().$promise.then(function(value) {
       var resto;
@@ -77,6 +78,9 @@
         Profile.update({
           id: $scope.profile.user.pk
         }, $scope.profile);
+      }
+      if ($scope.order.details.notify) {
+        $scope.order.details.notify = $scope.profile.telephone;
       }
       return Commande.save($scope.order).$promise.then(function(value) {
         return $scope.confirm = value;

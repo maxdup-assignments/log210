@@ -11,6 +11,7 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
       'addressTo': '',
       'addressFrom': '',
       'requestedTime': new Date(),
+      'notify': false,
     },
   'restaurant': param
   }
@@ -58,6 +59,8 @@ angular.module('resto.commandeControllers', ['ui.bootstrap'])
       $scope.profile.adresse.unshift($scope.new_address)
       $scope.order.details.addressTo = $scope.new_address
       Profile.update({id:$scope.profile.user.pk}, $scope.profile)
+    if $scope.order.details.notify
+      $scope.order.details.notify = $scope.profile.telephone
     Commande.save($scope.order).$promise.then(
       (value) ->
         $scope.confirm = value)

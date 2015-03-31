@@ -3,3 +3,4 @@ https://github.com/django-nonrel/djangotoolbox/zipball/master
 https://github.com/django-nonrel/mongodb-engine/zipball/master
 django-cors-headers
 djangorestframework
+twilio
