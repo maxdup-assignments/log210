@@ -1,7 +1,7 @@
-angular.module('resto.userControllers', ['resto.dev', 'ngCookies'])
+angular.module('resto.userControllers', ['resto.dev', 'ngCookies', 'gettext'])
 
 .controller 'RootController',
-($scope, $location, $http, $route, $rootScope, Profile, conf, $cookies) ->
+($scope, $location, $http, $route, $rootScope, Profile, conf, $cookies, gettextCatalog) ->
 
   $scope.loginform = {
     'username':''
@@ -42,6 +42,10 @@ angular.module('resto.userControllers', ['resto.dev', 'ngCookies'])
         delete $cookies['sessionid']
         $location.path( "/app/#/home" )
         $route.reload()
+
+  $scope.changeLanguage = (lang) ->
+    gettextCatalog.setCurrentLanguage(lang)
+    gettextCatalog.debug = true
 
 
 .controller 'UserController',
