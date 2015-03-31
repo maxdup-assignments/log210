@@ -1,0 +1,162 @@
+<h1 translate>Menu</h1>
+<div ng-repeat="menu in current_resto.menu.sous_menus">
+
+  <h4>{{ menu.name }}</h4>
+  <table class="table">
+    <tr>
+      <th style="width:250px" translate>Nom</th>
+      <th translate>Description</th>
+      <th style="width:50px" translate>Prix</th>
+      <th style="width:150px"></th>
+    </tr>
+    <tr ng-repeat="item in menu.items">
+      <td>{{ item.name }}</td>
+      <td>{{ item.desc }}</td>
+      <td>{{ item.price }}$</td>
+      <td><button class="btn btn-primary" style="float:right"
+                  ng-click="add_item(item)" translate>
+          ajouter</button></td>
+    </tr>
+  </table>
+</div>
+
+
+<div class="row" ng-hide="order.details.commande.length == 0">
+  <h2 translate>votre commande</h2>
+
+  <div ng-show="sending && !confirm" class="jumbotron">
+    <h2 translate>Sending...</h2>
+  </div>
+
+  <div ng-if="confirm.pk" class="jumbotron">
+    <table class="table">
+      <tr>
+        <th style="width:250px" translate>Name</th>
+        <th style="width:250px" translate>Quantity</th>
+        <th style="width:50px" translate>Price</th>
+      </tr>
+      <tr ng-repeat="item in confirm.details.commande">
+        <td>{{ item.name }}</td>
+        <td>{{item.qty}}</td>
+        <td>{{ item.price * item.qty}}$</td>
+      </tr>
+      <tr>
+        <th style="width:250px" translate>Total</th>
+        <th style="width:50px"></th>
+        <th style="width:250px">{{ total }}$</th>
+      </tr>
+    </table>
+    <form style="float:right" id="paypal" name="paypalform"
+          action="https://www.sandbox.paypal.com/cgi-bin/webscr"
+          method="post" target="_top" ng-submit="place_order()">
+      <input type="hidden" name="cmd" value="_xclick">
+      <input type="hidden" name="business"
+             value="mdupuis-facilitator@hotmail.ca">
+      <input type="hidden" name="lc" value="CA">
+      <input type="hidden" name="item_name" value="facture resto">
+      <input type="hidden" name="amount" value="{{total}}">
+      <input type="hidden" name="currency_code" value="CAD">
+      <input type="hidden" name="button_subtype" value="services">
+      <input type="hidden" name="no_note" value="0">
+      <input type="hidden" name="bn"
+             value="PP-BuyNowBF:btn_buynowCC_LG.gif:NonHostedGuest">
+      <input type="hidden" name="return"
+             value="http://127.0.0.1:8001/app/#/commande/{{confirm.pk}}">
+      <input type="image"
+             src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif"
+             border="0" name="submit"
+             alt="PayPal - The safer, easier way to pay online!">
+      <img alt="" border="0"
+           src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif"
+           width="1" height="1">
+    </form>
+  </div>
+
+  <div ng-hide="sending">
+    <div class="col-md-6">
+      <div>
+        <table class="table" style="background:white">
+          <tr>
+            <th style="width:250px" translate>Name</th>
+            <th style="width:250px" translate>Quantity</th>
+            <th style="width:50px" translate>Price</th>
+          </tr>
+          <tr ng-repeat="item in order.details.commande">
+            <td>{{ item.name }}</td>
+            <td>
+              <div class="input-group spinner">
+                <input type="text" class="form-control" ng-model="item.qty">
+                <div class="input-group-btn-vertical">
+                  <button class="btn btn-default dropup"
+                          ng-click="qty_adjust(item, 1)">
+                    <span class="caret"/></button>
+                  <button class="btn btn-default"
+                          ng-click="qty_adjust(item, -1)">
+                    <span class="caret"/></button>
+                </div>
+              </div>
+            </td>
+            <td>{{ item.price * item.qty}}$
+              <button class="btn btn-danger" style="float:right"
+                      ng-click="remove_item(item)" translate>
+                delete</button>
+            </td>
+          </tr>
+          <tr>
+            <th style="width:250px" translate>Total</th>
+            <th style="width:50px"></th>
+            <th style="width:250px">{{ total }}$</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-6 jumbotron" style="padding:15px">
+      <h3 translate>Delivery time</h3>
+      <div class="col-md-6" style="padding-top: 34px;">
+        <p class="input-group">
+          <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy"
+                 ng-model="order.details.requestedTime" is-open="opened"
+                 min-date="minDate" max-date="'2015-06-22'" close-text="Close" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open($event)">
+              <i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p>
+      </div>
+      <timepicker ng-model="$parent.order.details.requestedTime"
+                  hour-step="hstep" minute-step="mstep"
+                  show-meridian="true"></timepicker>
+
+      <h3 translate>Delivery Address</h3>
+      <div class="form-group">
+        <div class="radio" ng-repeat="ad in profile.adresse">
+          <label>
+            <input type="radio" name="address" ng-model="order.details.addressTo" value="{{ad}}"/>
+            {{ad}}
+            <br/>
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <input type="radio" name="address"
+                   ng-model="order.details.addressTo" value="##new"/>
+            <span ng-hide="order.details.addressTo == '##new'" translate>
+              New Address</span>
+            <input ng-show="order.details.addressTo == '##new'"
+                   ng-model="new_address"/>
+            <br/>
+          </label>
+        </div>
+      </div>
+      <br/>
+      <label>
+        <input type="checkbox" ng-model="order.details.notify">
+        <span>notify me by sms</span>
+      </label>
+      <button class="btn btn-lg btn-success"
+              style="float:right" ng-click="place_order()" translate>
+        Submit Order
+      </button>
+    </div>
+  </div>
+</div>

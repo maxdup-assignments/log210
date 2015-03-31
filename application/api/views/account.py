@@ -8,129 +8,91 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 
-# plan to delete
-from django.http import HttpResponse,  HttpResponseForbidden
-from rest_framework.renderers import JSONRenderer
+from django.http import HttpResponse
 import json
 
+
 @ensure_csrf_cookie
-@api_view(['GET','POST'])
+@api_view(['GET','POST','PUT','DELETE'])
 def profile(request, pk=None):
+
+    if pk:
+        if pk == 'self':
+            if not request.user.is_authenticated():
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            user = User.objects.get(pk=request.user.pk)
+
+        else:
+            user = User.objects.get(pk=pk)
+        profile = UserProfile.objects.get(user=user)
+
     if request.method == 'GET':
+
+        # returns a single profile
         if pk:
-            profile = UserProfile.objects.get(pk=pk)
             output = ProfileSerializer(profile)
+            del output.data['user']['password']
+
+        # returns profiles that are restaurateur
+        elif 'restaurateur' in request.GET:
+            profiles = UserProfile.objects.filter(is_restaurateur=True)
+            output = ProfileSerializer(profiles, many=True)
+
+        # returns all profiles
         else:
             profiles = UserProfile.objects.all()
             output = ProfileSerializer(profiles, many=True)
+            for profile in output.data:
+                del profile['user']['password']
+
         return Response(output.data)
 
     elif request.method == 'POST':
-        profile = RestaurantSerializer(data=request.data)
-        if resto.is_valid():
+
+        # creates a profile
+        request.data['user']['username'] = request.data['user']['email']
+        request.data['adresse'] = [request.data['adresse']]
+        profile = ProfileSerializer(data=request.data)
+        if profile.is_valid():
             profile.save()
             return Response(profile.data,
                             status=status.HTTP_201_CREATED)
-        else:
-            return Response(profile.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
+        return Response(profile.errors,
+                        status=status.HTTP_400_BAD_REQUEST)
 
+    elif request.method == 'PUT':
 
-@ensure_csrf_cookie
-def get_current_profile(request):
-    # returns the current profile
-    if request.user.is_authenticated():
-        user = User.objects.get(pk=request.user.pk)
-        profile = UserProfile.objects.get(user=user.pk)
-        profile = ProfileSerializer(profile)
-        return HttpResponse(JSONRenderer().render(profile.data))
-    return HttpResponse()
+        userdata = request.data.pop('user')
+        user = User.objects.get(pk=userdata['pk'])
+        if 'password' in userdata:
+            if userdata['password']:
+                user.set_password(userdata.pop('password'))
 
-def get_profiles(request):
-    # returns all profiles
-    users = UserProfile.objects.all()
-    profiles = []
-    for user in users:
-        profile = ProfileSerializer(user)
-        profiles.append(profile.data)
-    return HttpResponse(JSONRenderer().render(profiles))
+        user = UserSerializer(user, data=userdata, partial=True)
+        if user.is_valid():
+            user.save()
+            profile = UserProfile.objects.get(user=user.data['pk'])
+            profile = ProfileSerializer(profile, data=request.data, partial=True)
+            if profile.is_valid():
+                profile.save()
+                return Response(profile.data)
 
-def delete_profile(request):
-    # deletes a profile in database
-    userinfo = json.loads(request.body)
+        return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    profile = UserProfile.objects.get(pk=userinfo['pk'])
-    profile.delete()
-    user = User.objects.get(pk=userinfo['user']['pk'])
-    resto = Restaurant.objects.filter(user=user).update(user=None)
-    user.delete()
+    elif request.method == 'DELETE':
 
-    return HttpResponse({'success': True})
+        # deletes a profile
+        if pk:
+            profile.delete()
+            user.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
-def get_staff(request):
-    # returns all staff users
-    staff_request = UserProfile.objects.filter(is_restaurateur=True)
-    staffs = []
-    for profile in staff_request:
-        staff = UserSerializer(profile.user)
-        staffs.append(staff.data)
-    return HttpResponse(JSONRenderer().render(staffs))
-
-def edit_profile(request):
-    # updates profile informations
-    if request.method == 'POST':
-        userinfo = json.loads(request.body)
-
-        if 'backup' in userinfo:
-            del userinfo['backup']
-
-        user = User.objects.get(pk=userinfo['user']['pk'])
-        #magic that updates user fields from json dict
-        user.__dict__.update(**userinfo['user'])
-        if 'password' in userinfo and userinfo['password']:
-            user.set_password(userinfo['password'])
-        user.email = user.username
-        user.save()
-        del userinfo['user']
-
-        profile = UserProfile.objects.get(pk=userinfo['pk'])
-        profile.__dict__.update(**userinfo)
-        profile.save()
-
-    return HttpResponse(json.dumps({'success': True}))
-
-def register(request):
-    # creates a new Profile
-
-    if request.method == 'POST':
-        userinfo = json.loads(request.body)
-        user = User.objects.create_user(username=userinfo['email'],
-                                        first_name=userinfo['first_name'],
-                                        last_name=userinfo['last_name'],
-                                        email=userinfo['email'],)
-        user.set_password(userinfo['password'])
-        user.save()
-        profile = UserProfile.objects.create(
-            user=user,
-            date_naissance=userinfo['date_naissance'],
-            adresse=[userinfo['adresse']],
-            telephone=userinfo['telephone'],
-            is_restaurateur=userinfo['is_restaurateur']
-)
-        profile.save()
-        profile = ProfileSerializer(profile)
-
-        if 'resto' in userinfo:
-            if userinfo['resto']:
-                resto = Restaurant.objects.filter(pk=userinfo['resto'])[0]
-                resto.user = user
-                resto.save()
-
-        return HttpResponse(JSONRenderer().render(profile.data))
-    return HttpResponse(json.dumps({}))
 
 def user_login(request):
+
     # this is the login request
     if request.method == 'POST':
         info = json.loads(request.body)
@@ -140,6 +102,7 @@ def user_login(request):
             login(request, user)
             profile = UserProfile.objects.get(user=user)
             profile = ProfileSerializer(profile)
+            del profile.data['user']['password']
             return HttpResponse(json.dumps({'success':True,
                                             'profile': profile.data}))
 
@@ -151,153 +114,7 @@ def user_login(request):
         return HttpResponse(json.dumps({'success':False}))
 
 def user_logout(request):
+
     # this is the logout request
     logout(request)
-    return HttpResponse(json.dumps({'success':True}))
-
-def populateUser(request):
-    # script that will populate the database with users
-    
-    if not User.objects.filter(username='admin@resto.com').exists():
-        user = User.objects.create_user(
-            username='admin@resto.com',
-            first_name='admin',
-            last_name='f',
-            email='admin@resto.com',
-            password='asd')
-
-        profile = UserProfile.objects.create(
-            user=user,
-            date_naissance='24 mars 2010',
-            adresse=['1100 Rue Notre-Dame Ouest'],
-            telephone='5148800928',
-            is_admin=True)
-        profile.save()
-
-    if not User.objects.filter(username='entrepreneur@resto.com').exists():
-        user = User.objects.create_user(
-            username='entrepreneur@resto.com',
-            first_name='entrepreneur',
-            last_name='f',
-            email='entrepreneur@resto.com',
-            password='asd')
-
-        profile = UserProfile.objects.create(
-            user=user,
-            date_naissance='24 mars 2010',
-            adresse=['1100 Rue Notre-Dame Ouest'],
-            telephone='5148800928',
-            is_entrepreneur=True)
-        profile.save()
-
-    if not User.objects.filter(username='restaurateur@resto.com').exists():
-        user = User.objects.create_user(
-            username='restaurateur@resto.com',
-            first_name='restaurateur',
-            last_name='f',
-            email='restaurateur@resto.com',
-            password='asd')
-
-        profile = UserProfile.objects.create(
-            user=user,
-            date_naissance='24 mars 2010',
-            adresse=['1100 Rue Notre-Dame Ouest'],
-            telephone='5148800928',
-            is_restaurateur=True)
-        profile.save()
-
-    if not User.objects.filter(username='livreur@resto.com').exists():
-        user = User.objects.create_user(
-            username='livreur@resto.com',
-            first_name='livreur',
-            last_name='f',
-            email='livreur@resto.com',
-            password='asd')
-
-        profile = UserProfile.objects.create(
-            user=user,
-            date_naissance='24 mars 2010',
-            adresse=['1100 Rue Notre-Dame Ouest'],
-            telephone='5148800928',
-            is_livreur=True)
-        profile.save()
-
-    if not User.objects.filter(username='client@resto.com').exists():
-        user = User.objects.create_user(
-            username='client@resto.com',
-            first_name='client',
-            last_name='f',
-            email='client@resto.com',
-            password='asd')
-
-        profile = UserProfile.objects.create(
-            user=user,
-            date_naissance='24 mars 2010',
-            adresse=['1100 Rue Notre-Dame Ouest'],
-            telephone='5148800928')
-        profile.save()
-
-    if not User.objects.filter(username='andy@hotmail.com').exists():
-        user = User.objects.create_user(
-            username='andy@hotmail.com',
-            first_name='Andy',
-            last_name='Su',
-            email='andy@hotmail.com',
-            password='patate')
-
-        profile = UserProfile.objects.create(
-            user=user,
-            date_naissance='26 mars 2010',
-            adresse=['1100 Rue Notre-Dame Ouest'],
-            telephone='5148800928',
-            is_restaurateur=True)
-        profile.save()
-
-    if not User.objects.filter(username='jacques@hotmail.com').exists():
-        user = User.objects.create_user(
-            username= 'jacques@hotmail.com',
-            first_name='jacques',
-            last_name='gabriel',
-            email='jacques@hotmail.com',
-            password='potato')
-
-        profile = UserProfile.objects.create(
-            user=user,
-            date_naissance='28 mars 2000',
-            adresse=['1100 Rue Notre-Dame Ouest'],
-            telephone='1234567514',
-            is_restaurateur=True)
-        profile.save()
-
-    if not User.objects.filter(username='mdupuis@hotmail.ca').exists():
-        user = User.objects.create_user(
-            username= 'mdupuis@hotmail.ca',
-            first_name='maxime',
-            last_name='dupuis',
-            email='mdupui@hotmail.ca',
-            password='asd')
-
-        profile = UserProfile.objects.create(
-            user=user,
-            date_naissance='27 mars 1990',
-            adresse=['1100 Rue Notre-Dame Ouest'],
-            telephone='1234561234')
-        profile.save()
-
-    if not User.objects.filter(username='philippe@hotmail.com').exists():
-        user = User.objects.create_user(
-            username= 'philippe@hotmail.com',
-            first_name='philippe',
-            last_name='murray',
-            email='philippe@hotmail.com',
-            password='potate')
-
-        profile = UserProfile.objects.create(
-            user=user,
-            date_naissance='25 mars 1980',
-            adresse=['1100 Rue Notre-Dame Ouest'],
-            telephone='5432102020',
-            is_restaurateur=True)
-        profile.save()
-
     return HttpResponse(json.dumps({'success':True}))

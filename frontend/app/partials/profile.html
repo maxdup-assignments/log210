@@ -1,0 +1,88 @@
+<h1 translate>Hello {{profile.user.first_name}}</h1>
+
+<h3><translate>Meet your profile!</translate><h3/>
+
+<form class="form-horizontal">
+
+  <div class="form-group">
+    <label class="col-md-2 control-label" translate>Email:</label>
+    <span class="col-md-4" ng-hide="profile.backup">
+      {{profile.user.username}} </span>
+    <div class="col-md-4" ng-show="profile.backup">
+      <input class="form-control" ng-model="profile.user.username">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-2 control-label" translate>First Name:</label>
+    <span class="col-md-4" ng-hide="profile.backup">
+      {{profile.user.first_name}} </span>
+    <div class="col-md-4" ng-show="profile.backup">
+      <input class="form-control" ng-model="profile.user.first_name">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-2 control-label" translate>Last Name:</label>
+    <span class="col-md-4" ng-hide="profile.backup">
+      {{profile.user.last_name}} </span>
+    <div class="col-md-4" ng-show="profile.backup">
+      <input class="form-control" ng-model="profile.user.last_name">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-2 control-label" translate>Birthday:</label>
+    <span class="col-md-4" ng-hide="profile.backup">
+      {{profile.date_naissance}} </span>
+    <div class="col-md-4" ng-show="profile.backup">
+      <input class="form-control" ng-model="profile.date_naissance">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="col-md-2 control-label" translate>Telephone:</label>
+    <span class="col-md-4" ng-hide="profile.backup">
+      {{profile.telephone}} </span>
+    <div class="col-md-4" ng-show="profile.backup">
+      <input class="form-control" ng-model="profile.telephone">
+    </div>
+  </div>
+
+  <div class="form-group" style="height: auto">
+    <label class="col-md-2 control-label" translate>Address:</label>
+    <div class="col-md-4">
+      <div ng-repeat="ad in profile.adresse">
+      {{ad}}</div>
+      <div ng-show="profile.backup">
+        <div class="input-group">
+          <input class="form-control" ng-model="new_adresse"/>
+          <span class="input-group-btn">
+            <button class="btn"
+                    ng-click="profile.adresse.push(new_adresse); new_adresse = ''" translate>
+              add</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group" ng-show="profile.backup">
+    <label class="col-md-2 control-label" translate>Password:</label>
+    <div class="col-md-4">
+      <input class="form-control" type="password" ng-model="profile.user.password">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-12" style="padding-top:20px;">
+      <button class="btn btn-lg" ng-hide="profile.backup" ng-click="edit(profile)" translate>Edit</button>
+      <button class="btn btn-lg btn-success" ng-show="profile.backup"
+              ng-click="save(profile)" translate>Save</button>
+	  <button class="btn btn-lg btn-danger" ng-show="profile.backup"
+              ng-click="cancel(profile)" translate>Cancel</button>
+    </div>
+  </div>
+
+
+</form>
