@@ -11,42 +11,44 @@
     <th translate>permissions</th>
   </tr>
 
-  <tr ng-repeat="profile in profiles">
-    <td ng-hide="profile.backup">{{ profile.user.username }}</td>
-    <td ng-hide="profile.backup">{{ profile.user.first_name }}</td>
-    <td ng-hide="profile.backup">{{ profile.user.last_name }}</td>
-    <td ng-hide="profile.backup">{{ profile.adresse }}</td>
-    <td ng-hide="profile.backup">{{ profile.telephone }}</td>
-    <td ng-hide="profile.backup">{{ profile.date_naissance }}</td>
-    <td ng-hide="profile.backup">
-      <span ng-if="profile.is_admin" translate>admin</span>
-      <span ng-if="profile.is_entrepreneur" translate>entrepreneur</span>
-      <span ng-if="profile.is_restaurateur" translate>restaurateur</span>
-      <span ng-if="profile.is_livreur" translate>delivery man</span>
+  <tr ng-repeat="prof in profiles">
+    <td ng-hide="prof.backup">{{ prof.user.username }}</td>
+    <td ng-hide="prof.backup">{{ prof.user.first_name }}</td>
+    <td ng-hide="prof.backup">{{ prof.user.last_name }}</td>
+    <td ng-hide="prof.backup">{{ prof.adresse }}</td>
+    <td ng-hide="prof.backup">{{ prof.telephone }}</td>
+    <td ng-hide="prof.backup">{{ prof.date_naissance }}</td>
+    <td ng-hide="prof.backup">
+      <span ng-if="prof.is_admin" translate>admin</span>
+      <span ng-if="prof.is_entrepreneur" translate>entrepreneur</span>
+      <span ng-if="prof.is_restaurateur" translate>restaurateur</span>
+      <span ng-if="prof.is_livreur" translate>delivery man</span>
     </td>
-    <td ng-hide="profile.backup">
-      <button class="btn btn-xs" ng-click="edit(profile)" translate>Edit</button>
-      <button disabled="profile.is_admin || profile.is_entrepreneur" class="btn btn-xs btn-danger" ng-click="delete(profile)"translate>Remove</button>
-    </td>
-
-    <td ng-show="profile.backup">
-      <input style="width=20px;" ng-model="profile.user.username"/></td>
-    <td ng-show="profile.backup"><input ng-model="profile.user.first_name"/></td>
-    <td ng-show="profile.backup"><input ng-model="profile.user.last_name"/></td>
-    <td ng-show="profile.backup">{{profile.adresse}}</td>
-    <td ng-show="profile.backup"><input ng-model="profile.telephone"/></td>
-    <td ng-show="profile.backup"><input ng-model="profile.date_naissance"/></td>
-    <td ng-show="profile.backup">
-      <label><input type="checkbox" disabled="parent.profile.is_admin" ng-model="profile.is_entrepreneur"/>entrepreneur</label><br/>
-      <label><input type="checkbox" ng-model="profile.is_restaurateur"/><translate>restaurateur</translate></label><br/>
-      <label><input type="checkbox" ng-model="profile.is_livreur"/><translate>delivery man</translate></label><br/>
+    <td ng-hide="prof.backup">
+      <button class="btn btn-xs" ng-click="edit(prof)" translate>Edit</button>
+      <button ng-disabled="profile.is_entrepreneur && (prof.is_admin || prof.is_entrepreneur)"
+              class="btn btn-xs btn-danger" ng-click="delete(prof)" translate>Remove</button>
     </td>
 
-    <td ng-show="profile.backup">
+    <td ng-show="prof.backup">
+      <input style="width=20px;" ng-model="prof.user.username"/></td>
+    <td ng-show="prof.backup"><input ng-model="prof.user.first_name"/></td>
+    <td ng-show="prof.backup"><input ng-model="prof.user.last_name"/></td>
+    <td ng-show="prof.backup">{{prof.adresse}}</td>
+    <td ng-show="prof.backup"><input ng-model="prof.telephone"/></td>
+    <td ng-show="prof.backup"><input ng-model="prof.date_naissance"/></td>
+    <td ng-show="prof.backup">
+      <label><input type="checkbox" ng-model="prof.is_entrepreneur" style="width: 30px"
+                    ng-disabled="profile.is_entrepreneur"/><translate>entrepreneur</translate></label><br/>
+      <label><input type="checkbox" ng-model="prof.is_restaurateur" style="width: 30px"/><translate>restaurateur</translate></label><br/>
+      <label><input type="checkbox" ng-model="prof.is_livreur" style="width: 30px"/><translate>delivery man</translate></label><br/>
+    </td>
+
+    <td ng-show="prof.backup">
       <button class="btn btn-xs btn-success"
-              ng-click="save(profile)" translate>Save</button>
+              ng-click="save(prof)">Save</button>
       <button class="btn btn-xs btn-danger"
-              ng-click="cancel(profile)" translate>Cancel</button>
+              ng-click="cancel(prof)">Cancel</button>
     </td>
   </tr>
 </table>

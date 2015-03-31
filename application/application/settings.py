@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'resto',
     'api',
+    'corsheaders',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -51,7 +52,23 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    )
+}
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+    'ram.mdupuis.com',
+    '127.0.0.1:8000',
+)
+
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cached_db"
 
@@ -98,12 +115,6 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-)
-
-
-
-TEMPLATE_DIRS = (
-    #TEMPLATE_PATH,
 )
 
 TEMPLATE_LOADERS = (

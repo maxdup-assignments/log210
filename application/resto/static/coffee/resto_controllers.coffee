@@ -107,6 +107,6 @@ angular.module('resto.restoControllers', [])
       alert('il faut spécifier un nom et un prix')
 
   $scope.save_menu = ->
-    $http.post('/api/edit_menu', $scope.current_resto)
+    $http.post('/api/edit_resto', $scope.current_resto)
       .success (data) ->
         console.log(data)
