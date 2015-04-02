@@ -27,9 +27,3 @@ Installing the NodeJS app
 * to start the automatic coffee compiler, run the command "grunt"
 * to start the nodejs server run "npm start"
 
-Dev Process
-====
-AGILE board: https://trello.com/b/2cF77Xnl/log210
-
-Pointage: https://docs.google.com/spreadsheets/d/1iiLTsKACGTr8y-TlvwwbNrRN8lxSwR_q53QmGSNANGQ/edit?usp=sharing
-
